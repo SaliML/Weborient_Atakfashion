@@ -1,5 +1,6 @@
 package com.weborient.inventory.ui.splash
 
+import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 
 /**
@@ -7,10 +8,31 @@ import com.weborient.inventory.handlers.dialog.DialogTypeEnums
  */
 interface ISplashContract {
 
+    /**
+     * View interfésze
+     */
     interface ISplashView{
+        /**
+         * Jogosultságok ellenőrzése
+         * @param permissions Jogosultságtömb
+         */
         fun checkPermissions(permissions: Array<String>)
+
+        /**
+         * Navigálás a főképernyőre
+         */
         fun navigateToMainActivity()
+
+        /**
+         * Alkalmazás bezárása
+         */
         fun closeApplication()
+
+        /**
+         * Jogosultság ablak megjelenítése
+         * @param permissions Jogosultságtömb
+         * @param requestCode Kérés azonosító
+         */
         fun showPermissionDialog(permissions: Array<String>, requestCode: Int)
 
         /**
@@ -25,21 +47,57 @@ interface ISplashContract {
      * Presenter interfésze
      */
     interface ISplashPresenter{
-        fun checkPermissions()
+        /**
+         * Jogosultságok lekérdezése
+         */
         fun getPermissions()
-        fun onFetchedPermissions(permissions: Array<String>?)
-        fun onFetchedTimerConfig(duration: Long, countDownInterval: Long)
-        fun onCheckedPermissions()
+
+        /**
+         * Jogosultságok visszaadása
+         * @param permissions Jogosultságtömb
+         */
+        fun onFetchedPermissions(permissions: Array<String>)
+
+        /**
+         * Jogosultságok ellenőrzését követően lefutó metódus
+         * @param permissions Jogosultságtömb
+         */
+        fun onCheckedPermissions(permissions: Array<String>?)
+
+        /**
+         * Lejárt időzítőhöz tartozó metódus
+         */
         fun onFinishedTimer()
+
+        /**
+         * Jogosultságok megadása után lefutó metódus
+         * @param requestCode Kérés azonosító
+         * @param grantResults Jogosultságok állapotát tartalmazó lista
+         */
         fun onGrantedPermissions(requestCode: Int, grantResults: IntArray)
+
+        /**
+         * Párbeszédablak visszatérő értékének kezelése
+         */
+        fun onDialogResult(result: DialogResultEnums)
     }
 
     /**
      * Interactor interfésze
      */
     interface ISplashInteractor{
+        /**
+         * Jogosultságok lekérdezése
+         */
         fun getPermissions()
-        fun getTimerConfig()
+
+        /**
+         * Időzítő indítása
+         * @param intervalHours Óra
+         * @param intervalMinutes Perc
+         * @param intervalSeconds Másodperc
+         * @param countDownIntervalInMillis Léptetés milliszekundumban
+         */
         fun startTimer(intervalHours: Long, intervalMinutes: Long, intervalSeconds: Long, countDownIntervalInMillis: Long)
     }
 

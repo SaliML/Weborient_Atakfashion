@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import java.io.File
+import java.io.FileOutputStream
 
 /**
  * QR kód kezelését segítő osztály
@@ -27,5 +29,22 @@ object QRCodeHandler {
                 }
             }
         }
+    }
+
+    /**
+     * Bitmap képpé konvertálása
+     */
+    fun compressBitmap(bitmap: Bitmap, compressFormat: Bitmap.CompressFormat, quality: Int? = null, imageFile: File): Boolean{
+        try{
+            val fileOutputStream = FileOutputStream(imageFile)
+            bitmap.compress(compressFormat, quality ?: 100, fileOutputStream)
+
+            fileOutputStream.flush()
+            fileOutputStream.close()
+        }
+        catch(exception: Exception){
+            return false
+        }
+        return true
     }
 }

@@ -42,6 +42,10 @@ object DialogHandler {
         dialog.setCancelable(false)
         dialog.setView(binding.root)
 
+        binding.tvDialogInformation.text = information
+        binding.btDialogCancel.visibility = View.VISIBLE
+        binding.btDialogOk.visibility = View.VISIBLE
+
         when(type){
             DialogTypeEnums.Information->{
                 binding.ivDialog.setImageResource(R.drawable.icon_information)
@@ -49,11 +53,19 @@ object DialogHandler {
             DialogTypeEnums.Warning->{
                 binding.ivDialog.setImageResource(R.drawable.icon_warning)
             }
+            DialogTypeEnums.WarningClose->{
+                binding.ivDialog.setImageResource(R.drawable.icon_warning)
+                binding.btDialogCancel.visibility = View.GONE
+            }
             DialogTypeEnums.Successful->{
                 binding.ivDialog.setImageResource(R.drawable.icon_successful)
             }
             DialogTypeEnums.Error->{
                 binding.ivDialog.setImageResource(R.drawable.icon_error)
+            }
+            DialogTypeEnums.ErrorClose->{
+                binding.ivDialog.setImageResource(R.drawable.icon_error)
+                binding.btDialogCancel.visibility = View.GONE
             }
             DialogTypeEnums.Question->{
                 binding.ivDialog.setImageResource(R.drawable.icon_question)
@@ -67,10 +79,6 @@ object DialogHandler {
                 binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_next)
             }
         }
-
-        binding.tvDialogInformation.text = information
-        binding.btDialogCancel.visibility = View.VISIBLE
-        binding.btDialogOk.visibility = View.VISIBLE
 
         val createdDialog = dialog.create()
         createdDialog.show()

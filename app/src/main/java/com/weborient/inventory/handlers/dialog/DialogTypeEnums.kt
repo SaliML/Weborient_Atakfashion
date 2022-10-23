@@ -4,8 +4,11 @@ enum class DialogTypeEnums(val value: Int) {
     Information(1),
     Successful(2),
     Warning(3),
-    Error(4),
-    Question(5),
-    SettingsLocationProvider(6),
-    SettingsNetwork(7)
+    WarningClose(4),
+    Error(5),
+    ErrorClose(6),
+    Question(7),
+    SettingsLocationProvider(8),
+    SettingsNetwork(9)
+
 }

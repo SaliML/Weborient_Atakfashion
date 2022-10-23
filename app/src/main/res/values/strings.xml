@@ -7,6 +7,25 @@
 
     <!--Párbeszédablak-->
     <string name="dialog_button_next">Tovább</string>
+    <string name="dialog_button_cancel">Mégse</string>
     <string name="dialog_button_alright">Rendben</string>
+    <string name="dialog_button_ok">OK</string>
+
+    <!--Főoldal-->
+    <string name="main_button_in">Bevét</string>
+    <string name="main_button_out">Kiadás</string>
+    <string name="main_button_settings">Beállítások</string>
+    <string name="main_button_exit">Kilépés</string>
+
+    <!--Beállítások-->
+    <string name="settings_title">Beállítások</string>
+    <string name="settings_title_api">API címe</string>
+    <string name="settings_title_version">Alkalmazás verzió</string>
+    <string name="settings_title_printer">Nyomtató adatai</string>
+    <string name="settings_title_printer_mac_address">MAC cím</string>
+    <string name="settings_title_printer_name">Név</string>
+    <string name="settings_title_printer_status">Állapot</string>
+    <string name="settings_api_hint">API elérhetősége</string>
+    <string name="settings_printer_mac_address_hint">Nyomtató MAC címe</string>
 
 </resources>

@@ -5,18 +5,22 @@ import com.weborient.inventory.handlers.permission.PermissionHandler
 import com.weborient.inventory.repositories.permission.PermissionRepository
 
 class SplashInteractor(private val presenter: ISplashContract.ISplashPresenter): ISplashContract.ISplashInteractor {
+    private var countDownTimer: CountDownTimer? = null
+
+    /**
+     * Jogosultságok lekérdezése
+     */
     override fun getPermissions() {
         presenter.onFetchedPermissions(PermissionRepository.getPermissions())
     }
 
-
-    override fun getTimerConfig() {
-        TODO("Not yet implemented")
-    }
-
-    private var countDownTimer: CountDownTimer? = null
-
-    //Időzítő készítése tetszőlegesen megadott óra-perc-másodperc és számolási (milliszekundum) értékekkel
+    /**
+     * Időzítő indítása
+     * @param intervalHours Óra
+     * @param intervalMinutes Perc
+     * @param intervalSeconds Másodperc
+     * @param countDownIntervalInMillis Léptetés milliszekundumban
+     */
     override fun startTimer(intervalHours: Long, intervalMinutes: Long, intervalSeconds: Long, countDownIntervalInMillis: Long) {
         val interval = ((intervalHours * 3600) + (intervalMinutes * 60) + intervalSeconds) * 1000
         val countDownInterval = countDownIntervalInMillis

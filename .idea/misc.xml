@@ -3,13 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_back.xml" value="0.225" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_close.xml" value="0.225" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_error.xml" value="0.225" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_information.xml" value="0.225" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_question.xml" value="0.225" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_refresh.xml" value="0.225" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_save.xml" value="0.225" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_successful.xml" value="0.225" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/drawable/icon_warning.xml" value="0.225" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/activity_main.xml" value="0.24791666666666667" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/activity_out.xml" value="0.23385416666666667" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/activity_scanner.xml" value="0.24791666666666667" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/activity_settings.xml" value="0.24791666666666667" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/activity_splash.xml" value="0.26811594202898553" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/dialog_information_layout.xml" value="0.26811594202898553" />
         <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/layout/dialog_progress_layout.xml" value="0.26811594202898553" />
+        <entry key="..\:/AndroidProjects/WeborientInventory/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.225" />
       </map>
     </option>
   </component>
