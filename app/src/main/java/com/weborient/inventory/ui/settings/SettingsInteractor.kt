@@ -13,6 +13,14 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
         }
     }
 
+    override fun getMacAddress() {
+        PrinterRepository.actualPrinter?.let{ printer ->
+            printer.macAddress?.let{
+                presenter.onFetchedMacAddress(it)
+            }
+        }
+    }
+
     override fun getPrinter() {
         PrinterRepository.actualPrinter?.let{
             presenter.onFetchedPrinter(it)

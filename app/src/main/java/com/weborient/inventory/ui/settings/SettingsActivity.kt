@@ -57,8 +57,8 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         bluetoothManager = getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager?.adapter
 
-        presenter.getPrinter()
         presenter.getApiAddress()
+        presenter.getMacAddress()
         presenter.getAppVersion()
         presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
     }

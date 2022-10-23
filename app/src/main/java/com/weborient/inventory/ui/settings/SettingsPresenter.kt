@@ -10,6 +10,10 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         interactor.getApiAddress()
     }
 
+    override fun getMacAddress() {
+        interactor.getMacAddress()
+    }
+
     override fun getPrinter() {
         interactor.getPrinter()
     }
@@ -20,6 +24,10 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
 
     override fun onFetchedApiAddress(apiAddress: String) {
         view.showApiAddress(apiAddress)
+    }
+
+    override fun onFetchedMacAddress(macAddress: String) {
+        view.showPrinterMacAddress(macAddress)
     }
 
     override fun onFetchedPrinter(printer: PrinterModel?) {
