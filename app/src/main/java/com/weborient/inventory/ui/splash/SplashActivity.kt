@@ -1,18 +1,19 @@
 package com.weborient.inventory.ui.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.weborient.inventory.R
+import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivitySplashBinding
-import com.weborient.inventory.handlers.dialog.DialogHandler
-import com.weborient.inventory.handlers.dialog.DialogResultEnums
-import com.weborient.inventory.handlers.dialog.DialogTypeEnums
-import com.weborient.inventory.handlers.dialog.IDialogResultHandler
+import com.weborient.inventory.handlers.dialog.*
 import com.weborient.inventory.handlers.permission.PermissionHandler
+import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
 import com.weborient.inventory.ui.main.MainActivity
 
-class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialogResultHandler {
+@SuppressLint("CustomSplashScreen")
+class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialogResultHandler, IConfigDialogHandler {
     private val presenter = SplashPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,11 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
      */
     override fun checkPermissions(permissions: Array<String>) {
         presenter.onCheckedPermissions(PermissionHandler.getNotGrantedPermissions(this, permissions))
+    }
+
+    override fun getAddressConfigs() {
+        presenter.onFetchedConfigAddresses(SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS),
+        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS))
     }
 
     /**
@@ -66,6 +72,13 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
     }
 
     /**
+     * Konfig adatok párbeszédablak
+     */
+    override fun showConfigDialog(macAddress: String?, apiAddress: String?) {
+        DialogHandler.showConfigDialog(this, this, macAddress, apiAddress)
+    }
+
+    /**
      * Jogosultságok megadását követően visszatérő értékek kezelése
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -79,6 +92,13 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
      * Párbeszédablak visszatérő értékének kezelése
      */
     override fun onDialogResult(result: DialogResultEnums) {
-        TODO("Not yet implemented")
+        presenter.onDialogResult(result)
+    }
+
+    override fun setConfigDatas(apiAddress: String, macAddress: String) {
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS, apiAddress)
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress)
+
+        presenter.onFetchedConfigAddresses(macAddress, apiAddress)
     }
 }

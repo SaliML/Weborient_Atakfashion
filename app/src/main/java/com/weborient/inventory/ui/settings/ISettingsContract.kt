@@ -31,10 +31,10 @@ interface ISettingsContract {
         fun onFetchedApiAddress(apiAddress: String)
         fun onFetchedPrinter(printer: PrinterModel?)
         fun onFetchedAppVersion(version: String)
-        fun onCLickedRefreshPrinterButton(pairedDevices: Set<BluetoothDevice>?)
         fun onClickedBackButton()
         fun onClickedApiSaveButton(apiAddress: String)
         fun onClickedPrinterMacAddressSaveButton(macAddress: String)
+        fun refreshPrinter(pairedDevices: Set<BluetoothDevice>?)
     }
 
     /**

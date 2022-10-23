@@ -28,4 +28,10 @@
     <string name="settings_api_hint">API elérhetősége</string>
     <string name="settings_printer_mac_address_hint">Nyomtató MAC címe</string>
 
+    <!--Konfig párbeszédablak-->
+    <string name="dialog_config_title">Beállítások</string>
+    <string name="dialog_config_api_hint">API címe</string>
+    <string name="dialog_config_printer_mac_address_hint">Nyomtató MAC címe</string>
+    <string name="dialog_config_button_save">Mentés</string>
+
 </resources>

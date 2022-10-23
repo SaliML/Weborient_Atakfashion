@@ -2,10 +2,13 @@ package com.weborient.inventory.handlers.dialog
 
 import android.app.Activity
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.weborient.inventory.R
+import com.weborient.inventory.databinding.DialogConfigLayoutBinding
 import com.weborient.inventory.databinding.DialogInformationLayoutBinding
 import com.weborient.inventory.databinding.DialogProgressLayoutBinding
 
@@ -102,6 +105,44 @@ object DialogHandler {
             }
             createdDialog.dismiss()
         }
+    }
+
+    fun showConfigDialog(activity: Activity, dialogHandler: IConfigDialogHandler, macAddress: String?, apiAddress: String?): AlertDialog{
+        val dialog = MaterialAlertDialogBuilder(activity, R.style.DialogRoundedCorners)
+        val binding = DialogConfigLayoutBinding.inflate(activity.layoutInflater)
+
+        dialog.setCancelable(false)
+        dialog.setView(binding.root)
+
+        binding.etConfigApiAddress.setText(apiAddress, TextView.BufferType.EDITABLE)
+        binding.etConfigPrinterMacAddress.setText(macAddress, TextView.BufferType.EDITABLE)
+
+        val createdDialog = dialog.create()
+        createdDialog.show()
+
+        binding.cvConfigSave.setOnClickListener {
+            binding.tilApiAddress.error = null
+            binding.tilMacAddress.error = null
+
+            val tempApiAddress = binding.etConfigApiAddress.text.toString()
+            val tempMacAddress = binding.etConfigPrinterMacAddress.text.toString()
+
+            if(tempApiAddress.isNotEmpty() && tempMacAddress.isNotEmpty()){
+                dialogHandler.setConfigDatas(tempApiAddress, tempMacAddress)
+                createdDialog.dismiss()
+            }
+            else{
+                if(tempApiAddress.isEmpty()){
+                    binding.tilApiAddress.error = "Hiányzó API cím"
+                }
+
+                if(tempMacAddress.isEmpty()){
+                    binding.tilMacAddress.error = "Hiányzó MAC cím"
+                }
+            }
+        }
+
+        return createdDialog
     }
 
     /**

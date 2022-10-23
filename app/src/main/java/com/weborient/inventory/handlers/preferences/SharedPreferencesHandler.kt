@@ -20,7 +20,7 @@ object SharedPreferencesHandler {
         return when(T::class){
             Int::class-> sharedPrefEditor.getInt(key, -1) as T
             Boolean::class-> sharedPrefEditor.getBoolean(key, false) as T
-            String::class-> sharedPrefEditor.getString(key, "") as T
+            String::class-> sharedPrefEditor.getString(key, null) as T
             Float::class-> sharedPrefEditor.getFloat(key, -1.0F) as T
             else -> null
         }

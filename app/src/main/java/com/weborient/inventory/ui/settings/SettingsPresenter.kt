@@ -49,7 +49,7 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         view.showAppVersion(version)
     }
 
-    override fun onCLickedRefreshPrinterButton(pairedDevices: Set<BluetoothDevice>?) {
+    override fun refreshPrinter(pairedDevices: Set<BluetoothDevice>?) {
         interactor.searchPrinter(pairedDevices)
     }
 

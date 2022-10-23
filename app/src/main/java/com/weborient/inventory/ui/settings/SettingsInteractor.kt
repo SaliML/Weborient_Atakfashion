@@ -33,5 +33,6 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
 
     override fun searchPrinter(pairedDevices: Set<BluetoothDevice>?) {
         PrinterRepository.setPrinter(pairedDevices)
+        getPrinter()
     }
 }

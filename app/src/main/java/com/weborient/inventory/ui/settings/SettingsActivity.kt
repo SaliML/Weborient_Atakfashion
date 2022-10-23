@@ -1,16 +1,12 @@
 package com.weborient.inventory.ui.settings
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.app.ActivityCompat
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivitySettingsBinding
 import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
@@ -55,15 +51,16 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         }
 
         binding.cvSettingsPrinterRefresh.setOnClickListener {
-            presenter.onCLickedRefreshPrinterButton(bluetoothAdapter?.bondedDevices)
+            presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
         }
 
         bluetoothManager = getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager?.adapter
 
-        presenter.getApiAddress()
         presenter.getPrinter()
+        presenter.getApiAddress()
         presenter.getAppVersion()
+        presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
     }
 
     override fun showApiAddress(apiAddress: String) {
@@ -93,7 +90,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
     @SuppressLint("MissingPermission")
     override fun saveMacAddress(macAddress: String) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress)
-        presenter.onCLickedRefreshPrinterButton(bluetoothAdapter?.bondedDevices)
+        presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
     }
 
     override fun closeActivity() {

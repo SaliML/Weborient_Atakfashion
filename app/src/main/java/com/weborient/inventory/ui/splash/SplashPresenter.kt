@@ -16,6 +16,22 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
     }
 
     /**
+     * MAC és API címek ellenőrzése
+     * @param macAddress MAC cím
+     * @param apiAddress API cím
+     */
+    override fun onFetchedConfigAddresses(macAddress: String?, apiAddress: String?) {
+        if(macAddress != null && apiAddress != null){
+            interactor.setPrinter(macAddress)
+            interactor.setApiAddress(apiAddress)
+            interactor.startTimer(AppConfig.SPLASH_TIMER_DURATION_HOURS, AppConfig.SPLASH_TIMER_DURATION_MINUTES, AppConfig.SPLASH_TIMER_DURATION_SECONDS, AppConfig.SPLASH_TIMER_DOWN_INTERVAL)
+        }
+        else{
+            view.showConfigDialog(macAddress, apiAddress)
+        }
+    }
+
+    /**
      * Jogosultságok visszaadása
      * @param permissions Jogosultságtömb
      */
@@ -32,7 +48,7 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
             view.showPermissionDialog(permissions, AppConfig.REQUEST_CODE_PERMISSION)
         }
         else{
-            interactor.startTimer(AppConfig.SPLASH_TIMER_DURATION_HOURS, AppConfig.SPLASH_TIMER_DURATION_MINUTES, AppConfig.SPLASH_TIMER_DURATION_SECONDS, AppConfig.SPLASH_TIMER_DOWN_INTERVAL)
+            view.getAddressConfigs()
         }
     }
 
@@ -51,7 +67,7 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
     override fun onGrantedPermissions(requestCode: Int, grantResults: IntArray) {
         if(requestCode == AppConfig.REQUEST_CODE_PERMISSION){
             if(PermissionHandler.isAllPermissionsGranted(grantResults)){
-                interactor.startTimer(AppConfig.SPLASH_TIMER_DURATION_HOURS, AppConfig.SPLASH_TIMER_DURATION_MINUTES, AppConfig.SPLASH_TIMER_DURATION_SECONDS, AppConfig.SPLASH_TIMER_DOWN_INTERVAL)
+                view.getAddressConfigs()
             }
             else{
                 view.showInformationDialog("Nem lett megadva minden szükséges engedély!\nAz alkalmazás be fog zárulni!", DialogTypeEnums.WarningClose)
