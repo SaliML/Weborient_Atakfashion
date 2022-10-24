@@ -19,7 +19,7 @@ interface ISettingsContract {
         /**
          * Nyomtató MAC címének mutatása
          */
-        fun showPrinterMacAddress(printerMacAddress: String)
+        fun showPrinterMacAddress(printerMacAddress: String?)
 
         /**
          * Nyomtató nevének mutatása
@@ -67,11 +67,6 @@ interface ISettingsContract {
         fun getMacAddress()
 
         /**
-         * Beállított nyomtató lekérdezése
-         */
-        fun getPrinter()
-
-        /**
          * Alkalmazás verziószámának lekérdezése
          */
         fun getAppVersion()
@@ -84,12 +79,17 @@ interface ISettingsContract {
         /**
          * Nyomtató MAC címének visszaadása
          */
-        fun onFetchedMacAddress(macAddress: String)
+        fun onFetchedMacAddress(macAddress: String?)
 
         /**
-         * Beállított nyomtató visszaadása
+         * Nyomtató nevének visszaadása
          */
-        fun onFetchedPrinter(printer: PrinterModel?)
+        fun onFetchedPrinterName(printerName: String)
+
+        /**
+         * Nyomtató párosítási állapota
+         */
+        fun onFetchedPrinterPairStatus(printerPairStatus: String)
 
         /**
          * Alkalmazás verziószámának visszaadása
@@ -130,11 +130,6 @@ interface ISettingsContract {
          * Nyomtató MAC címének lekérdezése
          */
         fun getMacAddress()
-
-        /**
-         * Beállított nyomtató lekérdezése
-         */
-        fun getPrinter()
 
         /**
          * Alkalmazás verziószámának lekérdezése

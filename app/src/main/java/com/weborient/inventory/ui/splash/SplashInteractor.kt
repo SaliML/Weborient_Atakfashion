@@ -1,11 +1,10 @@
 package com.weborient.inventory.ui.splash
 
+import android.os.Build
 import android.os.CountDownTimer
 import com.weborient.inventory.config.AppConfig
-import com.weborient.inventory.handlers.permission.PermissionHandler
 import com.weborient.inventory.models.PrinterModel
 import com.weborient.inventory.repositories.permission.PermissionRepository
-import com.weborient.inventory.repositories.printer.PrinterRepository
 
 class SplashInteractor(private val presenter: ISplashContract.ISplashPresenter): ISplashContract.ISplashInteractor {
     private var countDownTimer: CountDownTimer? = null
@@ -14,7 +13,7 @@ class SplashInteractor(private val presenter: ISplashContract.ISplashPresenter):
      * Jogosultságok lekérdezése
      */
     override fun getPermissions() {
-        presenter.onFetchedPermissions(PermissionRepository.getPermissions())
+        presenter.onFetchedPermissions(PermissionRepository.getPermissions(Build.VERSION.SDK_INT))
     }
 
     /**
@@ -39,10 +38,10 @@ class SplashInteractor(private val presenter: ISplashContract.ISplashPresenter):
     }
 
     /**
-     * Nyomtató beállítása
+     * Nyomtató MAC címének beállítása
      */
-    override fun setPrinter(macAddress: String) {
-        PrinterRepository.actualPrinter = PrinterModel(macAddress = macAddress)
+    override fun setMacAddress(macAddress: String) {
+        AppConfig.macAddress = macAddress
     }
 
     /**

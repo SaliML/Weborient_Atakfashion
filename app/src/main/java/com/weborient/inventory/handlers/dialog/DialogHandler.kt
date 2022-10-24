@@ -107,6 +107,44 @@ object DialogHandler {
         }
     }
 
+    fun showInformationDialog(activity: Activity, information: String, type: DialogTypeEnums){
+        val dialog = MaterialAlertDialogBuilder(activity, R.style.DialogRoundedCorners)
+        val binding = DialogInformationLayoutBinding.inflate(activity.layoutInflater)
+
+        dialog.setCancelable(false)
+        dialog.setView(binding.root)
+
+        binding.tvDialogInformation.text = information
+        binding.btDialogCancel.visibility = View.GONE
+        binding.btDialogOk.visibility = View.VISIBLE
+
+        when(type){
+            DialogTypeEnums.Information->{
+                binding.ivDialog.setImageResource(R.drawable.icon_information)
+            }
+            DialogTypeEnums.Warning, DialogTypeEnums.WarningClose->{
+                binding.ivDialog.setImageResource(R.drawable.icon_warning)
+            }
+            DialogTypeEnums.Successful->{
+                binding.ivDialog.setImageResource(R.drawable.icon_successful)
+            }
+            DialogTypeEnums.Error,DialogTypeEnums.ErrorClose->{
+                binding.ivDialog.setImageResource(R.drawable.icon_error)
+            }
+            else->{
+                binding.ivDialog.setImageResource(R.drawable.icon_information)
+            }
+        }
+
+        val createdDialog = dialog.create()
+        createdDialog.show()
+
+
+        binding.btDialogOk.setOnClickListener {
+            createdDialog.dismiss()
+        }
+    }
+
     fun showConfigDialog(activity: Activity, dialogHandler: IConfigDialogHandler, macAddress: String?, apiAddress: String?): AlertDialog{
         val dialog = MaterialAlertDialogBuilder(activity, R.style.DialogRoundedCorners)
         val binding = DialogConfigLayoutBinding.inflate(activity.layoutInflater)
@@ -120,7 +158,7 @@ object DialogHandler {
         val createdDialog = dialog.create()
         createdDialog.show()
 
-        binding.cvConfigSave.setOnClickListener {
+        binding.btConfigSave.setOnClickListener {
             binding.tilApiAddress.error = null
             binding.tilMacAddress.error = null
 

@@ -34,4 +34,12 @@
     <string name="dialog_config_printer_mac_address_hint">Nyomtató MAC címe</string>
     <string name="dialog_config_button_save">Mentés</string>
 
+    <!--Anyagelvonás-->
+    <string name="out_title">Kiadás</string>
+    <string name="out_button_done">Kiadás</string>
+    <string name="out_empty_qr_code">Kérem olvasson be QR kódot!</string>
+    <string name="out_item_name">Megnevezés</string>
+    <string name="out_item_id">Azonosító</string>
+    <string name="out_item_description">Leírás</string>
+
 </resources>

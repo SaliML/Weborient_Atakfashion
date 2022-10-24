@@ -22,7 +22,7 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
      */
     override fun onFetchedConfigAddresses(macAddress: String?, apiAddress: String?) {
         if(macAddress != null && apiAddress != null){
-            interactor.setPrinter(macAddress)
+            interactor.setMacAddress(macAddress)
             interactor.setApiAddress(apiAddress)
             interactor.startTimer(AppConfig.SPLASH_TIMER_DURATION_HOURS, AppConfig.SPLASH_TIMER_DURATION_MINUTES, AppConfig.SPLASH_TIMER_DURATION_SECONDS, AppConfig.SPLASH_TIMER_DOWN_INTERVAL)
         }

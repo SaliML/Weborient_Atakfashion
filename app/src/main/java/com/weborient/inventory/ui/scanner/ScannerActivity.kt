@@ -1,4 +1,4 @@
-package com.weborient.womo.ui.scanner
+package com.weborient.inventory.ui.scanner
 
 import android.content.Intent
 import android.os.Bundle
@@ -35,7 +35,7 @@ class ScannerActivity : AppCompatActivity(), IScannerContract.IScannerView{
 
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-                presenter.findItemByID(it.text)
+                presenter.onScannedResult(it.text)
             }
         }
 
@@ -56,12 +56,8 @@ class ScannerActivity : AppCompatActivity(), IScannerContract.IScannerView{
         super.onPause()
     }
 
-    override fun closeActivityResultSuccessful() {
-        setResult(RESULT_OK, Intent().putExtra(AppConfig.SCANNING_RESULT, true))
+    override fun closeActivityWithResult(result: String?) {
+        setResult(RESULT_OK, Intent().putExtra(AppConfig.SCANNING_RESULT, result))
         finish()
-    }
-
-    override fun closeActivityResultError() {
-        setResult(RESULT_OK, Intent().putExtra(AppConfig.SCANNING_RESULT, false))
     }
 }

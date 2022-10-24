@@ -1,9 +1,10 @@
 package com.weborient.inventory.ui.settings
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import com.weborient.inventory.BuildConfig
 import com.weborient.inventory.config.AppConfig
-import com.weborient.inventory.repositories.printer.PrinterRepository
+import com.weborient.inventory.handlers.printer.PrinterHandler
 import java.util.*
 
 class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPresenter): ISettingsContract.ISettingsInteractor {
@@ -14,17 +15,7 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
     }
 
     override fun getMacAddress() {
-        PrinterRepository.actualPrinter?.let{ printer ->
-            printer.macAddress?.let{
-                presenter.onFetchedMacAddress(it)
-            }
-        }
-    }
-
-    override fun getPrinter() {
-        PrinterRepository.actualPrinter?.let{
-            presenter.onFetchedPrinter(it)
-        }
+        presenter.onFetchedMacAddress(AppConfig.macAddress)
     }
 
     override fun getAppVersion() {
@@ -36,11 +27,23 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
     }
 
     override fun setMacAddress(macAddress: String) {
-        PrinterRepository.actualPrinter?.macAddress = macAddress.uppercase(Locale.getDefault())
+        AppConfig.macAddress = macAddress.uppercase(Locale.getDefault())
     }
 
+    @SuppressLint("MissingPermission")
     override fun searchPrinter(pairedDevices: Set<BluetoothDevice>?) {
-        PrinterRepository.setPrinter(pairedDevices)
-        getPrinter()
+       val printer = PrinterHandler.searchPrinter(pairedDevices, AppConfig.macAddress)
+
+        if(printer != null){
+            presenter.onFetchedPrinterName(printer.name)
+            presenter.onFetchedMacAddress(AppConfig.macAddress)
+            presenter.onFetchedPrinterPairStatus("Párosítva")
+        }
+        else{
+            presenter.onFetchedPrinterName("-")
+            presenter.onFetchedMacAddress(AppConfig.macAddress)
+            presenter.onFetchedPrinterPairStatus("-")
+
+        }
     }
 }

@@ -67,7 +67,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         apiAddressView.setText(apiAddress, TextView.BufferType.EDITABLE)
     }
 
-    override fun showPrinterMacAddress(printerMacAddress: String) {
+    override fun showPrinterMacAddress(printerMacAddress: String?) {
         printerMacAddressView.setText(printerMacAddress, TextView.BufferType.EDITABLE)
     }
 

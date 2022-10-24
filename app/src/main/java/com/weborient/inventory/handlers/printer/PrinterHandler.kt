@@ -5,11 +5,14 @@ import android.bluetooth.BluetoothDevice
 
 object PrinterHandler {
     @SuppressLint("MissingPermission")
-    fun searchPrinter(pairedDevices: Set<BluetoothDevice>?, macAddress: String): BluetoothDevice?{
-        val tempPrinter = pairedDevices?.find { device -> device.address.equals(macAddress, true) }
+    fun searchPrinter(pairedDevices: Set<BluetoothDevice>?, macAddress: String?): BluetoothDevice?{
 
-        if(tempPrinter != null){
-            return tempPrinter
+        if(pairedDevices != null && macAddress != null){
+            val deviceFound = pairedDevices.find { device -> device.address.equals(macAddress, true) }
+
+            deviceFound?.let{ bluetoothDevice ->
+                return bluetoothDevice
+            }
         }
 
         return null

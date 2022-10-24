@@ -120,7 +120,7 @@ interface ISplashContract {
         /**
          * Nyomtató beállítása
          */
-        fun setPrinter(macAddress: String)
+        fun setMacAddress(macAddress: String)
 
         /**
          * API cím beállítása

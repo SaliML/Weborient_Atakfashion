@@ -1,22 +1,11 @@
-package com.weborient.womo.ui.scanner
+package com.weborient.inventory.ui.scanner
 
 class ScannerPresenter(private val view: IScannerContract.IScannerView): IScannerContract.IScannerPresenter {
-    private val interactor = ScannerInteractor(this)
-
     override fun scannerInitializationError() {
-        view.closeActivityResultError()
+        view.closeActivityWithResult(null)
     }
 
-    override fun findItemByID(text: String) {
-        interactor.findItemByID(text)
+    override fun onScannedResult(result: String) {
+        view.closeActivityWithResult(result)
     }
-
-    override fun onFoundItem() {
-        view.closeActivityResultSuccessful()
-    }
-
-    override fun onNotFoundItem() {
-        view.closeActivityResultError()
-    }
-
 }

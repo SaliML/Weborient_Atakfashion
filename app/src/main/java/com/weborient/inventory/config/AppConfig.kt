@@ -7,6 +7,9 @@ object AppConfig {
     //API címe
     var apiAddress: String? = null
 
+    //Nyomtató MAC címe
+    var macAddress: String? = null
+
     //Jogosultságkérés kódja
     const val REQUEST_CODE_PERMISSION = 1
 

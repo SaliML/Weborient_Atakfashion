@@ -14,10 +14,6 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         interactor.getMacAddress()
     }
 
-    override fun getPrinter() {
-        interactor.getPrinter()
-    }
-
     override fun getAppVersion() {
         interactor.getAppVersion()
     }
@@ -26,31 +22,16 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         view.showApiAddress(apiAddress)
     }
 
-    override fun onFetchedMacAddress(macAddress: String) {
+    override fun onFetchedMacAddress(macAddress: String?) {
         view.showPrinterMacAddress(macAddress)
     }
 
-    override fun onFetchedPrinter(printer: PrinterModel?) {
-        printer?.let{ tempPrinter ->
-            tempPrinter.name?.let{
-                view.showPrinterName(it)
-            }
+    override fun onFetchedPrinterName(printerName: String) {
+        view.showPrinterName(printerName)
+    }
 
-            tempPrinter.macAddress?.let{
-                view.showPrinterMacAddress(it)
-            }
-
-            tempPrinter.pairStatus?.let{
-                if(it){
-                    view.showPrinterStatus("Párosítva")
-                }
-                else{
-                    view.showPrinterStatus("Nincs párosítva")
-                }
-            }?:run{
-                view.showPrinterStatus("Nincs információ!")
-            }
-        }
+    override fun onFetchedPrinterPairStatus(printerPairStatus: String) {
+        view.showPrinterStatus(printerPairStatus)
     }
 
     override fun onFetchedAppVersion(version: String) {

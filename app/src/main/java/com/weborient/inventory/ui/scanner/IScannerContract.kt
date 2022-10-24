@@ -1,22 +1,15 @@
-package com.weborient.womo.ui.scanner
+package com.weborient.inventory.ui.scanner
 
 /**
  * MVP minta a QR kód olvasó felületre
  */
 interface IScannerContract {
     interface IScannerView{
-        fun closeActivityResultSuccessful()
-        fun closeActivityResultError()
+        fun closeActivityWithResult(result: String?)
     }
 
     interface IScannerPresenter{
         fun scannerInitializationError()
-        fun findItemByID(text: String)
-        fun onFoundItem()
-        fun onNotFoundItem()
-    }
-
-    interface IScannerInteractor{
-        fun findItemByID(text: String)
+        fun onScannedResult(result: String)
     }
 }
