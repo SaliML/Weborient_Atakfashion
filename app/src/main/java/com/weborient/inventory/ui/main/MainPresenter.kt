@@ -16,6 +16,13 @@ class MainPresenter(private val view: IMainContract.IMainView): IMainContract.IM
     }
 
     /**
+     * Manuális nyomtatás gomb eseménye
+     */
+    override fun onClickedManualPrintingButton() {
+        view.navigateToManualPrintingActivity()
+    }
+
+    /**
      * Beállítások gomb eseménye
      */
     override fun onClickedSettingsButton() {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.weborient.inventory.databinding.ActivityMainBinding
 import com.weborient.inventory.ui.`in`.InActivity
+import com.weborient.inventory.ui.manualprinting.ManualPrintingActivity
 import com.weborient.inventory.ui.out.OutActivity
 import com.weborient.inventory.ui.settings.SettingsActivity
 
@@ -53,6 +54,13 @@ class MainActivity : AppCompatActivity(), IMainContract.IMainView {
      */
     override fun navigateToSettingsActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    /**
+     * Navigálás a manuális nyomtatás oldalra
+     */
+    override fun navigateToManualPrintingActivity() {
+        startActivity(Intent(this, ManualPrintingActivity::class.java))
     }
 
     /**

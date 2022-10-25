@@ -23,6 +23,11 @@ interface IMainContract {
         fun navigateToSettingsActivity()
 
         /**
+         * Navigálás a manuális nyomtatás oldalra
+         */
+        fun navigateToManualPrintingActivity()
+
+        /**
          * Alkalmazás bezárása
          */
         fun closeApplication()
@@ -41,6 +46,11 @@ interface IMainContract {
          * Kiadás gomb eseménye
          */
         fun onClickedOutButton()
+
+        /**
+         * Manuális nyomtatás eseménye
+         */
+        fun onClickedManualPrintingButton()
 
         /**
          * Beállítások gomb eseménye

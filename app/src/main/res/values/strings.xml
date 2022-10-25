@@ -14,6 +14,7 @@
     <!--Főoldal-->
     <string name="main_button_in">Bevét</string>
     <string name="main_button_out">Kiadás</string>
+    <string name="main_button_manual_print">Manuális nyomtatás</string>
     <string name="main_button_settings">Beállítások</string>
     <string name="main_button_exit">Kilépés</string>
 
