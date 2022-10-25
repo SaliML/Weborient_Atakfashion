@@ -1,5 +1,11 @@
 package com.weborient.inventory.config
 
+import android.graphics.Bitmap
+import android.os.Environment
+import com.brother.sdk.lmprinter.PrinterModel
+import com.brother.sdk.lmprinter.setting.PTPrintSettings
+import java.io.File
+
 /**
  * Alkalmazás konfigurációját tartalmazó osztály
  */
@@ -7,8 +13,16 @@ object AppConfig {
     //API címe
     var apiAddress: String? = null
 
-    //Nyomtató MAC címe
+    //Nyomtató beállításai
     var macAddress: String? = null
+    val bitmapCompressFormat = Bitmap.CompressFormat.PNG
+    val bitmapCompressQuality = 100
+
+    val imageFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "tempCode.png")
+    val printerModel = PrinterModel.PT_P300BT
+    val printerWorkPath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())
+    val printerLabelSize = PTPrintSettings.LabelSize.Width12mm
+    val printerChainPrint = false
 
     //Jogosultságkérés kódja
     const val REQUEST_CODE_PERMISSION = 1

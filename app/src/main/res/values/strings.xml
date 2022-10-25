@@ -7,6 +7,7 @@
 
     <!--Párbeszédablak-->
     <string name="dialog_button_next">Tovább</string>
+    <string name="dialog_button_turnon">Bekapcsolás</string>
     <string name="dialog_button_cancel">Mégse</string>
     <string name="dialog_button_alright">Rendben</string>
     <string name="dialog_button_ok">OK</string>
@@ -42,5 +43,15 @@
     <string name="out_item_name">Megnevezés</string>
     <string name="out_item_id">Azonosító</string>
     <string name="out_item_description">Leírás</string>
+
+    <!--Manuális nyomtatás-->
+    <string name="manual_printing_title">Manuális nyomtatás</string>
+    <string name="manual_printing_raw_text">Azonosító</string>
+    <string name="manual_printing_quantity">Mennyiség</string>
+    <string name="manual_printing_generate">QR kód generálás</string>
+    <string name="manual_printing_print">Nyomtatás</string>
+
+    <!--PhoneServices-->
+    <string name="dialog_settings_bluetooth_state">Kérem kapcsolja be a Bluetooth-t és próbálja újra!</string>
 
 </resources>

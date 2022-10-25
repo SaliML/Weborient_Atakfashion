@@ -5,10 +5,11 @@ enum class DialogResultEnums(val value: Int) {
     OK(1),
     SettingsLocationProvider(2),
     SettingsNetwork(3),
-    SettingsLanguageHungarian(4),
-    SettingsLanguageEnglish(5),
-    SettingsLanguageGerman(6),
-    PaymentCash(7),
-    PaymentCard(8),
-    ProceedToScanBarcode(9)
+    SettingsBluetooth(4),
+    SettingsLanguageHungarian(6),
+    SettingsLanguageEnglish(7),
+    SettingsLanguageGerman(8),
+    PaymentCash(9),
+    PaymentCard(10),
+    ProceedToScanBarcode(11)
 }

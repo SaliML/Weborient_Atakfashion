@@ -3,13 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage"
+        tools:remove="android:maxSdkVersion"/>
 
-    <uses-feature
-        android:name="android.hardware.bluetooth"
-        android:required="true" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -20,9 +24,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Inventory"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
-            android:name=".ManualPrintingActivity"
+            android:name=".ui.manualprinting.ManualPrintingActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

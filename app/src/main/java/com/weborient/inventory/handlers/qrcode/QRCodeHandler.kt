@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import com.weborient.inventory.config.AppConfig.DEFAULT_QR_CODE_SIZE
 import java.io.File
 import java.io.FileOutputStream
 
@@ -18,7 +19,7 @@ object QRCodeHandler {
      * @return Generált QR kód Bitmap típusként
      */
     fun generateQRCode(content: String, sizeInPixels: Int? = null): Bitmap {
-        val size = sizeInPixels ?: 256
+        val size = sizeInPixels ?: DEFAULT_QR_CODE_SIZE
 
         val bits = QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, size, size)
 

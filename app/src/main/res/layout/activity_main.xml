@@ -80,7 +80,7 @@
                     android:id="@+id/imageView3"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    app:srcCompat="@drawable/exit" />
+                    app:srcCompat="@drawable/out" />
 
                 <TextView
                     android:id="@+id/textView2"

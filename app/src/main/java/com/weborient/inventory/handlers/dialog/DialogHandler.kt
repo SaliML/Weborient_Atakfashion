@@ -75,11 +75,15 @@ object DialogHandler {
             }
             DialogTypeEnums.SettingsLocationProvider->{
                 binding.ivDialog.setImageResource(R.drawable.icon_warning)
-                binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_next)
+                binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_turnon)
             }
             DialogTypeEnums.SettingsNetwork->{
                 binding.ivDialog.setImageResource(R.drawable.icon_warning)
-                binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_next)
+                binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_turnon)
+            }
+            DialogTypeEnums.SettingsBluetooth->{
+                binding.ivDialog.setImageResource(R.drawable.icon_warning)
+                binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_turnon)
             }
         }
 
@@ -98,6 +102,9 @@ object DialogHandler {
                 }
                 DialogTypeEnums.SettingsLocationProvider->{
                     resultHandler.onDialogResult(DialogResultEnums.SettingsLocationProvider)
+                }
+                DialogTypeEnums.SettingsBluetooth->{
+                    resultHandler.onDialogResult(DialogResultEnums.SettingsBluetooth)
                 }
                 else->{
                     resultHandler.onDialogResult(DialogResultEnums.OK)

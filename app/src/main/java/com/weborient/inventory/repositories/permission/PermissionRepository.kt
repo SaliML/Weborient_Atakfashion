@@ -7,7 +7,10 @@ object PermissionRepository {
     private val permissions = arrayListOf(
         PermissionModel(android.Manifest.permission.CAMERA, VERSION_CODES.BASE),
         PermissionModel(android.Manifest.permission.BLUETOOTH, VERSION_CODES.BASE),
+        PermissionModel(android.Manifest.permission.BLUETOOTH_ADMIN, VERSION_CODES.BASE),
         PermissionModel(android.Manifest.permission.INTERNET, VERSION_CODES.BASE),
+        PermissionModel(android.Manifest.permission.ACCESS_NETWORK_STATE, VERSION_CODES.BASE),
+        PermissionModel(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, VERSION_CODES.BASE),
         PermissionModel(android.Manifest.permission.BLUETOOTH_CONNECT, VERSION_CODES.S)
     )
 
