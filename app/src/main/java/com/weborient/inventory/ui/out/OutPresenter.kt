@@ -1,5 +1,7 @@
 package com.weborient.inventory.ui.out
 
+import android.bluetooth.BluetoothAdapter
+import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.ItemModel
 
@@ -18,10 +20,16 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
         val quantity = amount.toIntOrNull()
 
         if(quantity != null){
-            interactor.decreaseAmount(quantity)
+            if(quantity > 0){
+                view.showQuantityError(null)
+                interactor.decreaseAmount(quantity)
+            }
+            else{
+                view.showQuantityError("Kérem 0-nál nagyobb számot adjon meg!")
+            }
         }
         else{
-            view.showInformationDialog("Kérem érvényes mennyiséget adjon meg!", DialogTypeEnums.Warning)
+            view.showQuantityError("Kérem számot adjon meg!")
         }
     }
 

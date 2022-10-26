@@ -21,12 +21,12 @@
 
     <!--Beállítások-->
     <string name="settings_title">Beállítások</string>
-    <string name="settings_title_api">API címe</string>
     <string name="settings_title_version">Alkalmazás verzió</string>
     <string name="settings_title_printer">Nyomtató adatai</string>
-    <string name="settings_title_printer_mac_address">MAC cím</string>
     <string name="settings_title_printer_name">Név</string>
     <string name="settings_title_printer_status">Állapot</string>
+    <string name="settings_button_save">Mentés</string>
+    <string name="settings_button_refresh">Frissítés</string>
     <string name="settings_api_hint">API elérhetősége</string>
     <string name="settings_printer_mac_address_hint">Nyomtató MAC címe</string>
 
@@ -41,17 +41,32 @@
     <string name="out_button_done">Kiadás</string>
     <string name="out_empty_qr_code">Kérem olvasson be QR kódot!</string>
     <string name="out_item_name">Megnevezés</string>
+    <string name="out_item_quantity">Kiadandó mennyiség</string>
     <string name="out_item_id">Azonosító</string>
     <string name="out_item_description">Leírás</string>
 
     <!--Manuális nyomtatás-->
     <string name="manual_printing_title">Manuális nyomtatás</string>
-    <string name="manual_printing_raw_text">Azonosító</string>
-    <string name="manual_printing_quantity">Mennyiség</string>
+    <string name="manual_printing_raw_text">Generálandó azonosító</string>
+    <string name="manual_printing_quantity">Nyomtatandó mennyiség</string>
     <string name="manual_printing_generate">QR kód generálás</string>
     <string name="manual_printing_print">Nyomtatás</string>
+    <string name="manual_printing_qrcode_empty">Kérem generáljon QR kódot!</string>
 
     <!--PhoneServices-->
     <string name="dialog_settings_bluetooth_state">Kérem kapcsolja be a Bluetooth-t és próbálja újra!</string>
+
+    <!--Terméklista elem-->
+    <string name="itemlist_title_id">Termékazonosító</string>
+    <string name="itemlist_title_name">Terméknév</string>
+
+    <!--Felvétel-->
+    <string name="in_title">Felvétel</string>
+
+    <!--Részletek-->
+    <string name="details_title">Termék</string>
+    <string name="details_title_id">Azonosító</string>
+    <string name="details_title_name">Megnevezés</string>
+    <string name="details_title_description">Leírás</string>
 
 </resources>

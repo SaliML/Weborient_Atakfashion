@@ -1,5 +1,7 @@
 package com.weborient.inventory.ui.out
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputLayout
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivityOutBinding
 import com.weborient.inventory.handlers.dialog.DialogHandler
@@ -19,9 +22,10 @@ import com.weborient.inventory.ui.scanner.ScannerActivity
 class OutActivity : AppCompatActivity(), IOutContract.IOutView {
     private val presenter = OutPresenter(this)
 
-    private lateinit var containerEmpty: ConstraintLayout
-    private lateinit var containerItem: ScrollView
-    private lateinit var containerAmount: LinearLayout
+    private lateinit var layoutEmpty: ConstraintLayout
+    private lateinit var layoutItem: ScrollView
+    private lateinit var layoutQuantity: LinearLayout
+    private lateinit var layoutInput: TextInputLayout
     private lateinit var inputQuantity: EditText
     private lateinit var buttonDone: ImageView
     private lateinit var imageView: ImageView
@@ -37,9 +41,10 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView {
         val binding = ActivityOutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        containerEmpty = binding.clEmpty
-        containerItem = binding.svItem
-        containerAmount = binding.llOutAmount
+        layoutEmpty = binding.clEmpty
+        layoutItem = binding.svItem
+        layoutQuantity = binding.llOutAmount
+        layoutInput = binding.tilOutQuantity
         inputQuantity = binding.etOutQuantity
         buttonDone = binding.ivOutDone
         imageView = binding.ivOutPhoto
@@ -99,19 +104,23 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView {
     }
 
     override fun showContainerEmpty() {
-        containerEmpty.visibility = View.VISIBLE
+        layoutEmpty.visibility = View.VISIBLE
     }
 
     override fun showContainerItem() {
-        containerItem.visibility = View.VISIBLE
+        layoutItem.visibility = View.VISIBLE
     }
 
     override fun showContainerAmount() {
-        containerAmount.visibility = View.VISIBLE
+        layoutQuantity.visibility = View.VISIBLE
     }
 
     override fun showButtonDone() {
         buttonDone.visibility = View.VISIBLE
+    }
+
+    override fun showQuantityError(error: String?) {
+        layoutInput.error = error
     }
 
     override fun showInformationDialog(information: String, type: DialogTypeEnums) {
@@ -119,15 +128,15 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView {
     }
 
     override fun hideContainerEmpty() {
-        containerEmpty.visibility = View.GONE
+        layoutEmpty.visibility = View.GONE
     }
 
     override fun hideContainerItem() {
-        containerItem.visibility = View.GONE
+        layoutItem.visibility = View.GONE
     }
 
     override fun hideContainerAmount() {
-        containerAmount.visibility = View.GONE
+        layoutQuantity.visibility = View.GONE
     }
 
     override fun hideButtonDone() {

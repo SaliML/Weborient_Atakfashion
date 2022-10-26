@@ -1,5 +1,7 @@
 package com.weborient.inventory.ui.out
 
+import android.bluetooth.BluetoothAdapter
+import android.graphics.Bitmap
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.ItemModel
 
@@ -24,12 +26,12 @@ interface IOutContract {
         fun showContainerItem()
         fun showContainerAmount()
         fun showButtonDone()
+        fun showQuantityError(error: String?)
         fun showInformationDialog(information: String, type: DialogTypeEnums)
         fun hideContainerEmpty()
         fun hideContainerItem()
         fun hideContainerAmount()
         fun hideButtonDone()
-
     }
 
     /**
@@ -39,9 +41,9 @@ interface IOutContract {
         fun onClickedBackButton()
         fun onClickedScanButton()
         fun onClickedDoneButton(amount: String)
-        fun getItemByID(itemID: String?)
         fun onFetchedItem(item: ItemModel?)
         fun onResultDecreaseAmount(isSuccessful: Boolean)
+        fun getItemByID(itemID: String?)
     }
 
     /**

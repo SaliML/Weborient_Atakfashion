@@ -8,7 +8,9 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.toBitmapOrNull
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -28,6 +30,7 @@ class ManualPrintingActivity : AppCompatActivity(), IManualPrintingContract.IMan
 
     private lateinit var layoutText: TextInputLayout
     private lateinit var layoutQuantity: TextInputLayout
+    private lateinit var layoutQRCodeEmpty: ConstraintLayout
     private lateinit var inputText: TextInputEditText
     private lateinit var inputQuantity: TextInputEditText
     private lateinit var imageView: ImageView
@@ -40,6 +43,7 @@ class ManualPrintingActivity : AppCompatActivity(), IManualPrintingContract.IMan
 
         layoutText = binding.tilManualPrintingRawText
         layoutQuantity = binding.tilManualPrintingQuantity
+        layoutQRCodeEmpty = binding.clQrcodeEmpty
         inputText = binding.etManualPrintingText
         inputQuantity = binding.etManualPrintingQuantity
         imageView = binding.ivManualPrintingQrCode
@@ -67,6 +71,8 @@ class ManualPrintingActivity : AppCompatActivity(), IManualPrintingContract.IMan
 
     override fun showQRCode(bitmap: Bitmap) {
         imageView.setImageBitmap(bitmap)
+        imageView.visibility = View.VISIBLE
+        layoutQRCodeEmpty.visibility = View.GONE
     }
 
     override fun showTextError(error: String?) {

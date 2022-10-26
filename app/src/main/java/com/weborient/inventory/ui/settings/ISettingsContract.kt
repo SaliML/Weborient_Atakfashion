@@ -37,6 +37,16 @@ interface ISettingsContract {
         fun showAppVersion(version: String)
 
         /**
+         * API mező hibaüzenet
+         */
+        fun showApiError(error: String?)
+
+        /**
+         * MAC cím mező hibaüzenet
+         */
+        fun showMacAddressError(error: String?)
+
+        /**
          * API elérhetőségének mentése
          */
         fun saveApiAddress(apiAddress: String)
@@ -104,12 +114,12 @@ interface ISettingsContract {
         /**
          * API cím mentés gomb eseménye
          */
-        fun onClickedApiSaveButton(apiAddress: String)
+        fun onClickedApiSaveButton(apiAddress: String?)
 
         /**
          * MAC cím mentés gomb eseménye
          */
-        fun onClickedPrinterMacAddressSaveButton(macAddress: String)
+        fun onClickedPrinterMacAddressSaveButton(macAddress: String?)
 
         /**
          * Nyomtató adatainak frissítése

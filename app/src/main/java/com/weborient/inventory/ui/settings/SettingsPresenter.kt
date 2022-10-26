@@ -46,17 +46,25 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         view.closeActivity()
     }
 
-    override fun onClickedApiSaveButton(apiAddress: String) {
-        if(apiAddress.isNotEmpty()){
+    override fun onClickedApiSaveButton(apiAddress: String?) {
+        if(!apiAddress.isNullOrEmpty()){
+            view.showApiError(null)
             view.saveApiAddress(apiAddress)
             interactor.setApiAddress(apiAddress)
         }
+        else{
+            view.showApiError("Kérem töltse ki a mezőt!")
+        }
     }
 
-    override fun onClickedPrinterMacAddressSaveButton(macAddress: String) {
-        if(macAddress.isNotEmpty()){
+    override fun onClickedPrinterMacAddressSaveButton(macAddress: String?) {
+        if(!macAddress.isNullOrEmpty()){
+            view.showMacAddressError(null)
             view.saveMacAddress(macAddress)
             interactor.setMacAddress(macAddress)
+        }
+        else{
+            view.showMacAddressError("Kérem töltse ki a mezőt!")
         }
     }
 }

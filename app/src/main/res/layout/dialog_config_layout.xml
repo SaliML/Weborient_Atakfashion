@@ -92,41 +92,6 @@
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--<androidx.cardview.widget.CardView
-                android:id="@+id/cv_config_save"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:backgroundTint="@color/green"
-                app:cardCornerRadius="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.6"
-                        android:foregroundTint="@color/white"
-                        app:tint="@color/white"
-                        app:srcCompat="@drawable/icon_save" />
-
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.4"
-                        android:gravity="center"
-                        android:text="@string/dialog_config_button_save"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>-->
             <Button
                 android:id="@+id/bt_config_save"
                 android:layout_width="150dp"

@@ -27,8 +27,5 @@ class ManualPrintingInteractor(private val presenter: IManualPrintingContract.IM
         deviceAddress: String?
     ) {
         val printResult = PrinterHandler.printImage(image, quantity, deviceAddress, bluetoothAdapter)
-        val teszt = ""
     }
-
-
 }
