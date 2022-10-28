@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.weborient.inventory.databinding.ActivityInBinding
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.ui.newitem.NewItemFragment
 
 class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler {
     private val presenter = InPresenter(this)
@@ -36,7 +37,7 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler {
     }
 
     override fun showAddNewItemFragment() {
-
+        supportFragmentManager.beginTransaction().add(android.R.id.content, NewItemFragment()).commit()
     }
 
     override fun showItems(itemList: ArrayList<ItemModel>) {
