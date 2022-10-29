@@ -208,8 +208,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:hint="@string/out_item_quantity"
-                        android:inputType="text"
-                        android:padding="10dp"
+                        android:inputType="number"
+                        android:padding="15dp"
                         android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>

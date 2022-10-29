@@ -2,6 +2,7 @@ package com.weborient.inventory.ui.out
 
 import android.bluetooth.BluetoothAdapter
 import com.weborient.inventory.config.AppConfig
+import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.ItemModel
 
@@ -73,9 +74,22 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
     override fun onResultDecreaseAmount(isSuccessful: Boolean) {
         if(isSuccessful){
             view.showInformationDialog("Sikeres kiadás!", DialogTypeEnums.Successful)
+            view.showContainerEmpty()
+            view.hideContainerItem()
+            view.hideContainerAmount()
+            view.hideButtonDone()
         }
         else{
             view.showInformationDialog("Sikertelen kiadás!", DialogTypeEnums.Error)
+        }
+    }
+
+    override fun onDialogResult(result: DialogResultEnums) {
+        when(result){
+            DialogResultEnums.SettingsNetwork->{
+                view.showNetworkDialog()
+            }
+            else->{}
         }
     }
 }

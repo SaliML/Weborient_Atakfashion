@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
+import com.weborient.inventory.handlers.printer.PrintResult
 
 class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualPrintingView): IManualPrintingContract.IManualPrintingPresenter {
     private val interactor = ManualPrintingInteractor(this)
@@ -35,6 +36,9 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
                 else{
                     //Mehet a nyomtatás
                     view.showQuantityError(null)
+
+                    view.showProgress("Címke nyomtatása")
+
                     interactor.print(qrCode, quantity, bluetoothAdapter, AppConfig.macAddress )
                 }
             }
@@ -57,6 +61,28 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
                 view.showBluetoothDialog()
             }
             else->{}
+        }
+    }
+
+    override fun onPrintResult(result: PrintResult) {
+        view.hideProgress()
+
+        when(result){
+            PrintResult.Successful->{
+                view.showInformationDialog("Sikeres nyomtatás!", DialogTypeEnums.Successful)
+            }
+            PrintResult.MacAddressIsNull->{
+                view.showInformationDialog("Hiányzó fizikai cím, kérem a \"Beállítások\" felületen töltse ki a \"MAC\" címet!", DialogTypeEnums.Error)
+            }
+            PrintResult.OpenStreamFailure->{
+                view.showInformationDialog("Nem sikerült csatlakozni a nyomtatóhoz, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
+            }
+            PrintResult.Timeout->{
+                view.showInformationDialog("Időtúllépés, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
+            }
+            else->{
+                view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
+            }
         }
     }
 }

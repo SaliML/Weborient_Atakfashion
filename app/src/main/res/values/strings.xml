@@ -55,6 +55,7 @@
 
     <!--PhoneServices-->
     <string name="dialog_settings_bluetooth_state">Kérem kapcsolja be a Bluetooth-t és próbálja újra!</string>
+    <string name="dialog_settings_network_state">Kérem csatlakozzon az internethez és próbálja újra!</string>
 
     <!--Terméklista elem-->
     <string name="itemlist_title_id">Termékazonosító</string>
@@ -62,6 +63,7 @@
 
     <!--Felvétel-->
     <string name="in_title">Felvétel</string>
+    <string name="in_title_quantity">Felvenni kívánt mennyiség</string>
 
     <!--Új termék hozzáadása-->
     <string name="new_item_title">Új termék</string>
@@ -70,7 +72,7 @@
     <string name="new_item_title_category">Kategória</string>
     <string name="new_item_title_quantity">Mennyiség</string>
     <string name="new_item_title_presentation">Kiszerelés</string>
-    <string name="new_item_title_tax">Adónem</string>
+    <string name="new_item_title_tax">Adónem (%)</string>
     <string name="new_item_title_net_price">Nettó ár</string>
     <string name="new_item_title_margin">Árrés (%)</string>
     <string name="new_item_title_gross_price">Bruttó ár</string>
@@ -79,8 +81,6 @@
     <string name="new_item_title_name">Megnevezés</string>
     <string name="new_item_title_description">Leírás</string>
     <string name="new_item_title_template">Sablon</string>
-
-
 
     <!--Részletek-->
     <string name="details_title">Termék</string>

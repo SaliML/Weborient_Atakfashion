@@ -20,6 +20,7 @@
     <color name="light_grey">#C6C6C6</color>
     <color name="orange">#FB8C00</color>
     <color name="orange_light2">#FAB866</color>
+    <color name="transparent">#34595959</color>
     <color name="transparent2">#86595959</color>
     <color name="background">#EDEDED</color>
 </resources>

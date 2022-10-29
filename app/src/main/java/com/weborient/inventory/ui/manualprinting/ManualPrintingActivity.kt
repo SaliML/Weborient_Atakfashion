@@ -91,6 +91,14 @@ class ManualPrintingActivity : AppCompatActivity(), IManualPrintingContract.IMan
         DialogHandler.showInformationDialog(this, information, type)
     }
 
+    override fun showProgress(information: String) {
+        DialogHandler.showProgressDialog(this, information)
+    }
+
+    override fun hideProgress() {
+        DialogHandler.closeProgressDialog()
+    }
+
     override fun closeActivity() {
         finish()
     }

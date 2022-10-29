@@ -1,9 +1,9 @@
 package com.weborient.inventory.handlers.dialog
 
 import android.app.Activity
+import android.content.Context
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -13,6 +13,7 @@ import com.weborient.inventory.databinding.DialogInformationLayoutBinding
 import com.weborient.inventory.databinding.DialogProgressLayoutBinding
 
 object DialogHandler {
+    private  var progressDialog: AlertDialog? = null
     /**
      * Jogosultságablak megjelenítése
      */
@@ -190,10 +191,21 @@ object DialogHandler {
         return createdDialog
     }
 
-    /**
-     * Folyamatjelző ablak
-     */
-    fun showProgressDialog(activity: Activity, information: String): AlertDialog {
+    fun showProgressDialog(activity: Activity, message: String) {
+        if(progressDialog == null){
+            progressDialog = createProgressDialog(activity, message)
+            progressDialog?.show()
+        }
+    }
+
+    fun closeProgressDialog() {
+        if(progressDialog != null){
+            progressDialog?.dismiss()
+            progressDialog = null
+        }
+    }
+
+    private fun createProgressDialog(activity: Activity, information: String): AlertDialog {
         val dialog = MaterialAlertDialogBuilder(activity, R.style.DialogRoundedCorners)
         val binding = DialogProgressLayoutBinding.inflate(activity.layoutInflater)
 
@@ -203,7 +215,6 @@ object DialogHandler {
         binding.tvDialogInformation.text = information
 
         val createdDialog = dialog.create()
-        createdDialog.show()
 
         return createdDialog
     }

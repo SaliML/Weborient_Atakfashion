@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -35,12 +36,14 @@ class ItemListAdapter(private val context: Context, private val handler: IItemCl
 
         private var item: ItemModel? = null
 
+        private var layout: LinearLayout? = null
         private var textItemName: TextView? = null
         private var textItemID: TextView? = null
         private var imageItemPhoto: ImageView? = null
         private var layoutItemCard: CardView? = null
 
         init{
+            layout = itemView.findViewById(R.id.ll_list_item_layout)
             textItemName = itemView.findViewById(R.id.tv_list_item_name)
             textItemID = itemView.findViewById(R.id.tv_list_item_id)
             imageItemPhoto = itemView.findViewById(R.id.iv_list_item_photo)
@@ -57,6 +60,13 @@ class ItemListAdapter(private val context: Context, private val handler: IItemCl
 
             textItemID?.text = item?.id
             textItemName?.text = item?.name
+
+            if(item?.isSelected == true){
+                layout?.setBackgroundResource(R.drawable.selected_item_background)
+            }
+            else{
+                layout?.setBackgroundResource(R.drawable.unselected_item_background)
+            }
 
             imageItemPhoto?.let {
                 val circularProgressDrawable = CircularProgressDrawable(context)

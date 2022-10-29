@@ -11,6 +11,7 @@ import com.brother.sdk.lmprinter.PrintError
 import com.brother.sdk.lmprinter.PrinterDriverGenerator
 import com.brother.sdk.lmprinter.setting.PTPrintSettings
 import com.weborient.inventory.config.AppConfig
+import com.weborient.inventory.handlers.qrcode.QRCodeHandler
 import java.io.File
 import java.io.FileOutputStream
 
@@ -42,10 +43,12 @@ object PrinterHandler {
 
                         //Fájlba írás
                         //val imageFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), AppConfig.imageFileName)
-                        val fileOutputStream = FileOutputStream(AppConfig.imageFile)
+
+                        QRCodeHandler.compressBitmap(image, AppConfig.bitmapCompressFormat, AppConfig.bitmapCompressQuality, AppConfig.imageFile)
+                        /*val fileOutputStream = FileOutputStream(AppConfig.imageFile)
                         image.compress(AppConfig.bitmapCompressFormat, AppConfig.bitmapCompressQuality, fileOutputStream)
                         fileOutputStream.flush()
-                        fileOutputStream.close()
+                        fileOutputStream.close()*/
 
                         //Nyomtató beállítása és nyomtatás
                         val printerDriver = result.driver

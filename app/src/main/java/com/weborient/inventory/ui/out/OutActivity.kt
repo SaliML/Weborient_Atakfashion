@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
@@ -13,13 +14,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputLayout
+import com.weborient.inventory.R
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivityOutBinding
 import com.weborient.inventory.handlers.dialog.DialogHandler
+import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
+import com.weborient.inventory.handlers.dialog.IDialogResultHandler
+import com.weborient.inventory.handlers.service.PhoneServiceHandler
 import com.weborient.inventory.ui.scanner.ScannerActivity
 
-class OutActivity : AppCompatActivity(), IOutContract.IOutView {
+class OutActivity : AppCompatActivity(), IOutContract.IOutView, IDialogResultHandler {
     private val presenter = OutPresenter(this)
 
     private lateinit var layoutEmpty: ConstraintLayout
@@ -61,7 +66,12 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView {
         }
 
         binding.ivOutDone.setOnClickListener {
-            presenter.onClickedDoneButton(inputQuantity.text.toString())
+            if(PhoneServiceHandler.checkNetworkState(this)){
+                presenter.onClickedDoneButton(inputQuantity.text.toString())
+            }
+            else{
+                DialogHandler.showDialogWithResult(this, this, getString(R.string.dialog_settings_network_state), DialogTypeEnums.SettingsNetwork)
+            }
         }
 
         scannerActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -137,9 +147,18 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView {
 
     override fun hideContainerAmount() {
         layoutQuantity.visibility = View.GONE
+        inputQuantity.text.clear()
     }
 
     override fun hideButtonDone() {
         buttonDone.visibility = View.GONE
+    }
+
+    override fun onDialogResult(result: DialogResultEnums) {
+        presenter.onDialogResult(result)
+    }
+
+    override fun showNetworkDialog() {
+        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
     }
 }

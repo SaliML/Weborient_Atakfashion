@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice
 import android.graphics.Bitmap
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
+import com.weborient.inventory.handlers.printer.PrintResult
 
 /**
  * MVP minta a manuális nyomtatás oldalra
@@ -20,6 +21,8 @@ interface IManualPrintingContract {
         fun showQuantityError(error: String?)
         fun showBluetoothDialog()
         fun showInformationDialog(information: String, type: DialogTypeEnums)
+        fun showProgress(information: String)
+        fun hideProgress()
         fun closeActivity()
     }
 
@@ -32,6 +35,7 @@ interface IManualPrintingContract {
         fun onClickedPrintButton(qrCode: Bitmap?, quantity: Int?, bluetoothAdapter: BluetoothAdapter?)
         fun onGeneratedQRCode(bitmap: Bitmap)
         fun onDialogResult(result: DialogResultEnums)
+        fun onPrintResult(result: PrintResult)
     }
 
     /**
