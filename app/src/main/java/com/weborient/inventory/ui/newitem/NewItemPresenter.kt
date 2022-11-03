@@ -64,9 +64,7 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
         unit: String?,
         status: String?,
         template: String?,
-        tax: String?,
-        netPrice: String?,
-        margin: String?
+        grossPrice: String?,
     ) {
         view.showNameError(null)
         view.showDescriptionError(null)
@@ -76,9 +74,6 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
         view.showUnitError(null)
         view.showStatusError(null)
         view.showTemplateError(null)
-        view.showTaxError(null)
-        view.showNetPriceError(null)
-        view.showMarginError(null)
 
         if(name.isNullOrEmpty()){
             view.showNameError("Kötelező kitölteni!")
@@ -118,50 +113,30 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
                                             view.showTemplateError("Kötelező kitölteni!")
                                         }
                                         else{
-                                            if(tax.isNullOrEmpty()){
-                                                view.showTaxError("Kötelező kitölteni!")
+                                            if(grossPrice.isNullOrEmpty()){
+                                                view.showGrossPriceError("Kötelező kitölteni!")
                                             }
                                             else{
-                                                if(netPrice.isNullOrEmpty()){
-                                                    view.showNetPriceError("Kötelező kitölteni!")
+                                                val tempGrossPrice = grossPrice.toFloatOrNull()
+
+                                                if(tempGrossPrice == null){
+                                                    view.showGrossPriceError("Kérem számot adjon meg!")
                                                 }
                                                 else{
-                                                    val tempNetPrice = netPrice.toFloatOrNull()
+                                                    //Mehet a feltöltés
+                                                    view.showNameError(null)
+                                                    view.showDescriptionError(null)
+                                                    view.showQuantityError(null)
+                                                    view.showCategoryError(null)
+                                                    view.showPresentationError(null)
+                                                    view.showUnitError(null)
+                                                    view.showStatusError(null)
+                                                    view.showTemplateError(null)
 
-                                                    if(tempNetPrice == null){
-                                                        view.showNetPriceError("Kérem számot adjon meg!")
-                                                    }
-                                                    else{
-                                                        if(margin.isNullOrEmpty()){
-                                                            view.showMarginError("Kötelező kitölteni!")
-                                                        }
-                                                        else{
-                                                            val tempMargin = margin.toFloatOrNull()
+                                                    view.setItemID("12345")
+                                                    view.showPrintButton()
+                                                    view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
 
-                                                            if(tempMargin == null){
-                                                                view.showMarginError("Kérem számot adjon meg!")
-                                                            }
-                                                            else{
-                                                                //Mehet a feltöltés
-                                                                view.showNameError(null)
-                                                                view.showDescriptionError(null)
-                                                                view.showQuantityError(null)
-                                                                view.showCategoryError(null)
-                                                                view.showPresentationError(null)
-                                                                view.showUnitError(null)
-                                                                view.showStatusError(null)
-                                                                view.showTemplateError(null)
-                                                                view.showTaxError(null)
-                                                                view.showNetPriceError(null)
-                                                                view.showMarginError(null)
-
-                                                                view.setItemID("12345")
-                                                                view.showPrintButton()
-                                                                view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
-
-                                                            }
-                                                        }
-                                                    }
                                                 }
                                             }
                                         }

@@ -47,10 +47,7 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
     private lateinit var layoutUnit: TextInputLayout
     private lateinit var layoutStatus: TextInputLayout
     private lateinit var layoutTemplate: TextInputLayout
-    private lateinit var layoutTax: TextInputLayout
-    private lateinit var layoutNetPrice: TextInputLayout
     private lateinit var layoutGrossPrice: TextInputLayout
-    private lateinit var layoutMargin: TextInputLayout
 
     private lateinit var inputID: TextInputEditText
     private lateinit var inputName: TextInputEditText
@@ -100,25 +97,19 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         layoutUnit = binding.tilNewItemUnit
         layoutStatus = binding.tilNewItemStatus
         layoutTemplate = binding.tilNewItemTemplate
-        layoutTax = binding.tilNewItemTax
-        layoutNetPrice = binding.tilNewItemNetPrice
         layoutGrossPrice = binding.tilNewItemGrossPrice
-        layoutMargin = binding.tilNewItemMargin
 
         inputID = binding.etNewItemId
         inputName = binding.etNewItemName
         inputDescription = binding.etNewItemDescription
         inputQuantity = binding.etNewItemQuantity
-        inputNetPrice = binding.etNewItemNetPrice
         inputGrossPrice = binding.etNewItemGrossPrice
-        inputMargin = binding.etNewItemMargin
 
         spinnerCategory = binding.autoNewItemCategory
         spinnerPresentation = binding.autoNewItemPresentation
         spinnerUnit = binding.autoNewItemUnit
         spinnerStatus = binding.autoNewItemStatus
         spinnerTemplate = binding.autoNewItemTemplate
-        spinnerTax = binding.autoNewItemTax
 
         buttonPrint = binding.ivNewItemPrint
 
@@ -129,7 +120,7 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         binding.ivNewItemUpload.setOnClickListener {
             if(PhoneServiceHandler.checkNetworkState(requireContext())){
                 presenter.onClickedUploadButton(inputName.text.toString(), inputDescription.text.toString(), inputQuantity.text.toString(),
-                    category, presentation, unit, status, template, tax, inputNetPrice.text.toString(), inputMargin.text.toString())
+                    category, presentation, unit, status, template, inputGrossPrice.text.toString())
             }
             else{
                 DialogHandler.showDialogWithResult(requireActivity(), this, getString(R.string.dialog_settings_network_state), DialogTypeEnums.SettingsNetwork)
@@ -259,20 +250,12 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         layoutStatus.error = error
     }
 
-    override fun showTaxError(error: String?) {
-        layoutTax.error = error
-    }
-
-    override fun showNetPriceError(error: String?) {
-        layoutNetPrice.error = error
-    }
-
     override fun showTemplateError(error: String?) {
-        layoutTemplate.error
+        layoutTemplate.error = error
     }
 
-    override fun showMarginError(error: String?) {
-        layoutMargin.error = error
+    override fun showGrossPriceError(error: String?) {
+        layoutGrossPrice.error = error
     }
 
     override fun showPrintButton() {
