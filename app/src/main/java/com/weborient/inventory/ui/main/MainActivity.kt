@@ -8,6 +8,7 @@ import com.weborient.inventory.databinding.ActivityMainBinding
 import com.weborient.inventory.ui.`in`.InActivity
 import com.weborient.inventory.ui.manualprinting.ManualPrintingActivity
 import com.weborient.inventory.ui.out.OutActivity
+import com.weborient.inventory.ui.photos.PhotosActivity
 import com.weborient.inventory.ui.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity(), IMainContract.IMainView {
@@ -65,6 +66,13 @@ class MainActivity : AppCompatActivity(), IMainContract.IMainView {
      */
     override fun navigateToManualPrintingActivity() {
         startActivity(Intent(this, ManualPrintingActivity::class.java))
+    }
+
+    /**
+     * Navigálás a fényképek oldalra
+     */
+    override fun navigateToPhotosActivity() {
+        startActivity(Intent(this, PhotosActivity::class.java))
     }
 
     /**

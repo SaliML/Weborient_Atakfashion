@@ -28,6 +28,11 @@ interface IMainContract {
         fun navigateToManualPrintingActivity()
 
         /**
+         * Navigálás a fényképek oldalra
+          */
+        fun navigateToPhotosActivity()
+
+        /**
          * Alkalmazás bezárása
          */
         fun closeApplication()
@@ -48,9 +53,14 @@ interface IMainContract {
         fun onClickedOutButton()
 
         /**
-         * Manuális nyomtatás eseménye
+         * Manuális nyomtatás gomb eseménye
          */
         fun onClickedManualPrintingButton()
+
+        /**
+         * Fényképek gomb eseménye
+         */
+        fun onClickedPhotosButton()
 
         /**
          * Beállítások gomb eseménye
