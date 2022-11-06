@@ -29,7 +29,7 @@ interface IMainContract {
 
         /**
          * Navigálás a fényképek oldalra
-          */
+         */
         fun navigateToPhotosActivity()
 
         /**

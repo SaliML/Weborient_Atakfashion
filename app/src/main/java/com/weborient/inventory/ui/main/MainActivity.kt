@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity(), IMainContract.IMainView {
             presenter.onClickedManualPrintingButton()
         }
 
+        binding.cvMainPhotos.setOnClickListener {
+            presenter.onClickedPhotosButton()
+        }
+
         binding.cvMainSettings.setOnClickListener {
             presenter.onClickedSettingsButton()
         }

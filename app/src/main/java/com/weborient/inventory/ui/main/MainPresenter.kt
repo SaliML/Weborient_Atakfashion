@@ -23,6 +23,13 @@ class MainPresenter(private val view: IMainContract.IMainView): IMainContract.IM
     }
 
     /**
+     * Navigálás a fényképek oldalra
+     */
+    override fun onClickedPhotosButton() {
+        view.navigateToPhotosActivity()
+    }
+
+    /**
      * Beállítások gomb eseménye
      */
     override fun onClickedSettingsButton() {

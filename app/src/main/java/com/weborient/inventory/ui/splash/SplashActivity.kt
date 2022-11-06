@@ -8,6 +8,7 @@ import com.weborient.inventory.R
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivitySplashBinding
 import com.weborient.inventory.handlers.dialog.*
+import com.weborient.inventory.handlers.file.FileHandler
 import com.weborient.inventory.handlers.permission.PermissionHandler
 import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
 import com.weborient.inventory.ui.main.MainActivity

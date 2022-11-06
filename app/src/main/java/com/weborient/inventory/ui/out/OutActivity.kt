@@ -38,7 +38,6 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView, IDialogResultHan
     private lateinit var textName: TextView
     private lateinit var textDescription: TextView
 
-
     private lateinit var scannerActivityLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -45,6 +45,7 @@
     <string name="out_item_quantity">Kiadandó mennyiség</string>
     <string name="out_item_id">Azonosító</string>
     <string name="out_item_description">Leírás</string>
+    <string name="out_item_scan_id">Termékazonosító: %1$s</string>
 
     <!--Manuális nyomtatás-->
     <string name="manual_printing_title">Manuális nyomtatás</string>
@@ -85,6 +86,10 @@
 
     <!--Fényképek-->
     <string name="photos_title">Fényképek</string>
+    <string name="photos_qr_code_empty">Kérem olvassa be a QR kódot!</string>
+    <string name="photos_qr_code_scan_error">Hiba történt a QR kód beolvasása során, kérem ismételje meg!</string>
+    <string name="photos_scan_id">Termékazonosító: %1$s</string>
+    <string name="photos_photo_ready">Fénykép elkészült!</string>
 
     <!--Részletek-->
     <string name="details_title">Termék</string>

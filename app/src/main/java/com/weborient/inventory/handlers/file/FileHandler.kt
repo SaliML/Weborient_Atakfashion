@@ -1,7 +1,9 @@
 package com.weborient.inventory.handlers.file
 
 import android.content.Context
-import java.io.File
+import android.os.Environment
+import java.io.*
+import java.lang.Exception
 
 object FileHandler {
     fun createFolder(context: Context, folder: String): Boolean{
@@ -29,7 +31,7 @@ object FileHandler {
         return true
     }
 
-    fun getFolderAbsolutePath(context: Context, folder: String, createIfNotExists: Boolean): File{
+    fun getFolder(context: Context, folder: String, createIfNotExists: Boolean = false): File{
         val directory = File(context.getExternalFilesDir(null), folder)
 
         if(createIfNotExists && !directory.exists()){
@@ -37,5 +39,64 @@ object FileHandler {
         }
 
         return directory
+    }
+
+    fun saveInStorage(context: Context, folder: String, fileName: String?, data: Any?): Boolean{
+        var fos: FileOutputStream? = null
+        var oos: ObjectOutputStream? = null
+
+        try{
+            fileName?.let{
+                fos = FileOutputStream(File(getFolder(context, folder), it))
+
+                fos?.let{ fileOutputStream ->
+                    oos = ObjectOutputStream(fileOutputStream)
+
+                    oos?.writeObject(data)
+                }
+            }
+
+        }
+        catch (exception: Exception){
+            return false
+        }
+        finally {
+            fos?.close()
+            oos?.close()
+        }
+
+        return true
+    }
+
+    fun <T>readFromStorage(context: Context, folder: String, fileName: String?): T?{
+        var fis: FileInputStream? = null
+        var ois: ObjectInputStream? = null
+        var data: T? = null
+
+        try{
+            var file: File? = null
+
+            fileName?.let{
+                file = File(getFolder(context, folder), it)
+            }
+
+            file?.let{
+                if(it.exists()){
+                    fis = FileInputStream(it)
+                    ois = ObjectInputStream(fis)
+
+                    data = ois?.readObject() as T
+                }
+            }
+        }
+        catch (exception: Exception){
+            return null
+        }
+        finally {
+            ois?.close()
+            fis?.close()
+        }
+
+        return data
     }
 }
