@@ -30,27 +30,6 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
         interactor.getTemplates()
     }
 
-    override fun getTaxes() {
-        interactor.getTaxes()
-    }
-
-    override fun countGrossPrice(netPrice: String?, tax: String?, margin: String?) {
-        if(!netPrice.isNullOrEmpty() && !tax.isNullOrEmpty() && !margin.isNullOrEmpty()){
-            val tempNetPrice = netPrice.toFloatOrNull()
-            val tempTax = tax.toFloatOrNull()
-            val tempMargin = margin.toFloatOrNull()
-
-            if(tempNetPrice != null && tempTax != null && tempMargin != null){
-                val taxValue: Float = 1 + tempTax / 100f
-                val marginValue: Float = 1 + tempMargin / 100f
-
-                val grossPrice = (tempNetPrice * marginValue * taxValue).roundToInt()
-
-                view.setGrossPrice(grossPrice.toString())
-            }
-        }
-    }
-
     override fun onClickedBackButton() {
         view.closeFragment()
     }
@@ -132,11 +111,11 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
                                                     view.showUnitError(null)
                                                     view.showStatusError(null)
                                                     view.showTemplateError(null)
+                                                    view.showGrossPriceError(null)
 
                                                     view.setItemID("12345")
-                                                    view.showPrintButton()
                                                     view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
-
+                                                    view.showPrintButton()
                                                 }
                                             }
                                         }
@@ -197,11 +176,6 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
     override fun onRetrievedTemplates(templates: ArrayList<String>) {
         view.setTemplates(templates)
     }
-
-    override fun onRetrievedTaxes(taxes: ArrayList<String>) {
-        view.setTaxes(taxes)
-    }
-
     override fun onDialogResult(result: DialogResultEnums) {
         when(result){
             DialogResultEnums.SettingsBluetooth->{

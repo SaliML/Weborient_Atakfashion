@@ -34,10 +34,6 @@ class NewItemInteractor(private val presenter: INewItemContract.INewItemPresente
         presenter.onRetrievedTemplates(InventoryRepository.templates)
     }
 
-    override fun getTaxes() {
-        presenter.onRetrievedTaxes(InventoryRepository.taxes)
-    }
-
     override fun print(
         id: String,
         quantity: Int,

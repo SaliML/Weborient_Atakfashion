@@ -156,19 +156,6 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
             template = adapterView.getItemAtPosition(i).toString()
         }
 
-        spinnerTax.setOnItemClickListener { adapterView, view, i, l ->
-            tax = adapterView.getItemAtPosition(i).toString()
-            calculate()
-        }
-
-        inputNetPrice.doAfterTextChanged {
-            calculate()
-        }
-
-        inputMargin.doAfterTextChanged {
-            calculate()
-        }
-
         bluetoothManager = requireContext().getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager?.adapter
 
@@ -183,7 +170,6 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         presenter.getUnits()
         presenter.getStatuses()
         presenter.getTemplates()
-        presenter.getTaxes()
     }
 
     override fun setItemID(id: String?) {
@@ -283,9 +269,5 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
     }
     override fun showNetworkDialog() {
         startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-    }
-
-    private fun calculate(){
-        presenter.countGrossPrice(inputNetPrice.text.toString(), tax, inputMargin.text.toString())
     }
 }

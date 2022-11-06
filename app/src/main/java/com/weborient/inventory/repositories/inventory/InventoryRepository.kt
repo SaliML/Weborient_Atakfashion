@@ -6,5 +6,4 @@ object InventoryRepository {
     var units = arrayListOf("cm", "db", "fm", "kg", "l", "m", "m2", "pár")
     var statuses = arrayListOf("Készleten")
     var templates = arrayListOf("Farmerek", "Virág")
-    var taxes = arrayListOf("0", "27")
 }

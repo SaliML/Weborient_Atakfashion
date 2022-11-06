@@ -44,8 +44,6 @@ interface INewItemContract {
         fun getUnits()
         fun getStatuses()
         fun getTemplates()
-        fun getTaxes()
-        fun countGrossPrice(netPrice: String?, tax: String?, margin: String?)
         fun onClickedBackButton()
         fun onClickedUploadButton(name: String?, description: String?, quantity: String?, category: String?, presentation: String?, unit: String?, status: String?, template: String?, grossPrice: String?)
         fun onClickedPrintButton(id: String, quantity: String?, bluetoothAdapter: BluetoothAdapter?)
@@ -55,7 +53,6 @@ interface INewItemContract {
         fun onRetrievedUnits(units: ArrayList<String>)
         fun onRetrievedStatuses(statuses: ArrayList<String>)
         fun onRetrievedTemplates(templates: ArrayList<String>)
-        fun onRetrievedTaxes(taxes: ArrayList<String>)
         fun onDialogResult(result: DialogResultEnums)
         fun onPrintResult(result: PrintResult)
     }
@@ -67,7 +64,6 @@ interface INewItemContract {
         fun getUnits()
         fun getStatuses()
         fun getTemplates()
-        fun getTaxes()
         fun print(id: String, quantity: Int, bluetoothAdapter: BluetoothAdapter?, deviceAddress: String?)
     }
 }
