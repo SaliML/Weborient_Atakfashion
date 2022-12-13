@@ -1,4 +1,4 @@
-package com.weborient.inventory.ui.newitem
+package com.weborient.inventory.ui.newproduct
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
@@ -13,11 +13,8 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.drawable.toBitmapOrNull
-import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -28,9 +25,10 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.dialog.IDialogResultHandler
 import com.weborient.inventory.handlers.service.PhoneServiceHandler
+import com.weborient.inventory.models.api.newproduct.ArrayElement
 
-class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResultHandler {
-    private val presenter = NewItemPresenter(this)
+class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDialogResultHandler {
+    private val presenter = NewProductPresenter(this)
 
     private lateinit var layoutProgress: ConstraintLayout
     private lateinit var layoutDatas: CardView
@@ -47,15 +45,14 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
     private lateinit var layoutUnit: TextInputLayout
     private lateinit var layoutStatus: TextInputLayout
     private lateinit var layoutTemplate: TextInputLayout
+    private lateinit var layoutTaxes: TextInputLayout
     private lateinit var layoutGrossPrice: TextInputLayout
 
     private lateinit var inputID: TextInputEditText
     private lateinit var inputName: TextInputEditText
     private lateinit var inputDescription: TextInputEditText
     private lateinit var inputQuantity: TextInputEditText
-    private lateinit var inputNetPrice: TextInputEditText
     private lateinit var inputGrossPrice: TextInputEditText
-    private lateinit var inputMargin: TextInputEditText
 
     private lateinit var spinnerCategory: MaterialAutoCompleteTextView
     private lateinit var spinnerPresentation: MaterialAutoCompleteTextView
@@ -69,12 +66,12 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothManager: BluetoothManager? = null
 
-    private var category: String? = null
-    private var presentation: String? = null
-    private var unit: String? = null
-    private var status: String? = null
-    private var template: String? = null
-    private var tax: String? = null
+    private var category: ArrayElement? = null
+    private var presentation: ArrayElement? = null
+    private var unit: ArrayElement? = null
+    private var status: ArrayElement? = null
+    private var template: ArrayElement? = null
+    private var tax: ArrayElement? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +94,7 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         layoutUnit = binding.tilNewItemUnit
         layoutStatus = binding.tilNewItemStatus
         layoutTemplate = binding.tilNewItemTemplate
+        layoutTaxes = binding.tilNewItemTaxes
         layoutGrossPrice = binding.tilNewItemGrossPrice
 
         inputID = binding.etNewItemId
@@ -110,6 +108,7 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         spinnerUnit = binding.autoNewItemUnit
         spinnerStatus = binding.autoNewItemStatus
         spinnerTemplate = binding.autoNewItemTemplate
+        spinnerTax = binding.autoNewItemTaxes
 
         buttonPrint = binding.ivNewItemPrint
 
@@ -120,7 +119,7 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         binding.ivNewItemUpload.setOnClickListener {
             if(PhoneServiceHandler.checkNetworkState(requireContext())){
                 presenter.onClickedUploadButton(inputName.text.toString(), inputDescription.text.toString(), inputQuantity.text.toString(),
-                    category, presentation, unit, status, template, inputGrossPrice.text.toString())
+                    category, presentation, unit, status, template, tax, inputGrossPrice.text.toString())
             }
             else{
                 DialogHandler.showDialogWithResult(requireActivity(), this, getString(R.string.dialog_settings_network_state), DialogTypeEnums.SettingsNetwork)
@@ -137,23 +136,23 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         }
 
         spinnerCategory.setOnItemClickListener { adapterView, view, i, l ->
-            category = adapterView.getItemAtPosition(i).toString()
+            category = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
         spinnerPresentation.setOnItemClickListener { adapterView, view, i, l ->
-            presentation = adapterView.getItemAtPosition(i).toString()
+            presentation = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
         spinnerUnit.setOnItemClickListener { adapterView, view, i, l ->
-            unit = adapterView.getItemAtPosition(i).toString()
+            unit = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
         spinnerStatus.setOnItemClickListener { adapterView, view, i, l ->
-            status = adapterView.getItemAtPosition(i).toString()
+            status = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
         spinnerTemplate.setOnItemClickListener { adapterView, view, i, l ->
-            template = adapterView.getItemAtPosition(i).toString()
+            template = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
         bluetoothManager = requireContext().getSystemService(BluetoothManager::class.java)
@@ -165,39 +164,47 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
     override fun onResume() {
         super.onResume()
 
-        presenter.getCategories()
-        presenter.getPresentation()
-        presenter.getUnits()
-        presenter.getStatuses()
-        presenter.getTemplates()
+        presenter.getDatas()
     }
 
     override fun setItemID(id: String?) {
         inputID.setText(id, TextView.BufferType.EDITABLE)
     }
 
-    override fun setCategories(categories: ArrayList<String>) {
-        spinnerCategory.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, categories))
+    override fun setCategories(categories: ArrayList<ArrayElement>?) {
+        categories?.let{
+            spinnerCategory.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+        }
     }
 
-    override fun setPresentations(presentations: ArrayList<String>) {
-        spinnerPresentation.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, presentations))
+    override fun setPackageTypes(packageTypes: ArrayList<ArrayElement>?) {
+        packageTypes?.let{
+            spinnerPresentation.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+        }
     }
 
-    override fun setUnits(units: ArrayList<String>) {
-        spinnerUnit.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, units))
+    override fun setUnits(units: ArrayList<ArrayElement>?) {
+        units?.let{
+            spinnerUnit.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+        }
     }
 
-    override fun setStatuses(statuses: ArrayList<String>) {
-        spinnerStatus.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, statuses))
+    override fun setStatuses(statuses: ArrayList<ArrayElement>?) {
+        statuses?.let{
+            spinnerStatus.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+        }
     }
 
-    override fun setTemplates(templates: ArrayList<String>) {
-        spinnerTemplate.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, templates))
+    override fun setTemplates(templates: ArrayList<ArrayElement>?) {
+        templates?.let{
+            spinnerTemplate.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+        }
     }
 
-    override fun setTaxes(taxes: ArrayList<String>) {
-        spinnerTax.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, taxes))
+    override fun setTaxes(taxes: ArrayList<ArrayElement>?) {
+        taxes?.let{
+            spinnerTax.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, taxes))
+        }
     }
 
     override fun setGrossPrice(price: String) {
@@ -206,6 +213,10 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
 
     override fun showInformationDialog(information: String, type: DialogTypeEnums) {
         DialogHandler.showInformationDialog(requireActivity(), information, type)
+    }
+
+    override fun showTimedInformationDialog(information: String, type: DialogTypeEnums) {
+        DialogHandler.showTimedDialog(requireActivity(), information, type)
     }
 
     override fun showNameError(error: String?) {
@@ -236,6 +247,10 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
         layoutStatus.error = error
     }
 
+    override fun showTaxError(error: String?) {
+        layoutTaxes.error = error
+    }
+
     override fun showTemplateError(error: String?) {
         layoutTemplate.error = error
     }
@@ -257,7 +272,7 @@ class NewItemFragment : Fragment(), INewItemContract.INewItemView, IDialogResult
     }
 
     override fun closeFragment() {
-        activity?.supportFragmentManager?.beginTransaction()?.remove(this@NewItemFragment)?.commit()
+        activity?.supportFragmentManager?.beginTransaction()?.remove(this@NewProductFragment)?.commit()
     }
 
     override fun onDialogResult(result: DialogResultEnums) {

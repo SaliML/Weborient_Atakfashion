@@ -19,7 +19,7 @@ import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.dialog.IDialogResultHandler
 import com.weborient.inventory.handlers.service.PhoneServiceHandler
 import com.weborient.inventory.models.ItemModel
-import com.weborient.inventory.ui.newitem.NewItemFragment
+import com.weborient.inventory.ui.newproduct.NewProductFragment
 
 class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler,
     IDialogResultHandler {
@@ -130,7 +130,7 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler,
     }
 
     override fun showAddNewItemFragment() {
-        supportFragmentManager.beginTransaction().add(android.R.id.content, NewItemFragment()).commit()
+        supportFragmentManager.beginTransaction().add(android.R.id.content, NewProductFragment()).commit()
     }
 
     override fun showItems(itemList: ArrayList<ItemModel>) {

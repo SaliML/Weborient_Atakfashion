@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Environment
 import com.brother.sdk.lmprinter.PrinterModel
 import com.brother.sdk.lmprinter.setting.PTPrintSettings
+import com.weborient.inventory.handlers.api.IApiRequests
 import java.io.File
 
 /**
@@ -12,6 +13,13 @@ import java.io.File
 object AppConfig {
     //API címe
     var apiAddress: String? = null
+
+    //AccessToken
+    var accessToken: String? = null
+
+    //ApiServices
+    var apiServiceWithBearer: IApiRequests? = null
+    var apiServiceWithoutBearer: IApiRequests? = null
 
     //Mappa útvonalak
     const val TEMP_FOLDER = "Inventory/temp"

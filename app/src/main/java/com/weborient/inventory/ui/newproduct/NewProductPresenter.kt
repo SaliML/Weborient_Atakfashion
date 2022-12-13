@@ -1,33 +1,18 @@
-package com.weborient.inventory.ui.newitem
+package com.weborient.inventory.ui.newproduct
 
 import android.bluetooth.BluetoothAdapter
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
+import com.weborient.inventory.models.api.newproduct.ArrayElement
 import kotlinx.coroutines.*
-import kotlin.math.roundToInt
 
-class NewItemPresenter(private val view: INewItemContract.INewItemView): INewItemContract.INewItemPresenter, CoroutineScope by MainScope() {
-    private val interactor = NewItemInteractor(this)
-    override fun getCategories() {
-        interactor.getCategories()
-    }
+class NewProductPresenter(private val view: INewProductContract.INewProductView): INewProductContract.INewProductPresenter, CoroutineScope by MainScope() {
+    private val interactor = NewProductInteractor(this)
 
-    override fun getPresentation() {
-        interactor.getPresentation()
-    }
-
-    override fun getUnits() {
-        interactor.getUnits()
-    }
-
-    override fun getStatuses() {
-        interactor.getStatuses()
-    }
-
-    override fun getTemplates() {
-        interactor.getTemplates()
+    override fun getDatas() {
+        interactor.getDatas()
     }
 
     override fun onClickedBackButton() {
@@ -38,11 +23,12 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
         name: String?,
         description: String?,
         quantity: String?,
-        category: String?,
-        presentation: String?,
-        unit: String?,
-        status: String?,
-        template: String?,
+        category: ArrayElement?,
+        packageType: ArrayElement?,
+        unit: ArrayElement?,
+        status: ArrayElement?,
+        template: ArrayElement?,
+        tax: ArrayElement?,
         grossPrice: String?,
     ) {
         view.showNameError(null)
@@ -72,50 +58,55 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
                         view.showQuantityError("Kérem számot adjon meg!")
                     }
                     else{
-                        if(category.isNullOrEmpty()){
+                        if(category == null){
                             view.showCategoryError("Kötelező kitölteni!")
                         }
                         else{
-                            if(presentation.isNullOrEmpty()){
+                            if(packageType == null){
                                 view.showPresentationError("Kötelező kitölteni!")
                             }
                             else{
-                                if(unit.isNullOrEmpty()){
+                                if(unit == null){
                                     view.showUnitError("Kötelező kitölteni!")
                                 }
                                 else{
-                                    if(status.isNullOrEmpty()){
+                                    if(status == null){
                                         view.showStatusError("Kötelező kitölteni!")
                                     }
                                     else{
-                                        if(template.isNullOrEmpty()){
+                                        if(template == null){
                                             view.showTemplateError("Kötelező kitölteni!")
                                         }
                                         else{
-                                            if(grossPrice.isNullOrEmpty()){
-                                                view.showGrossPriceError("Kötelező kitölteni!")
+                                            if(tax == null){
+                                                view.showTaxError("Kötelező kitölteni!")
                                             }
                                             else{
-                                                val tempGrossPrice = grossPrice.toFloatOrNull()
-
-                                                if(tempGrossPrice == null){
-                                                    view.showGrossPriceError("Kérem számot adjon meg!")
+                                                if(grossPrice.isNullOrEmpty()){
+                                                    view.showGrossPriceError("Kötelező kitölteni!")
                                                 }
                                                 else{
-                                                    //Mehet a feltöltés
-                                                    view.showNameError(null)
-                                                    view.showDescriptionError(null)
-                                                    view.showQuantityError(null)
-                                                    view.showCategoryError(null)
-                                                    view.showPresentationError(null)
-                                                    view.showUnitError(null)
-                                                    view.showStatusError(null)
-                                                    view.showTemplateError(null)
-                                                    view.showGrossPriceError(null)
+                                                    val tempGrossPrice = grossPrice.toFloatOrNull()
 
-                                                    view.setItemID("12345")
-                                                    view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
-                                                    view.showPrintButton()
+                                                    if(tempGrossPrice == null){
+                                                        view.showGrossPriceError("Kérem számot adjon meg!")
+                                                    }
+                                                    else{
+                                                        //Mehet a feltöltés
+                                                        view.showNameError(null)
+                                                        view.showDescriptionError(null)
+                                                        view.showQuantityError(null)
+                                                        view.showCategoryError(null)
+                                                        view.showPresentationError(null)
+                                                        view.showUnitError(null)
+                                                        view.showStatusError(null)
+                                                        view.showTemplateError(null)
+                                                        view.showGrossPriceError(null)
+
+                                                        view.setItemID("12345")
+                                                        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
+                                                        view.showPrintButton()
+                                                    }
                                                 }
                                             }
                                         }
@@ -157,23 +148,23 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
         view.showPrintButton()
     }
 
-    override fun onRetrievedCategories(categories: ArrayList<String>) {
+    override fun onRetrievedCategories(categories: ArrayList<ArrayElement>?) {
         view.setCategories(categories)
     }
 
-    override fun onRetrievedPresentations(presentations: ArrayList<String>) {
-        view.setPresentations(presentations)
+    override fun onRetrievedPackageTypes(packageTypes: ArrayList<ArrayElement>?) {
+        view.setPackageTypes(packageTypes)
     }
 
-    override fun onRetrievedUnits(units: ArrayList<String>) {
+    override fun onRetrievedUnits(units: ArrayList<ArrayElement>?) {
         view.setUnits(units)
     }
 
-    override fun onRetrievedStatuses(statuses: ArrayList<String>) {
+    override fun onRetrievedStatuses(statuses: ArrayList<ArrayElement>?) {
         view.setStatuses(statuses)
     }
 
-    override fun onRetrievedTemplates(templates: ArrayList<String>) {
+    override fun onRetrievedTemplates(templates: ArrayList<ArrayElement>?) {
         view.setTemplates(templates)
     }
     override fun onDialogResult(result: DialogResultEnums) {
@@ -208,5 +199,13 @@ class NewItemPresenter(private val view: INewItemContract.INewItemView): INewIte
                 view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
             }
         }
+    }
+
+    override fun onSuccessful(information: String) {
+        view.showTimedInformationDialog(information, DialogTypeEnums.Successful)
+    }
+
+    override fun onFailure(information: String) {
+        view.showInformationDialog(information, DialogTypeEnums.Error)
     }
 }

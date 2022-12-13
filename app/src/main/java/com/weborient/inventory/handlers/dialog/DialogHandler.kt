@@ -2,6 +2,7 @@ package com.weborient.inventory.handlers.dialog
 
 import android.app.Activity
 import android.content.Context
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -151,6 +152,45 @@ object DialogHandler {
         binding.btDialogOk.setOnClickListener {
             createdDialog.dismiss()
         }
+    }
+
+    fun showTimedDialog(activity: Activity, information: String, type: DialogTypeEnums, onFinishHandler: IDialogTimeOnFinishHandler? = null, timeInMillisec: Long = 2000){
+        val dialog = MaterialAlertDialogBuilder(activity, R.style.DialogRoundedCorners)
+        val binding = DialogInformationLayoutBinding.inflate(activity.layoutInflater)
+
+        dialog.setCancelable(false)
+        dialog.setView(binding.root)
+
+        when(type){
+            DialogTypeEnums.Information->{
+                binding.ivDialog.setImageResource(R.drawable.icon_information)
+            }
+            DialogTypeEnums.Warning->{
+                binding.ivDialog.setImageResource(R.drawable.icon_warning)
+            }
+            DialogTypeEnums.Successful->{
+                binding.ivDialog.setImageResource(R.drawable.icon_successful)
+            }
+            DialogTypeEnums.Error->{
+                binding.ivDialog.setImageResource(R.drawable.icon_error)
+            }
+            else->{}
+        }
+
+        binding.tvDialogInformation.text = information
+
+        val createdDialog = dialog.create()
+        createdDialog.show()
+
+        object: CountDownTimer(timeInMillisec, 1000){
+            override fun onTick(p0: Long) {}
+
+            override fun onFinish() {
+                createdDialog.dismiss()
+                onFinishHandler?.closePage()
+            }
+
+        }.start()
     }
 
     fun showConfigDialog(activity: Activity, dialogHandler: IConfigDialogHandler, macAddress: String?, apiAddress: String?): AlertDialog{

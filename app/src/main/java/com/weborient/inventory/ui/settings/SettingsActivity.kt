@@ -10,6 +10,8 @@ import android.widget.TextView
 import com.google.android.material.textfield.TextInputLayout
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivitySettingsBinding
+import com.weborient.inventory.handlers.dialog.DialogHandler
+import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
 
 class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
@@ -96,6 +98,10 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
     override fun showMacAddressError(error: String?) {
         layoutPrinterMacAddress.error = error
+    }
+
+    override fun showInformationDialog(information: String, type: DialogTypeEnums) {
+        DialogHandler.showTimedDialog(this, information, type)
     }
 
     override fun saveApiAddress(apiAddress: String) {

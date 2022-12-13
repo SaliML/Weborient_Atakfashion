@@ -1,6 +1,7 @@
 package com.weborient.inventory.ui.settings
 
 import android.bluetooth.BluetoothDevice
+import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.PrinterModel
 
 class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISettingsContract.ISettingsPresenter {
@@ -51,6 +52,8 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
             view.showApiError(null)
             view.saveApiAddress(apiAddress)
             interactor.setApiAddress(apiAddress)
+
+            view.showInformationDialog("Sikeres mentés", DialogTypeEnums.Successful)
         }
         else{
             view.showApiError("Kérem töltse ki a mezőt!")
@@ -62,6 +65,8 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
             view.showMacAddressError(null)
             view.saveMacAddress(macAddress)
             interactor.setMacAddress(macAddress)
+
+            view.showInformationDialog("Sikeres mentés", DialogTypeEnums.Successful)
         }
         else{
             view.showMacAddressError("Kérem töltse ki a mezőt!")

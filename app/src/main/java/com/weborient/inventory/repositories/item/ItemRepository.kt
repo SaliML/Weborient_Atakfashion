@@ -1,6 +1,7 @@
 package com.weborient.inventory.repositories.item
 
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.newproduct.ArrayElement
 
 object ItemRepository {
     var items = arrayListOf(
@@ -29,4 +30,10 @@ object ItemRepository {
 
     var selectedItem: ItemModel? = null
     var lastUploadedID: String? = null
+
+    var categories: ArrayList<ArrayElement>? = null
+    var templates: ArrayList<ArrayElement>? = null
+    var units: ArrayList<ArrayElement>? = null
+    var packagetypes: ArrayList<ArrayElement>? = null
+    var productstatuses: ArrayList<ArrayElement>? = null
 }

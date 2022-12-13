@@ -1,6 +1,7 @@
 package com.weborient.inventory.ui.settings
 
 import android.bluetooth.BluetoothDevice
+import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.PrinterModel
 
 /**
@@ -45,6 +46,11 @@ interface ISettingsContract {
          * MAC cím mező hibaüzenet
          */
         fun showMacAddressError(error: String?)
+
+        /**
+         * Párbeszédablak megjelenítése
+         */
+        fun showInformationDialog(information: String, type: DialogTypeEnums)
 
         /**
          * API elérhetőségének mentése
