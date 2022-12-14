@@ -36,4 +36,5 @@ object ItemRepository {
     var units: ArrayList<ArrayElement>? = null
     var packagetypes: ArrayList<ArrayElement>? = null
     var productstatuses: ArrayList<ArrayElement>? = null
+    var taxes: ArrayList<ArrayElement>? = null
 }

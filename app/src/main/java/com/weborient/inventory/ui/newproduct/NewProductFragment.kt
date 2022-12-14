@@ -155,6 +155,10 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
             template = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
+        spinnerTax.setOnItemClickListener { adapterView, view, i, l ->
+            tax = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
         bluetoothManager = requireContext().getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager?.adapter
 

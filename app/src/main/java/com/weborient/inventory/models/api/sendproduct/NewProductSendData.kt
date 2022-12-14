@@ -1,4 +1,4 @@
-package com.weborient.inventory.models.api.newproduct
+package com.weborient.inventory.models.api.sendproduct
 
 import com.google.gson.annotations.SerializedName
 

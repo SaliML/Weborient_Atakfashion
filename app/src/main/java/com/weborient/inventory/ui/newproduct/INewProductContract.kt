@@ -4,8 +4,8 @@ import android.bluetooth.BluetoothAdapter
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
-import com.weborient.inventory.models.ItemModel
 import com.weborient.inventory.models.api.newproduct.ArrayElement
+import com.weborient.inventory.models.api.sendproduct.NewProductSendData
 import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 /**
@@ -52,12 +52,14 @@ interface INewProductContract {
         fun onRetrievedUnits(units: ArrayList<ArrayElement>?)
         fun onRetrievedStatuses(statuses: ArrayList<ArrayElement>?)
         fun onRetrievedTemplates(templates: ArrayList<ArrayElement>?)
+        fun onRetrievedTaxes(taxes: ArrayList<ArrayElement>?)
+        fun onReceivedNewProductID(id: String)
         fun onDialogResult(result: DialogResultEnums)
         fun onPrintResult(result: PrintResult)
     }
 
     interface INewProductInteractor{
-        fun uploadProduct(item: ItemModel, quantity: Int)
+        fun uploadProduct(newProduct: NewProductSendData)
         fun getDatas()
         fun print(id: String, quantity: Int, bluetoothAdapter: BluetoothAdapter?, deviceAddress: String?)
     }

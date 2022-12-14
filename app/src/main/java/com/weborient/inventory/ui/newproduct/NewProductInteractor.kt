@@ -6,19 +6,20 @@ import com.weborient.inventory.handlers.api.ApiServiceHandler
 import com.weborient.inventory.handlers.api.ServiceBuilder
 import com.weborient.inventory.handlers.printer.PrinterHandler
 import com.weborient.inventory.handlers.qrcode.QRCodeHandler
-import com.weborient.inventory.models.ItemModel
 import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
+import com.weborient.inventory.models.api.sendproduct.NewProductSendData
+import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
 import com.weborient.inventory.repositories.item.ItemRepository
 import com.weborient.womo.handlers.api.ApiCallType
 import com.weborient.womo.handlers.api.IApiResponseHandler
 import kotlinx.coroutines.*
 
 class NewProductInteractor(private val presenter: INewProductContract.INewProductPresenter): INewProductContract.INewProductInteractor, IApiResponseHandler {
-    override fun uploadProduct(item: ItemModel, quantity: Int) {
+    override fun uploadProduct(newProduct: NewProductSendData) {
         ServiceBuilder.createServiceWithoutBearer()
 
         AppConfig.apiServiceWithoutBearer?.let{ service ->
-            //ApiServiceHandler.apiService(service.callNewProductSendData())
+            ApiServiceHandler.apiService(service.callNewProductSendData(newProduct), ApiCallType.NewProductSendData, this)
         }
     }
 
@@ -69,15 +70,21 @@ class NewProductInteractor(private val presenter: INewProductContract.INewProduc
                 ItemRepository.units = response.datas?.units
                 ItemRepository.packagetypes = response.datas?.packagetypes
                 ItemRepository.productstatuses = response.datas?.productstatuses
+                ItemRepository.taxes = response.datas?.taxes
 
                 presenter.onRetrievedCategories(ItemRepository.categories)
                 presenter.onRetrievedTemplates(ItemRepository.templates)
                 presenter.onRetrievedUnits(ItemRepository.units)
                 presenter.onRetrievedPackageTypes(ItemRepository.packagetypes)
                 presenter.onRetrievedStatuses(ItemRepository.productstatuses)
+                presenter.onRetrievedTaxes(ItemRepository.taxes)
             }
             ApiCallType.NewProductSendData->{
-                val response = result as String?
+                val response = result as NewProductSendDataResponse
+
+                response.id?.let{
+                    presenter.onReceivedNewProductID(it)
+                }
             }
             else->{}
         }

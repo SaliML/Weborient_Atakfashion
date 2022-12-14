@@ -6,6 +6,7 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
 import com.weborient.inventory.models.api.newproduct.ArrayElement
+import com.weborient.inventory.models.api.sendproduct.NewProductSendData
 import kotlinx.coroutines.*
 
 class NewProductPresenter(private val view: INewProductContract.INewProductView): INewProductContract.INewProductPresenter, CoroutineScope by MainScope() {
@@ -86,7 +87,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
                                                     view.showGrossPriceError("Kötelező kitölteni!")
                                                 }
                                                 else{
-                                                    val tempGrossPrice = grossPrice.toFloatOrNull()
+                                                    val tempGrossPrice = grossPrice.toIntOrNull()
 
                                                     if(tempGrossPrice == null){
                                                         view.showGrossPriceError("Kérem számot adjon meg!")
@@ -103,9 +104,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
                                                         view.showTemplateError(null)
                                                         view.showGrossPriceError(null)
 
-                                                        view.setItemID("12345")
-                                                        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
-                                                        view.showPrintButton()
+                                                        interactor.uploadProduct(NewProductSendData(name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, tempQuantity, tempGrossPrice))
                                                     }
                                                 }
                                             }
@@ -145,6 +144,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
     override fun onUploadedResult(isSuccessful: Boolean, id: String?) {
         view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
         view.setItemID(id)
+        view.showProgress("Termék feltöltése")
         view.showPrintButton()
     }
 
@@ -167,6 +167,17 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
     override fun onRetrievedTemplates(templates: ArrayList<ArrayElement>?) {
         view.setTemplates(templates)
     }
+
+    override fun onRetrievedTaxes(taxes: ArrayList<ArrayElement>?) {
+        view.setTaxes(taxes)
+    }
+
+    override fun onReceivedNewProductID(id: String) {
+        view.setItemID(id)
+        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
+        view.showPrintButton()
+    }
+
     override fun onDialogResult(result: DialogResultEnums) {
         when(result){
             DialogResultEnums.SettingsBluetooth->{

@@ -226,7 +226,6 @@
                     android:id="@+id/iv_out_scan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@color/green"
                     android:foreground="?attr/selectableItemBackground"
@@ -238,12 +237,11 @@
                     android:id="@+id/iv_out_done"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@color/green"
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="10dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/icon_done"
                     app:tint="@color/white" />
 

@@ -17,4 +17,7 @@ data class NewProductGetDataArrays(
 
     @SerializedName("productstatuses")
     val productstatuses: ArrayList<ArrayElement>?,
+
+    @SerializedName("taxes")
+    val taxes: ArrayList<ArrayElement>?
 )

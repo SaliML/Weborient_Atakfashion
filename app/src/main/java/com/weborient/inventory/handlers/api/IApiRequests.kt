@@ -1,7 +1,8 @@
 package com.weborient.inventory.handlers.api
 
 import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
-import com.weborient.inventory.models.api.newproduct.NewProductSendData
+import com.weborient.inventory.models.api.sendproduct.NewProductSendData
+import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -16,5 +17,5 @@ interface IApiRequests {
      * Új termék felvitele
      */
     @POST("newproductsenddata")
-    fun callNewProductSendData(@Body body: NewProductSendData): Call<String?>
+    fun callNewProductSendData(@Body body: NewProductSendData): Call<NewProductSendDataResponse>
 }
