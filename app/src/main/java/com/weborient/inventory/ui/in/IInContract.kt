@@ -5,6 +5,7 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 /**
  * MVP minta a főoldalra
@@ -26,7 +27,7 @@ interface IInContract {
         fun closeActivity()
     }
 
-    interface IInPresenter{
+    interface IInPresenter: IResponseDialogHandler {
         fun getItems()
 
         fun onClickedUploadButton(quantity: String?)

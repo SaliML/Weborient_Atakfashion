@@ -1,23 +1,37 @@
 package com.weborient.inventory.ui.`in`
 
 import android.bluetooth.BluetoothAdapter
+import com.weborient.inventory.config.AppConfig
+import com.weborient.inventory.handlers.api.ApiServiceHandler
+import com.weborient.inventory.handlers.api.ServiceBuilder
 import com.weborient.inventory.handlers.printer.PrintResult
 import com.weborient.inventory.handlers.printer.PrinterHandler
 import com.weborient.inventory.handlers.qrcode.QRCodeHandler
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
+import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
 import com.weborient.inventory.repositories.item.ItemRepository
+import com.weborient.womo.handlers.api.ApiCallType
+import com.weborient.womo.handlers.api.IApiResponseHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class InInteractor(private val presenter: IInContract.IInPresenter): IInContract.IInInteractor {
+class InInteractor(private val presenter: IInContract.IInPresenter): IInContract.IInInteractor,
+    IApiResponseHandler {
     override fun getItems() {
-        ItemRepository.items.forEach {
+        /*ItemRepository.items.forEach {
             it.isSelected = false
         }
 
-        presenter.onRetrievedItems(ItemRepository.items)
+        presenter.onRetrievedItems(ItemRepository.items)*/
+
+        ServiceBuilder.createServiceWithoutBearer()
+
+        AppConfig.apiServiceWithoutBearer?.let{ service ->
+            ApiServiceHandler.apiService(service.callGetAllProducts(), ApiCallType.NewProductGetData, this)
+        }
     }
 
     override fun setSelectedItem(item: ItemModel?) {
@@ -63,6 +77,37 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
 
         withContext(Dispatchers.Main){
             presenter.onPrintResult(printResult)
+        }
+    }
+
+    override fun onSuccessful(responseType: ApiCallType, result: Any?) {
+        when(responseType){
+            ApiCallType.AllProducts->{
+                val response = result as NewProductGetDataResponse
+
+
+            }
+            else->{}
+        }
+    }
+
+    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?) {
+        when(responseType){
+            ApiCallType.AllProducts->{
+                presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+            }
+            ApiCallType.Connection->{
+                presenter.onFailure("Hiba történt a kapcsolódás során!")
+            }
+            ApiCallType.Timeout->{
+                presenter.onFailure("Időtúllépés hiba!")
+            }
+            ApiCallType.Unknown->{
+                presenter.onFailure("Ismeretlen hiba történt!")
+            }
+            else->{
+
+            }
         }
     }
 }

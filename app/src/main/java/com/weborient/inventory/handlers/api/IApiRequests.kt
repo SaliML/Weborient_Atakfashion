@@ -1,5 +1,6 @@
 package com.weborient.inventory.handlers.api
 
+import com.weborient.inventory.models.api.getdata.ProductData
 import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
 import com.weborient.inventory.models.api.sendproduct.NewProductSendData
 import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
@@ -12,6 +13,12 @@ interface IApiRequests {
      */
     @GET("newproductgetdata")
     fun callNewProductGetData(): Call<NewProductGetDataResponse>
+
+    /**
+     * Minden termék lekérdezése
+     */
+    @GET("changequantitygetdata")
+    fun callGetAllProducts(): Call<ProductData>
 
     /**
      * Új termék felvitele
