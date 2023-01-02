@@ -5,6 +5,7 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.getdata.ProductData
 import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 /**
@@ -19,7 +20,7 @@ interface IInContract {
         fun showInformationDialog(information: String, type: DialogTypeEnums)
         fun showQuantityError(error: String?)
         fun showAddNewItemFragment()
-        fun showItems(itemList: ArrayList<ItemModel>)
+        fun showItems(productList: ArrayList<ProductData>)
         fun refreshList()
         fun hideProgress()
         fun hidePrintButton()
@@ -34,9 +35,9 @@ interface IInContract {
         fun onClickedPrintButton(quantity: String?, bluetoothAdapter: BluetoothAdapter?)
         fun onClickedBackButton()
         fun onClickedAddButton()
-        fun onRetrievedItems(itemList: ArrayList<ItemModel>)
-        fun onClickedItem(item: ItemModel?)
-        fun onSelectedItem()
+        fun onRetrievedItems(productList: ArrayList<ProductData>)
+        fun onClickedProduct(product: ProductData?)
+        fun onSelectedProduct()
         fun onDialogResult(result: DialogResultEnums)
         fun onPrintResult(result: PrintResult)
         fun onUploadedResult(isSuccessful: Boolean)
@@ -44,8 +45,8 @@ interface IInContract {
 
     interface IInInteractor{
         fun getItems()
-        fun setSelectedItem(item: ItemModel?)
-        fun uploadSelectedItem(quantity: Int)
+        fun setSelectedProduct(product: ProductData?)
+        fun uploadSelectedProduct(quantity: Int)
         fun print(quantity: Int, bluetoothAdapter: BluetoothAdapter?, deviceAddress: String?)
     }
 }

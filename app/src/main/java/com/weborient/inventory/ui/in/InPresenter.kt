@@ -5,7 +5,7 @@ import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
-import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.getdata.ProductData
 import com.weborient.inventory.repositories.item.ItemRepository
 
 class InPresenter(private val view: IInContract.IInView): IInContract.IInPresenter {
@@ -16,7 +16,7 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
     }
 
     override fun onClickedUploadButton(quantity: String?) {
-        if(ItemRepository.selectedItem == null){
+        if(ItemRepository.selectedProduct == null){
             view.showInformationDialog("Kérem válasszon ki egy terméket!", DialogTypeEnums.Warning)
         }
         else{
@@ -30,7 +30,7 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
                     view.showQuantityError("Kérem számot adjon meg!")
                 } else {
                     view.showQuantityError(null)
-                    interactor.uploadSelectedItem(tempQuantity)
+                    interactor.uploadSelectedProduct(tempQuantity)
                 }
             }
         }
@@ -55,17 +55,17 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
         }
     }
 
-    override fun onRetrievedItems(itemList: ArrayList<ItemModel>) {
-        view.showItems(itemList)
+    override fun onRetrievedItems(productList: ArrayList<ProductData>) {
+        view.showItems(productList)
         view.hidePrintButton()
         view.clearQuantity()
     }
 
-    override fun onClickedItem(item: ItemModel?) {
-        interactor.setSelectedItem(item)
+    override fun onClickedProduct(product: ProductData?) {
+        interactor.setSelectedProduct(product)
     }
 
-    override fun onSelectedItem() {
+    override fun onSelectedProduct() {
         view.refreshList()
     }
 
@@ -108,6 +108,14 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
     override fun onUploadedResult(isSuccessful: Boolean) {
         view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
         view.showPrintButton()
+    }
+
+    override fun onSuccessful(information: String) {
+
+    }
+
+    override fun onFailure(information: String) {
+        view.showInformationDialog(information, DialogTypeEnums.Error)
     }
 
     override fun onClickedBackButton() {

@@ -7,9 +7,8 @@ import com.weborient.inventory.handlers.api.ServiceBuilder
 import com.weborient.inventory.handlers.printer.PrintResult
 import com.weborient.inventory.handlers.printer.PrinterHandler
 import com.weborient.inventory.handlers.qrcode.QRCodeHandler
-import com.weborient.inventory.models.ItemModel
-import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
-import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
+import com.weborient.inventory.models.api.getdata.ProductData
+import com.weborient.inventory.models.api.getdata.ProductDataBase
 import com.weborient.inventory.repositories.item.ItemRepository
 import com.weborient.womo.handlers.api.ApiCallType
 import com.weborient.womo.handlers.api.IApiResponseHandler
@@ -21,32 +20,26 @@ import kotlinx.coroutines.withContext
 class InInteractor(private val presenter: IInContract.IInPresenter): IInContract.IInInteractor,
     IApiResponseHandler {
     override fun getItems() {
-        /*ItemRepository.items.forEach {
-            it.isSelected = false
-        }
-
-        presenter.onRetrievedItems(ItemRepository.items)*/
-
         ServiceBuilder.createServiceWithoutBearer()
 
         AppConfig.apiServiceWithoutBearer?.let{ service ->
-            ApiServiceHandler.apiService(service.callGetAllProducts(), ApiCallType.NewProductGetData, this)
+            ApiServiceHandler.apiService(service.callGetAllProducts(), ApiCallType.AllProducts, this)
         }
     }
 
-    override fun setSelectedItem(item: ItemModel?) {
+    override fun setSelectedProduct(product: ProductData?) {
         //teszt, kijelölés törlése
-        ItemRepository.items.forEach {
+        ItemRepository.products.forEach {
             it.isSelected = false
         }
 
-        ItemRepository.selectedItem = item
-        ItemRepository.selectedItem?.isSelected = true
-        presenter.onSelectedItem()
+        ItemRepository.selectedProduct = product
+        ItemRepository.selectedProduct?.isSelected = true
+        presenter.onSelectedProduct()
     }
 
-    override fun uploadSelectedItem(quantity: Int) {
-        ItemRepository.selectedItem?.let{
+    override fun uploadSelectedProduct(quantity: Int) {
+        ItemRepository.selectedProduct?.let{
             //Csak teszt miatt, feltöltés imitálás
             ItemRepository.lastUploadedID = it.id
             presenter.onUploadedResult(true)
@@ -58,8 +51,8 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
         bluetoothAdapter: BluetoothAdapter?,
         deviceAddress: String?
     ){
-        if(ItemRepository.selectedItem != null){
-            printAsync(ItemRepository.selectedItem!!.id, quantity, bluetoothAdapter, deviceAddress)
+        if(ItemRepository.selectedProduct != null){
+            printAsync(ItemRepository.selectedProduct!!.id, quantity, bluetoothAdapter, deviceAddress)
         }
         else{
             presenter.onPrintResult(PrintResult.UnknownError)
@@ -83,9 +76,9 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
     override fun onSuccessful(responseType: ApiCallType, result: Any?) {
         when(responseType){
             ApiCallType.AllProducts->{
-                val response = result as NewProductGetDataResponse
+                val response = result as ProductDataBase
 
-
+                presenter.onRetrievedItems(response.datas)
             }
             else->{}
         }

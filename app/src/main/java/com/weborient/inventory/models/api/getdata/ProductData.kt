@@ -19,5 +19,8 @@ data class ProductData(
     val categoryName: String,
 
     @SerializedName("pictureurl")
-    val pictureURL: String?
+    val pictureURL: String?,
+
+    @SerializedName("isSelected")
+    var isSelected: Boolean = false
 )

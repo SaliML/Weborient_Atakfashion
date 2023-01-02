@@ -18,10 +18,10 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.dialog.IDialogResultHandler
 import com.weborient.inventory.handlers.service.PhoneServiceHandler
-import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.getdata.ProductData
 import com.weborient.inventory.ui.newproduct.NewProductFragment
 
-class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler,
+class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandler,
     IDialogResultHandler {
     private val presenter = InPresenter(this)
 
@@ -133,8 +133,8 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler,
         supportFragmentManager.beginTransaction().add(android.R.id.content, NewProductFragment()).commit()
     }
 
-    override fun showItems(itemList: ArrayList<ItemModel>) {
-        itemAdapter = ItemListAdapter(this, this, itemList)
+    override fun showItems(productList: ArrayList<ProductData>) {
+        itemAdapter = ItemListAdapter(this, this, productList)
         recyclerItemList.adapter = itemAdapter
     }
 
@@ -146,7 +146,7 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IItemClickHandler,
         finish()
     }
 
-    override fun onClickedItem(item: ItemModel?) {
-        presenter.onClickedItem(item)
+    override fun onClickedProduct(product: ProductData?) {
+        presenter.onClickedProduct(product)
     }
 }

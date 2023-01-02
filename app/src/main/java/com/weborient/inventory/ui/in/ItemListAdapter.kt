@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.weborient.inventory.R
-import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.getdata.ProductData
 
-class ItemListAdapter(private val context: Context, private val handler: IItemClickHandler, private val itemList: ArrayList<ItemModel>): RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
+class ItemListAdapter(private val context: Context, private val handler: IProductClickHandler, private val productList: ArrayList<ProductData>): RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_element_item, parent, false)
@@ -23,18 +23,18 @@ class ItemListAdapter(private val context: Context, private val handler: IItemCl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val offerItem = itemList[position]
+        val offerItem = productList[position]
 
         holder.bind(offerItem)
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return productList.size
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        private var item: ItemModel? = null
+        private var product: ProductData? = null
 
         private var layout: LinearLayout? = null
         private var textItemName: TextView? = null
@@ -50,18 +50,18 @@ class ItemListAdapter(private val context: Context, private val handler: IItemCl
             layoutItemCard = itemView.findViewById(R.id.cv_list_item)
 
             layoutItemCard?.setOnClickListener {
-                handler.onClickedItem(item)
+                handler.onClickedProduct(product)
             }
 
         }
 
-        fun bind(itemModel: ItemModel){
-            item = itemModel
+        fun bind(productData: ProductData){
+            product = productData
 
-            textItemID?.text = item?.id
-            textItemName?.text = item?.name
+            textItemID?.text = product?.id
+            textItemName?.text = product?.name
 
-            if(item?.isSelected == true){
+            if(product?.isSelected == true){
                 layout?.setBackgroundResource(R.drawable.selected_item_background)
             }
             else{
@@ -73,7 +73,7 @@ class ItemListAdapter(private val context: Context, private val handler: IItemCl
                 circularProgressDrawable.strokeWidth = 5f
                 circularProgressDrawable.centerRadius = 30f
                 circularProgressDrawable.start()
-                Glide.with(context).load(item?.photoURL).placeholder(circularProgressDrawable).into(it)
+                Glide.with(context).load(product?.pictureURL).placeholder(circularProgressDrawable).into(it)
             }
         }
     }
