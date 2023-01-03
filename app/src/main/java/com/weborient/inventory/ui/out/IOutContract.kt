@@ -1,10 +1,10 @@
 package com.weborient.inventory.ui.out
 
-import android.bluetooth.BluetoothAdapter
-import android.graphics.Bitmap
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.getdata.ProductData
+import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 /**
  * MVP minta a kiadás felületre
@@ -22,7 +22,7 @@ interface IOutContract {
         fun showItemID(itemID: String)
         fun showItemName(itemName: String)
         fun showItemDescription(itemDescription: String)
-        fun showItemPhoto(photoUrl: String)
+        fun showItemPhoto(photoUrl: String?)
         fun showContainerEmpty()
         fun showContainerItem()
         fun showContainerAmount()
@@ -39,11 +39,11 @@ interface IOutContract {
     /**
      * Presenter interfésze
      */
-    interface IOutPresenter{
+    interface IOutPresenter: IResponseDialogHandler {
         fun onClickedBackButton()
         fun onClickedScanButton()
         fun onClickedDoneButton(amount: String)
-        fun onFetchedItem(item: ItemModel?)
+        fun onFetchedItem(product: ProductData?)
         fun onResultDecreaseAmount(isSuccessful: Boolean)
         fun onDialogResult(result: DialogResultEnums)
         fun getItemByID(itemID: String?)

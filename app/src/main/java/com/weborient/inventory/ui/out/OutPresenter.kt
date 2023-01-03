@@ -1,10 +1,9 @@
 package com.weborient.inventory.ui.out
 
-import android.bluetooth.BluetoothAdapter
-import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.ItemModel
+import com.weborient.inventory.models.api.getdata.ProductData
 
 class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPresenter {
     private val interactor = OutInteractor(this)
@@ -40,13 +39,21 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
         }
     }
 
-    override fun onFetchedItem(item: ItemModel?) {
-        if(item != null){
+    override fun onSuccessful(information: String) {
+
+    }
+
+    override fun onFailure(information: String) {
+        view.showInformationDialog(information, DialogTypeEnums.Error)
+    }
+
+    override fun onFetchedItem(product: ProductData?) {
+        if(product != null){
             //Adatok megjelenítése a VIEW-ban ...
-            view.showItemPhoto(item.photoURL)
-            view.showItemID(item.id)
-            view.showItemName(item.name)
-            view.showItemDescription(item.description)
+            view.showItemPhoto(product.pictureURL)
+            view.showItemID(product.id)
+            view.showItemName(product.name)
+            view.showItemDescription(product.description)
 
             //Termék konténer megjelenítése
             view.showContainerItem()

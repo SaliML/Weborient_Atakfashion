@@ -241,7 +241,7 @@
                     android:background="@color/green"
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="10dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/icon_done"
                     app:tint="@color/white" />
 

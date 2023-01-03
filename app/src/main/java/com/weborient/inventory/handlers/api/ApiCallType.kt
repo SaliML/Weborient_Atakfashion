@@ -7,5 +7,6 @@ enum class ApiCallType(val value: Int) {
     Unknown(3),
     NewProductGetData(4),
     NewProductSendData(5),
-    AllProducts(6)
+    AllProducts(6),
+    GetOneProduct(7)
 }

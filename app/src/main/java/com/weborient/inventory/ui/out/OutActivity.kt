@@ -102,7 +102,7 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView, IDialogResultHan
         textDescription.text = itemDescription
     }
 
-    override fun showItemPhoto(photoUrl: String) {
+    override fun showItemPhoto(photoUrl: String?) {
         imageView.let {
             val circularProgressDrawable = CircularProgressDrawable(this)
             circularProgressDrawable.strokeWidth = 5f
