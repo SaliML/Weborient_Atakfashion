@@ -106,12 +106,11 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
     }
 
     override fun onUploadedResult(isSuccessful: Boolean) {
-        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
         view.showPrintButton()
     }
 
     override fun onSuccessful(information: String) {
-
+        view.showInformationDialog(information, DialogTypeEnums.Successful)
     }
 
     override fun onFailure(information: String) {

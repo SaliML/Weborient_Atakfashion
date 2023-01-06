@@ -66,7 +66,7 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView, IDialogResultHan
 
         binding.ivOutDone.setOnClickListener {
             if(PhoneServiceHandler.checkNetworkState(this)){
-                presenter.onClickedDoneButton(inputQuantity.text.toString())
+                presenter.onClickedDoneButton(inputQuantity.text.toString(), textID.text.toString())
             }
             else{
                 DialogHandler.showDialogWithResult(this, this, getString(R.string.dialog_settings_network_state), DialogTypeEnums.SettingsNetwork)

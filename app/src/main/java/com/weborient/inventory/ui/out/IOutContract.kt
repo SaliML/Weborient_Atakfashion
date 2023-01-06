@@ -2,7 +2,6 @@ package com.weborient.inventory.ui.out
 
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
-import com.weborient.inventory.models.ItemModel
 import com.weborient.inventory.models.api.getdata.ProductData
 import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
@@ -42,9 +41,9 @@ interface IOutContract {
     interface IOutPresenter: IResponseDialogHandler {
         fun onClickedBackButton()
         fun onClickedScanButton()
-        fun onClickedDoneButton(amount: String)
+        fun onClickedDoneButton(amount: String, productID: String)
         fun onFetchedItem(product: ProductData?)
-        fun onResultDecreaseAmount(isSuccessful: Boolean)
+        fun onResultDecreaseAmount()
         fun onDialogResult(result: DialogResultEnums)
         fun getItemByID(itemID: String?)
     }
@@ -53,7 +52,7 @@ interface IOutContract {
      * Interactor interfésze
      */
     interface IOutInteractor{
-        fun decreaseAmount(amount: Int)
+        fun decreaseQuantity(quantity: Int, productID: String)
         fun getItemByID(itemID: String)
     }
 }

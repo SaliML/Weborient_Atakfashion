@@ -1,12 +1,17 @@
 package com.weborient.inventory.handlers.api
 
+import com.weborient.inventory.models.api.addimage.AddImageResponse
 import com.weborient.inventory.models.api.getdata.OneProductDataBase
 import com.weborient.inventory.models.api.getdata.OneProductDataBody
 import com.weborient.inventory.models.api.getdata.ProductData
 import com.weborient.inventory.models.api.getdata.ProductDataBase
 import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
+import com.weborient.inventory.models.api.quantitychange.ProductQuantityChangeRequest
+import com.weborient.inventory.models.api.quantitychange.ProductQuantityChangeResponse
 import com.weborient.inventory.models.api.sendproduct.NewProductSendData
 import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -36,8 +41,15 @@ interface IApiRequests {
     fun callOneProductGetData(@Body body: OneProductDataBody): Call<OneProductDataBase>
 
     /**
+     * Adott termék mennyiségének módosítása
+     */
+    @POST("changequantitysenddata")
+    fun callChangeQuantitySendData(@Body body: ProductQuantityChangeRequest): Call<ProductQuantityChangeResponse>
+
+    /**
      * Adott termék képeinek feltöltése
      */
-    @POST("admin/product/{id}/image")
-    fun callImageUpload(@Path("id") id: String): Call<Any?>
+    @Multipart
+    @POST("addimagesenddata")
+    fun callAddImageSendData(@Part("id") id: RequestBody, @Part file: MultipartBody.Part): Call<AddImageResponse>
 }

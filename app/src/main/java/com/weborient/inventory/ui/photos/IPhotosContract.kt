@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.PhotoUploadModel
+import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 /**
  * MVP minta a fényképek felülethez
@@ -18,6 +19,8 @@ interface IPhotosContract {
         fun showInformationDialog(information: String, type: DialogTypeEnums)
         fun showNetworkDialog()
         fun showPhotos(photoPaths: ArrayList<String>)
+        fun showProgressDialog()
+        fun hideProgressDialog()
         fun navigateToScannerActivity()
         fun navigateToCameraActivity()
         fun save(photoUploadModel: PhotoUploadModel)
@@ -28,7 +31,7 @@ interface IPhotosContract {
     /**
      * Presenter interfésze
      */
-    interface IPhotosPresenter{
+    interface IPhotosPresenter: IResponseDialogHandler {
         fun onClickedBackButton()
         fun onClickedTakePhotoButton()
         fun onClickedScanButton()
@@ -37,7 +40,7 @@ interface IPhotosContract {
         fun onAddedPhoto(photoUploadModel: PhotoUploadModel)
         fun onRetrievedPhotos(photoPaths: ArrayList<String>)
         fun onDeletedPhoto(photoUploadModel: PhotoUploadModel)
-        fun onUploadedPhotos(photoUploadModel: PhotoUploadModel)
+        fun onUploadedPhotos(photoUploadModel: PhotoUploadModel, hideQRCode: Boolean)
         fun deletePhoto(path: String?)
         fun setItemID(itemID: String?)
         fun setPhotoUploadModel(photoUploadModel: PhotoUploadModel?)

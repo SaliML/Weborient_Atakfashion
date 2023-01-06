@@ -90,6 +90,12 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
         presenter.getItems()
     }
 
+    override fun onDestroy() {
+        presenter.onClickedProduct(null)
+
+        super.onDestroy()
+    }
+
     override fun showPrintButton() {
         buttonPrint.visibility = View.VISIBLE
     }

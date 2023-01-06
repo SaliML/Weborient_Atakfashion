@@ -32,6 +32,7 @@ class PhotoPresenter(private val view: IPhotosContract.IPhotosView): IPhotosCont
                 view.showInformationDialog("Kérem olvassa be a QR kódot a feltöltéshez!", DialogTypeEnums.Warning)
             }
             else{
+                view.showProgressDialog()
                 interactor.uploadPhotos()
             }
         }
@@ -58,11 +59,12 @@ class PhotoPresenter(private val view: IPhotosContract.IPhotosView): IPhotosCont
         view.save(photoUploadModel)
     }
 
-    override fun onUploadedPhotos(photoUploadModel: PhotoUploadModel) {
+    override fun onUploadedPhotos(photoUploadModel: PhotoUploadModel, hideQRCode: Boolean) {
         view.save(photoUploadModel)
-        view.hideQRCode()
-        view.deleteFiles()
-        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
+
+        if(hideQRCode){
+            view.hideQRCode()
+        }
     }
 
     override fun deletePhoto(path: String?) {
@@ -91,5 +93,16 @@ class PhotoPresenter(private val view: IPhotosContract.IPhotosView): IPhotosCont
 
     override fun addPhoto(photoPath: String) {
         interactor.addPhoto(photoPath)
+    }
+
+    override fun onSuccessful(information: String) {
+        view.hideProgressDialog()
+        view.deleteFiles()
+        view.showInformationDialog(information, DialogTypeEnums.Successful)
+    }
+
+    override fun onFailure(information: String) {
+        view.hideProgressDialog()
+        view.showInformationDialog(information, DialogTypeEnums.Error)
     }
 }

@@ -2,7 +2,6 @@ package com.weborient.inventory.ui.out
 
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
-import com.weborient.inventory.models.ItemModel
 import com.weborient.inventory.models.api.getdata.ProductData
 
 class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPresenter {
@@ -16,13 +15,13 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
         view.navigateToScannerActivity()
     }
 
-    override fun onClickedDoneButton(amount: String) {
+    override fun onClickedDoneButton(amount: String, productID: String) {
         val quantity = amount.toIntOrNull()
 
         if(quantity != null){
             if(quantity > 0){
                 view.showQuantityError(null)
-                interactor.decreaseAmount(quantity)
+                interactor.decreaseQuantity(quantity, productID)
             }
             else{
                 view.showQuantityError("Kérem 0-nál nagyobb számot adjon meg!")
@@ -40,7 +39,12 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
     }
 
     override fun onSuccessful(information: String) {
-
+        if(information.contains("hiba", true)){
+            view.showInformationDialog(information, DialogTypeEnums.Warning)
+        }
+        else{
+            view.showInformationDialog(information, DialogTypeEnums.Successful)
+        }
     }
 
     override fun onFailure(information: String) {
@@ -78,17 +82,11 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
         }
     }
 
-    override fun onResultDecreaseAmount(isSuccessful: Boolean) {
-        if(isSuccessful){
-            view.showInformationDialog("Sikeres kiadás!", DialogTypeEnums.Successful)
-            view.showContainerEmpty()
-            view.hideContainerItem()
-            view.hideContainerAmount()
-            view.hideButtonDone()
-        }
-        else{
-            view.showInformationDialog("Sikertelen kiadás!", DialogTypeEnums.Error)
-        }
+    override fun onResultDecreaseAmount() {
+        view.showContainerEmpty()
+        view.hideContainerItem()
+        view.hideContainerAmount()
+        view.hideButtonDone()
     }
 
     override fun onDialogResult(result: DialogResultEnums) {

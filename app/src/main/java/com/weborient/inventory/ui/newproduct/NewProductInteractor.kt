@@ -60,7 +60,7 @@ class NewProductInteractor(private val presenter: INewProductContract.INewProduc
     /**
      * Sikeres művelet végrehajtás
      */
-    override fun onSuccessful(responseType: ApiCallType, result: Any?) {
+    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
         when(responseType){
             ApiCallType.NewProductGetData->{
                 val response = result as NewProductGetDataResponse
@@ -93,7 +93,7 @@ class NewProductInteractor(private val presenter: INewProductContract.INewProduc
     /**
      * Hiba történt a kérés végrehajtása során
      */
-    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?) {
+    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?, param: String?) {
         when(responseType){
             ApiCallType.NewProductGetData->{
                 presenter.onFailure("Hiba történt az adatok lekérdezése során!")

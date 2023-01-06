@@ -77,6 +77,7 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
 
         binding.ivPhotosUpload.setOnClickListener {
             if(PhoneServiceHandler.checkNetworkState(this)){
+
                 presenter.onClickedUploadButton()
             }
             else{
@@ -127,6 +128,14 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
     override fun showPhotos(photoPaths: ArrayList<String>) {
         photoListAdapter = PhotoListAdapter(this, this, photoPaths)
         photoListView.adapter = photoListAdapter
+    }
+
+    override fun showProgressDialog() {
+        DialogHandler.showProgressDialog(this, "Fényképek feltöltése...")
+    }
+
+    override fun hideProgressDialog() {
+        DialogHandler.closeProgressDialog()
     }
 
     override fun navigateToScannerActivity() {
