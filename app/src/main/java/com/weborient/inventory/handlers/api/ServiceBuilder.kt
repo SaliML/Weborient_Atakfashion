@@ -17,7 +17,9 @@ object ServiceBuilder {
     }
 
     fun createServiceWithoutBearer(){
-        AppConfig.apiServiceWithoutBearer = buildService(IApiRequests::class.java, false)
+        if(AppConfig.apiServiceWithoutBearer == null){
+            AppConfig.apiServiceWithoutBearer = buildService(IApiRequests::class.java, false)
+        }
     }
 
     fun<T> buildService(service: Class<T>, needToken: Boolean): T?{

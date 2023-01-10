@@ -24,6 +24,7 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
 
     override fun setApiAddress(apiAddress: String) {
         AppConfig.apiAddress = apiAddress
+        AppConfig.apiServiceWithoutBearer = null
     }
 
     override fun setMacAddress(macAddress: String) {
