@@ -3,6 +3,7 @@ package com.weborient.inventory.ui.settings
 import android.bluetooth.BluetoothDevice
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.PrinterModel
+import java.util.*
 
 class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISettingsContract.ISettingsPresenter {
     private val interactor = SettingsInteractor(this)
@@ -63,7 +64,7 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
     override fun onClickedPrinterMacAddressSaveButton(macAddress: String?) {
         if(!macAddress.isNullOrEmpty()){
             view.showMacAddressError(null)
-            view.saveMacAddress(macAddress)
+            view.saveMacAddress(macAddress.uppercase(Locale.getDefault()))
             interactor.setMacAddress(macAddress)
 
             view.showInformationDialog("Sikeres mentés", DialogTypeEnums.Successful)

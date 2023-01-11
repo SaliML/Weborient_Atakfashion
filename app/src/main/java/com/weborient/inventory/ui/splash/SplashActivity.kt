@@ -12,6 +12,7 @@ import com.weborient.inventory.handlers.file.FileHandler
 import com.weborient.inventory.handlers.permission.PermissionHandler
 import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
 import com.weborient.inventory.ui.main.MainActivity
+import java.util.*
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialogResultHandler, IConfigDialogHandler {
@@ -98,7 +99,7 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
 
     override fun setConfigDatas(apiAddress: String, macAddress: String) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS, apiAddress)
-        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress)
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress.uppercase(Locale.getDefault()))
 
         presenter.onFetchedConfigAddresses(macAddress, apiAddress)
     }

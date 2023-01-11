@@ -29,6 +29,7 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
 
     override fun setMacAddress(macAddress: String) {
         AppConfig.macAddress = macAddress.uppercase(Locale.getDefault())
+        presenter.onFetchedMacAddress(AppConfig.macAddress)
     }
 
     @SuppressLint("MissingPermission")
