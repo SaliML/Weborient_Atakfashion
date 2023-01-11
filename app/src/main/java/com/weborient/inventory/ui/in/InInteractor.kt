@@ -60,7 +60,7 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
             printAsync(ItemRepository.selectedProduct!!.id, quantity, bluetoothAdapter, deviceAddress)
         }
         else{
-            presenter.onPrintResult(PrintResult.UnknownError)
+            presenter.onPrintResult(PrintResult.MissingProductID)
         }
     }
 
@@ -89,7 +89,7 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
             ApiCallType.AddQuantityToProduct ->{
                 val response = result as ProductQuantityChangeResponse
 
-                setSelectedProduct(null)
+                //setSelectedProduct(null)
                 presenter.onUploadedResult(true)
                 presenter.onSuccessful(response.text?: "Mennyiség hozzáadva a készlethez!")
             }

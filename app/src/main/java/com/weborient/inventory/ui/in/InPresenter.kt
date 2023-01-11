@@ -86,9 +86,10 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
 
         when(result){
             PrintResult.Successful->{
-                view.showInformationDialog("Sikeres nyomtatás!", DialogTypeEnums.Successful)
+                interactor.setSelectedProduct(null)
                 view.hidePrintButton()
                 view.clearQuantity()
+                view.showInformationDialog("Sikeres nyomtatás!", DialogTypeEnums.Successful)
             }
             PrintResult.MacAddressIsNull->{
                 view.showInformationDialog("Hiányzó fizikai cím, kérem a \"Beállítások\" felületen töltse ki a \"MAC\" címet!", DialogTypeEnums.Error)
@@ -98,6 +99,9 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
             }
             PrintResult.Timeout->{
                 view.showInformationDialog("Időtúllépés, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
+            }
+            PrintResult.MissingProductID->{
+                view.showInformationDialog("Nem található termék azonosító!", DialogTypeEnums.Error)
             }
             else->{
                 view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
