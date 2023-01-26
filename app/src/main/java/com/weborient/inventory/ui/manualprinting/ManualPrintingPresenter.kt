@@ -65,7 +65,7 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
     }
 
     override fun onPrintResult(result: PrintResult) {
-        view.hideProgress()
+        //view.hideProgress()
 
         when(result){
             PrintResult.Successful->{
