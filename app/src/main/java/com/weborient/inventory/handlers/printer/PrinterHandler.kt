@@ -84,7 +84,7 @@ object PrinterHandler {
                         return PrintResult.Timeout
                     }
                     else->{
-                        //Ismeretlek hiba
+                        //Ismeretlen hiba
                         return PrintResult.UnknownError
                     }
                 }

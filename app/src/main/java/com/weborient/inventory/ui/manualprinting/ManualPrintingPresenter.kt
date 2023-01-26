@@ -37,9 +37,9 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
                     //Mehet a nyomtatás
                     view.showQuantityError(null)
 
-                    view.showProgress("Címke nyomtatása")
+                    //view.showProgress("Címke nyomtatása")
 
-                    interactor.print(qrCode, quantity, bluetoothAdapter, AppConfig.macAddress )
+                    interactor.print(qrCode, quantity, bluetoothAdapter, AppConfig.macAddress)
                 }
             }
             else{
@@ -47,7 +47,7 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
             }
         }
         else{
-            view.showInformationDialog("Kérem párosítsa a nyomtatót és próbálja újra!", DialogTypeEnums.Warning)
+            view.showInformationDialog("Kérem párosítsa a nyomtatót, ellenőrizze a beállításoknál a címet és próbálja újra!", DialogTypeEnums.Warning)
         }
     }
 
