@@ -34,7 +34,7 @@ object PrinterHandler {
         if(AppConfig.macAddress != null){
             if(bluetoothAdapter != null){
                 //Csatorna megnyitása
-                val channel = Channel.newBluetoothChannel(deviceAddress, bluetoothAdapter)
+                val channel = Channel.newBluetoothChannel(deviceAddress?.uppercase(), bluetoothAdapter)
                 val result = PrinterDriverGenerator.openChannel(channel)
 
                 when(result.error.code){
