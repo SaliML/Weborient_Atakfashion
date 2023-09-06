@@ -69,11 +69,7 @@ class ItemListAdapter(private val context: Context, private val handler: IProduc
             }
 
             imageItemPhoto?.let {
-                val circularProgressDrawable = CircularProgressDrawable(context)
-                circularProgressDrawable.strokeWidth = 5f
-                circularProgressDrawable.centerRadius = 30f
-                circularProgressDrawable.start()
-                Glide.with(context).load(product?.pictureURL).placeholder(circularProgressDrawable).into(it)
+                Glide.with(context).load(product?.pictureURL).placeholder(R.drawable.image_not_available).into(it)
             }
         }
     }

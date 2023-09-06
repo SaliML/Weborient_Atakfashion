@@ -104,11 +104,7 @@ class OutActivity : AppCompatActivity(), IOutContract.IOutView, IDialogResultHan
 
     override fun showItemPhoto(photoUrl: String?) {
         imageView.let {
-            val circularProgressDrawable = CircularProgressDrawable(this)
-            circularProgressDrawable.strokeWidth = 5f
-            circularProgressDrawable.centerRadius = 30f
-            circularProgressDrawable.start()
-            Glide.with(this).load(photoUrl).placeholder(circularProgressDrawable).into(it)
+            Glide.with(this).load(photoUrl).placeholder(R.drawable.image_not_available).into(it)
         }
     }
 
