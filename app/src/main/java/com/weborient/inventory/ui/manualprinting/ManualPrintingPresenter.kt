@@ -80,6 +80,12 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
             PrintResult.Timeout->{
                 view.showInformationDialog("Időtúllépés, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
             }
+            PrintResult.BluetoothAdapterIsNull->{
+                view.showInformationDialog("Bluetooth adapter értéke NULL!", DialogTypeEnums.Error)
+            }
+            PrintResult.MissingProductID->{
+                view.showInformationDialog("Hiányzó termékazonosító!", DialogTypeEnums.Error)
+            }
             else->{
                 view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
             }
