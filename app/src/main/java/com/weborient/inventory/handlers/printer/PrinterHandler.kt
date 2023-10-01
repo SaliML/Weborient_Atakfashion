@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.graphics.Bitmap
 import android.os.Environment
+import android.util.Log
 import com.brother.sdk.lmprinter.Channel
 import com.brother.sdk.lmprinter.OpenChannelError
 import com.brother.sdk.lmprinter.PrintError
@@ -45,6 +46,7 @@ object PrinterHandler {
                         //val imageFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), AppConfig.imageFileName)
 
                         QRCodeHandler.compressBitmap(image, AppConfig.bitmapCompressFormat, AppConfig.bitmapCompressQuality, AppConfig.imageFile)
+
                         /*val fileOutputStream = FileOutputStream(AppConfig.imageFile)
                         image.compress(AppConfig.bitmapCompressFormat, AppConfig.bitmapCompressQuality, fileOutputStream)
                         fileOutputStream.flush()
@@ -59,7 +61,8 @@ object PrinterHandler {
                         printSettings.numCopies = quantity
                         printSettings.isChainPrint = AppConfig.printerChainPrint
 
-                        val printError = printerDriver.printImage(AppConfig.imageFile.absolutePath, printSettings)
+                        //val printError = printerDriver.printImage(AppConfig.imageFile.absolutePath, printSettings)
+                        val printError = printerDriver.printImage(image, printSettings)
 
                         printerDriver.closeChannel()
 

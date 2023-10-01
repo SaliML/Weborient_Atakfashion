@@ -33,8 +33,8 @@ object AppConfig {
     val bitmapCompressQuality = 100
 
     val imageFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "tempCode.png")
-    val printerModel = PrinterModel.PT_P300BT
     val printerWorkPath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())
+    val printerModel = PrinterModel.PT_P300BT
     val printerLabelSize = PTPrintSettings.LabelSize.Width12mm
     val printerChainPrint = false
 
