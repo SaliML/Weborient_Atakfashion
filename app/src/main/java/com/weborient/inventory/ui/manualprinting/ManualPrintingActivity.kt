@@ -69,6 +69,20 @@ class ManualPrintingActivity : AppCompatActivity(), IManualPrintingContract.IMan
         bluetoothAdapter = bluetoothManager?.adapter
     }
 
+    override fun clearQRCode() {
+        imageView.visibility = View.GONE
+        layoutQRCodeEmpty.visibility = View.VISIBLE
+        imageView.setImageDrawable(null)
+    }
+
+    override fun clearText() {
+        inputText.text?.clear()
+    }
+
+    override fun clearAmount() {
+        inputQuantity.text?.clear()
+    }
+
     override fun showQRCode(bitmap: Bitmap) {
         imageView.setImageBitmap(bitmap)
         imageView.visibility = View.VISIBLE

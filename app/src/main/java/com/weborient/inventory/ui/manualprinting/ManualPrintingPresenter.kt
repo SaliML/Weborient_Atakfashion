@@ -90,5 +90,9 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
                 view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
             }
         }
+
+        view.clearQRCode()
+        view.clearText()
+        view.clearAmount()
     }
 }

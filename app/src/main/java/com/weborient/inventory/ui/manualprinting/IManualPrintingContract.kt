@@ -16,6 +16,9 @@ interface IManualPrintingContract {
      * View interfésze
      */
     interface IManualPrintingView{
+        fun clearQRCode()
+        fun clearText()
+        fun clearAmount()
         fun showQRCode(bitmap: Bitmap)
         fun showTextError(error: String?)
         fun showQuantityError(error: String?)
