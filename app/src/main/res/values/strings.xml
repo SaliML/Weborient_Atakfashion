@@ -66,6 +66,7 @@
     <!--Felvétel-->
     <string name="in_title">Felvétel</string>
     <string name="in_title_quantity">Felvenni kívánt mennyiség</string>
+    <string name="in_title_print_group">Csoportos nyomtatás</string>
 
     <!--Új termék hozzáadása-->
     <string name="new_item_title">Új termék</string>
@@ -83,6 +84,7 @@
     <string name="new_item_title_name">Megnevezés</string>
     <string name="new_item_title_description">Leírás</string>
     <string name="new_item_title_template">Sablon</string>
+    <string name="new_item_title_print_group">Csoportos nyomtatás</string>
 
     <!--Fényképek-->
     <string name="photos_title">Fényképek</string>

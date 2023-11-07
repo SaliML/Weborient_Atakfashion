@@ -87,6 +87,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_in_print_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="@string/in_title_print_group"
+            android:textSize="16sp" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_in_quantity"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"

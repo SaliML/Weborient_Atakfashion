@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -63,6 +64,8 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
     private lateinit var buttonPrint: ImageView
 
+    private lateinit var checkBoxPrintGroup: CheckBox
+
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothManager: BluetoothManager? = null
 
@@ -112,6 +115,8 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
         buttonPrint = binding.ivNewItemPrint
 
+        checkBoxPrintGroup = binding.cbNewItemPrintGroup
+
         binding.ivNewItemBack.setOnClickListener {
             presenter.onClickedBackButton()
         }
@@ -128,7 +133,14 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
         binding.ivNewItemPrint.setOnClickListener {
             if(PhoneServiceHandler.checkBluetoothState(requireContext())){
-                presenter.onClickedPrintButton(inputID.text.toString(), inputQuantity.text.toString(), bluetoothAdapter)
+                if(checkBoxPrintGroup.isChecked){
+                    //Csoportos nyomtatás esetén csak 1 db QR kódra van szükség
+                    presenter.onClickedPrintButton(inputID.text.toString(), "1", bluetoothAdapter)
+                }
+                else{
+                    //Nem csoportos nyomtatás esetén a felvett mennyiséget kell kinyomtatni
+                    presenter.onClickedPrintButton(inputID.text.toString(), inputQuantity.text.toString(), bluetoothAdapter)
+                }
             }
             else{
                 DialogHandler.showDialogWithResult(requireActivity(), this, getString(R.string.dialog_settings_bluetooth_state), DialogTypeEnums.SettingsBluetooth)

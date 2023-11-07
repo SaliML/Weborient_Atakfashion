@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.CheckBox
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -33,6 +34,8 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
 
     private lateinit var buttonPrint: ImageView
 
+    private lateinit var checkboxPringGroup: CheckBox
+
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothManager: BluetoothManager? = null
 
@@ -51,6 +54,8 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
         inputQuantity = binding.etInQuantity
 
         buttonPrint = binding.ivInPrint
+
+        checkboxPringGroup = binding.cbInPrintGroup
 
         binding.swlRefresh.setOnRefreshListener {
             presenter.getItems()
@@ -76,7 +81,15 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
 
         binding.ivInPrint.setOnClickListener {
             if(PhoneServiceHandler.checkBluetoothState(this)){
-                presenter.onClickedPrintButton(inputQuantity.text.toString(), bluetoothAdapter)
+                if(checkboxPringGroup.isChecked){
+                    //Csoportos nyomtatás esetén csak 1 db QR kódra van szükség
+                    presenter.onClickedPrintButton("1", bluetoothAdapter)
+                }
+                else{
+                    //Nem csoportos nyomtatás esetén tetszőleges mennyiségű QR kódra van szükség
+                    presenter.onClickedPrintButton(inputQuantity.text.toString(), bluetoothAdapter)
+                }
+
             }
             else{
                 DialogHandler.showDialogWithResult(this, this, getString(R.string.dialog_settings_bluetooth_state), DialogTypeEnums.SettingsBluetooth)
