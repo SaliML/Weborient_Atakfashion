@@ -54,6 +54,8 @@
     <string name="manual_printing_generate">QR kód generálás</string>
     <string name="manual_printing_print">Nyomtatás</string>
     <string name="manual_printing_qrcode_empty">Kérem generáljon QR kódot!</string>
+    <string name="manual_reprinting_qrcode_empty">Kérem olvassa be a QR kódot!</string>
+    <string name="manual_reprinting_qrcode_scan">QR kód beolvasása</string>
 
     <!--PhoneServices-->
     <string name="dialog_settings_bluetooth_state">Kérem kapcsolja be a Bluetooth-t és próbálja újra!</string>

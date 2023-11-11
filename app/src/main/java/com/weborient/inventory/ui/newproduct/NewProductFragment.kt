@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
@@ -190,36 +191,48 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
     override fun setCategories(categories: ArrayList<ArrayElement>?) {
         categories?.let{
             spinnerCategory.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            spinnerCategory.setText(categories[0].name, false)
+            category = categories[0]
         }
     }
 
     override fun setPackageTypes(packageTypes: ArrayList<ArrayElement>?) {
         packageTypes?.let{
             spinnerPresentation.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            spinnerPresentation.setText(packageTypes[0].name, false)
+            presentation = packageTypes[0]
         }
     }
 
     override fun setUnits(units: ArrayList<ArrayElement>?) {
         units?.let{
             spinnerUnit.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            spinnerUnit.setText(units[0].name, false)
+            unit = units[0]
         }
     }
 
     override fun setStatuses(statuses: ArrayList<ArrayElement>?) {
         statuses?.let{
             spinnerStatus.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            spinnerStatus.setText(statuses[0].name, false)
+            status = statuses[0]
         }
     }
 
     override fun setTemplates(templates: ArrayList<ArrayElement>?) {
         templates?.let{
             spinnerTemplate.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            spinnerTemplate.setText(templates[0].name, false)
+            template = templates[0]
         }
     }
 
     override fun setTaxes(taxes: ArrayList<ArrayElement>?) {
         taxes?.let{
             spinnerTax.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, taxes))
+            spinnerTax.setText(taxes[0].name, false)
+            tax = taxes[0]
         }
     }
 

@@ -43,192 +43,376 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_manual_printing_category"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="9dp"
+        android:hint="@string/new_item_title_category"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/dark_grey"
+        app:boxStrokeErrorColor="@color/dark_red"
+        app:errorEnabled="true"
+        app:errorIconTint="@color/dark_red"
+        app:errorTextColor="@color/dark_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4"
+        tools:errorIconTint="@color/dark_red">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/auto_manual_printing_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:inputType="none"
+            android:longClickable="false"
+            tools:ignore="KeyboardInaccessibleWidget" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ScrollView
+        android:id="@+id/sv_manual_reprinting_qr_code"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView4">
+        app:layout_constraintTop_toBottomOf="@+id/til_manual_printing_category">>
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
+            android:id="@+id/ll_manual_reprinting_qr_code"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="10dp"
-            android:translationZ="5dp"
-            app:cardCornerRadius="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_qrcode_empty"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@color/background"
-                android:visibility="visible">
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:translationZ="5dp"
+                app:cardCornerRadius="10dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_manual_reprinting_qr_code_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/background"
+                    android:visibility="visible">
 
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/icon_qr_code_scan" />
-
-                    <TextView
-                        android:id="@+id/textView17"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/manual_printing_qrcode_empty" />
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imageView8"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:srcCompat="@drawable/icon_qr_code_scan" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/manual_reprinting_qrcode_empty" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_manual_reprinting_qr_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:translationZ="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_manual_reprinting_quantity"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/dark_grey"
+                        app:boxStrokeErrorColor="@color/dark_red"
+                        app:boxStrokeWidth="1dp"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:errorEnabled="true"
+                        app:errorIconTint="@color/dark_red"
+                        app:errorTextColor="@color/dark_red">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_manual_reprinting_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="@string/manual_printing_quantity"
+                            android:inputType="number"
+                            android:padding="10dp"
+                            android:textSize="16sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/bt_manual_reprinting_print"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/manual_printing_print"
+                        app:cornerRadius="10dp" />
+
+                    <Button
+                        android:id="@+id/bt_manual_reprinting_generate"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/manual_reprinting_qrcode_scan"
+                        app:cornerRadius="10dp" />
 
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
-            <ImageView
-                android:id="@+id/iv_manual_printing_qr_code"
+    <ScrollView
+        android:id="@+id/sv_manual_custom_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_manual_printing_category">
+
+        <LinearLayout
+            android:id="@+id/ll_manual_custom_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:visibility="gone"
-                tools:srcCompat="@tools:sample/avatars" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:translationZ="5dp"
+                app:cardCornerRadius="10dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="10dp"
-            android:translationZ="5dp"
-            app:cardCornerRadius="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_manual_printing_raw_text"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_qrcode_empty"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="5dp"
-                    app:boxCornerRadiusBottomEnd="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
-                    app:boxCornerRadiusTopEnd="10dp"
-                    app:boxCornerRadiusTopStart="10dp"
-                    app:boxStrokeColor="@color/dark_grey"
-                    app:boxStrokeErrorColor="@color/dark_red"
-                    app:boxStrokeWidth="1dp"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:errorEnabled="true"
-                    app:errorIconTint="@color/dark_red"
-                    app:errorTextColor="@color/dark_red">
+                    android:layout_height="200dp"
+                    android:background="@color/background"
+                    android:visibility="visible">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_manual_printing_text"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="@string/manual_printing_raw_text"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:textSize="16sp" />
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:srcCompat="@drawable/icon_qr_code_scan" />
 
-                <Button
-                    android:id="@+id/bt_manual_printing_generate"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/green"
-                    android:text="@string/manual_printing_generate"
-                    app:cornerRadius="10dp" />
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/manual_printing_qrcode_empty" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="10dp"
-            android:translationZ="5dp"
-            app:cardCornerRadius="10dp">
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_manual_printing_quantity"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <ImageView
+                    android:id="@+id/iv_manual_printing_qr_code"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="5dp"
-                    app:boxCornerRadiusBottomEnd="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
-                    app:boxCornerRadiusTopEnd="10dp"
-                    app:boxCornerRadiusTopStart="10dp"
-                    app:boxStrokeColor="@color/dark_grey"
-                    app:boxStrokeErrorColor="@color/dark_red"
-                    app:boxStrokeWidth="1dp"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:errorEnabled="true"
-                    app:errorIconTint="@color/dark_red"
-                    app:errorTextColor="@color/dark_red">
+                    android:layout_height="200dp"
+                    android:visibility="gone"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_manual_printing_quantity"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:translationZ="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_manual_printing_raw_text"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:hint="@string/manual_printing_quantity"
-                        android:inputType="number"
-                        android:padding="10dp"
-                        android:textSize="16sp" />
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/dark_grey"
+                        app:boxStrokeErrorColor="@color/dark_red"
+                        app:boxStrokeWidth="1dp"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:errorEnabled="true"
+                        app:errorIconTint="@color/dark_red"
+                        app:errorTextColor="@color/dark_red">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_manual_printing_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="@string/manual_printing_raw_text"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textSize="16sp" />
 
-                <Button
-                    android:id="@+id/bt_manual_printing_print"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/green"
-                    android:text="@string/manual_printing_print"
-                    app:cornerRadius="10dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/bt_manual_printing_generate"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/manual_printing_generate"
+                        app:cornerRadius="10dp" />
 
-    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:translationZ="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_manual_printing_quantity"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/dark_grey"
+                        app:boxStrokeErrorColor="@color/dark_red"
+                        app:boxStrokeWidth="1dp"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:errorEnabled="true"
+                        app:errorIconTint="@color/dark_red"
+                        app:errorTextColor="@color/dark_red">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_manual_printing_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="@string/manual_printing_quantity"
+                            android:inputType="number"
+                            android:padding="10dp"
+                            android:textSize="16sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/bt_manual_printing_print"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/manual_printing_print"
+                        app:cornerRadius="10dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
