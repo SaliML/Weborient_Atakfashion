@@ -39,7 +39,8 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
         SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_IP_ADDRESS),
         SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS),
         SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_AUTO_CUT) ?: false,
-        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_CUT_AT_END) ?: false)
+        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_CUT_AT_END) ?: false,
+         SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_LABEL_ID) ?: 0)
     }
 
     /**
@@ -101,8 +102,7 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
 
     override fun setConfigDatas(apiAddress: String, ipAddress: String) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS, apiAddress)
-        //SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress.uppercase(Locale.getDefault()))
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_IP_ADDRESS, ipAddress)
-        presenter.onFetchedSettings(ipAddress, apiAddress, false, false,)
+        presenter.onFetchedSettings(ipAddress, apiAddress, false, false, 0)
     }
 }

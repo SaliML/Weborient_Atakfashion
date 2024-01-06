@@ -1,9 +1,12 @@
 package com.weborient.inventory.ui.settings
 
 import android.bluetooth.BluetoothDevice
+import com.brother.sdk.lmprinter.setting.QLPrintSettings
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.PrinterModel
+import com.weborient.inventory.models.QLPrinterLabelType
 import java.util.*
+import kotlin.collections.ArrayList
 
 class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISettingsContract.ISettingsPresenter {
     private val interactor = SettingsInteractor(this)
@@ -26,6 +29,10 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
 
     override fun getAppVersion() {
         interactor.getAppVersion()
+    }
+
+    override fun getSavedLabelSize() {
+        interactor.getSavedLabelSize()
     }
 
     override fun onFetchedApiAddress(apiAddress: String) {
@@ -56,6 +63,10 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         view.showAppVersion(version)
     }
 
+    override fun onFetchedSavedLabelSize(savedLabelType: QLPrintSettings.LabelSize?, labelTypes: ArrayList<QLPrinterLabelType>) {
+        view.selectLabelSize(savedLabelType, labelTypes)
+    }
+
     override fun refreshPrinter(pairedDevices: Set<BluetoothDevice>?) {
         interactor.searchPrinter(pairedDevices)
     }
@@ -77,11 +88,17 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         }
     }
 
-    override fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean) {
+    override fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean, printerLabelType: QLPrinterLabelType?) {
         if(!ipAddress.isNullOrEmpty()){
             view.showIPAddressError(null)
             view.saveIPAddress(ipAddress)
             view.saveCutSettings(isAutoCut, isCutAtEnd)
+
+            if(printerLabelType != null){
+                view.savePrinterLabel(printerLabelType.id.ordinal)
+                interactor.setLabelSize(printerLabelType)
+            }
+
             interactor.setIPAddress(ipAddress)
             interactor.setCutSettings(isAutoCut, isCutAtEnd)
 

@@ -44,6 +44,10 @@ class SplashInteractor(private val presenter: ISplashContract.ISplashPresenter):
         AppConfig.macAddress = macAddress
     }
 
+    override fun setLabelType(labelTypeID: Int) {
+        AppConfig.printerLabelSize = AppConfig.labelSizeList.firstOrNull { it.id.ordinal == labelTypeID }?.id
+    }
+
     /**
      * Nyomtató IP címének beállítása
      */

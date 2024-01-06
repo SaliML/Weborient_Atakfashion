@@ -2,12 +2,18 @@ package com.weborient.inventory.ui.settings
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
+import com.brother.sdk.lmprinter.setting.QLPrintSettings
 import com.weborient.inventory.BuildConfig
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.printer.PrinterHandler
+import com.weborient.inventory.models.QLPrinterLabelType
 import java.util.*
 
 class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPresenter): ISettingsContract.ISettingsInteractor {
+    override fun getSavedLabelSize() {
+        presenter.onFetchedSavedLabelSize(AppConfig.printerLabelSize, AppConfig.labelSizeList)
+    }
+
     override fun getApiAddress() {
         AppConfig.apiAddress?.let{
             presenter.onFetchedApiAddress(it)
@@ -38,6 +44,10 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
     override fun setMacAddress(macAddress: String) {
         AppConfig.macAddress = macAddress.uppercase(Locale.getDefault())
         presenter.onFetchedMacAddress(AppConfig.macAddress)
+    }
+
+    override fun setLabelSize(printerLabelType: QLPrinterLabelType){
+        AppConfig.printerLabelSize = printerLabelType.id
     }
 
     override fun setIPAddress(ipAddress: String) {

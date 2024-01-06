@@ -22,11 +22,12 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
      * @param isAutoCut Vágás minden darabnál
      * @param isCutAtEnd Vágás a nyomtatás végén
      */
-    override fun onFetchedSettings(ipAddress: String?, apiAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean) {
+    override fun onFetchedSettings(ipAddress: String?, apiAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean, labelTypeID: Int) {
         if(ipAddress != null && apiAddress != null){
             interactor.setIPAddress(ipAddress)
             interactor.setApiAddress(apiAddress)
             interactor.setCutSettings(isAutoCut, isCutAtEnd)
+            interactor.setLabelType(labelTypeID)
             interactor.startTimer(AppConfig.SPLASH_TIMER_DURATION_HOURS, AppConfig.SPLASH_TIMER_DURATION_MINUTES, AppConfig.SPLASH_TIMER_DURATION_SECONDS, AppConfig.SPLASH_TIMER_DOWN_INTERVAL)
         }
         else{

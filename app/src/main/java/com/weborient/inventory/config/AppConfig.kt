@@ -3,9 +3,10 @@ package com.weborient.inventory.config
 import android.graphics.Bitmap
 import android.os.Environment
 import com.brother.sdk.lmprinter.PrinterModel
-import com.brother.sdk.lmprinter.setting.PTPrintSettings
 import com.brother.sdk.lmprinter.setting.QLPrintSettings
 import com.weborient.inventory.handlers.api.IApiRequests
+import com.weborient.inventory.models.QLPrinterLabelType
+import com.weborient.inventory.models.api.newproduct.ArrayElement
 import java.io.File
 
 /**
@@ -37,8 +38,7 @@ object AppConfig {
     val imageFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "tempCode.png")
     val printerWorkPath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())
     val printerModel = PrinterModel.QL_820NWB
-    val printerLabelSize = QLPrintSettings.LabelSize.RollW62RB
-    //val printerLabelSize = QLPrintSettings.LabelSize.DieCutW29H90
+    var printerLabelSize: QLPrintSettings.LabelSize? = null
     var isAutoCut = true
     var isCutAtEnd = true
 
@@ -66,8 +66,12 @@ object AppConfig {
     const val SHAREDPREF_KEY_PRINTER_IP_ADDRESS = "printer_ip_address"
     const val SHAREDPREF_KEY_PRINTER_AUTO_CUT = "printer_auto_cut"
     const val SHAREDPREF_KEY_PRINTER_CUT_AT_END = "printer_cut_at_end"
+    const val SHAREDPREF_KEY_PRINTER_LABEL_ID = "printer_label_id"
     const val SHAREDPREF_KEY_API_ADDRESS = "api_address"
 
     //Formátumok
     const val DATETIME_FORMAT_yyyyMMdd_HHmmss = "yyyyMMdd_HHmmss"
+
+    //Címke típusok
+    val labelSizeList = arrayListOf(QLPrinterLabelType(QLPrintSettings.LabelSize.RollW62RB, "sz: 62 mm"), QLPrinterLabelType(QLPrintSettings.LabelSize.DieCutW29H90, "sz: 29 mm x h: 90 mm"))
 }

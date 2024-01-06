@@ -68,8 +68,9 @@ interface ISplashContract {
          * @param apiAddress API cím
          * @param isAutoCut Automatikus vágás minden darabnál
          * @param isCutAtEnd Vágás nyomtatás végén
+         * @param labelTypeID Szalagtípus azonosítója
          */
-        fun onFetchedSettings(ipAddress: String?, apiAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean)
+        fun onFetchedSettings(ipAddress: String?, apiAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean, labelTypeID: Int)
 
         /**
          * Jogosultságok visszaadása
@@ -123,6 +124,11 @@ interface ISplashContract {
          * Nyomtató MAC címének beállítása
          */
         fun setMacAddress(macAddress: String)
+
+        /**
+         * Szalagtípus beállítása
+         */
+        fun setLabelType(labelTypeID: Int)
 
         /**
          * Nyomtató IP címének beállítása

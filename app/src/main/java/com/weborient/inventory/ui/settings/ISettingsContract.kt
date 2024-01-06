@@ -1,7 +1,10 @@
 package com.weborient.inventory.ui.settings
 
 import android.bluetooth.BluetoothDevice
+import com.brother.sdk.lmprinter.setting.QLPrintSettings
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
+import com.weborient.inventory.models.QLPrinterLabelType
+import com.weborient.inventory.models.api.newproduct.ArrayElement
 
 /**
  * MVP minta a beállítások felületre
@@ -11,6 +14,11 @@ interface ISettingsContract {
      * View interfésze
      */
     interface ISettingsView{
+        /**
+         * Szalagméretek beállítása
+         */
+        fun setLabelSizes(labelSizes: ArrayList<String>)
+
         /**
          * API cím mutatása
          */
@@ -72,6 +80,11 @@ interface ISettingsContract {
         fun saveApiAddress(apiAddress: String)
 
         /**
+         * Nyomtató szalagtípus azonosítójának mentése
+         */
+        fun savePrinterLabel(labelID: Int)
+
+        /**
          * Nyomtató MAC címének mentése
          */
         fun saveMacAddress(macAddress: String)
@@ -85,16 +98,23 @@ interface ISettingsContract {
          * Vágási beállítások mentése
          */
         fun saveCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
+
         /**
          * Felület bezárása
          */
         fun closeActivity()
+
+        /**
+         * Mentett szalagméret kiválasztása
+         */
+        fun selectLabelSize(savedLabelType: QLPrintSettings.LabelSize?, labelTypes: ArrayList<QLPrinterLabelType>)
     }
 
     /**
      * Presenter interfésze
      */
     interface ISettingsPresenter{
+
         /**
          * API cím lekérdezése
          */
@@ -119,6 +139,11 @@ interface ISettingsContract {
          * Alkalmazás verziószámának lekérdezése
          */
         fun getAppVersion()
+
+        /**
+         * Mentett szalagméret lekérdezése
+         */
+        fun getSavedLabelSize()
 
         /**
          * API cím visszaadása
@@ -156,6 +181,11 @@ interface ISettingsContract {
         fun onFetchedAppVersion(version: String)
 
         /**
+         * Mentett szalagméret visszaadása
+         */
+        fun onFetchedSavedLabelSize(savedLabelType: QLPrintSettings.LabelSize?, labelTypes: ArrayList<QLPrinterLabelType>)
+
+        /**
          * Vissza gomb eseménye
          */
         fun onClickedBackButton()
@@ -168,7 +198,7 @@ interface ISettingsContract {
         /**
          * MAC cím mentés gomb eseménye
          */
-        fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean)
+        fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean, printerLabelType: QLPrinterLabelType?)
 
         /**
          * Nyomtató adatainak frissítése
@@ -180,6 +210,11 @@ interface ISettingsContract {
      * Interactor interfésze
      */
     interface ISettingsInteractor{
+        /**
+         * Mentett szalagméret lekérdezése
+         */
+        fun getSavedLabelSize()
+
         /**
          * API cím lekérdezése
          */
@@ -204,6 +239,11 @@ interface ISettingsContract {
          * Alkalmazás verziószámának lekérdezése
          */
         fun getAppVersion()
+
+        /**
+         * Szalagméret rögzítése
+         */
+        fun setLabelSize(printerLabelType: QLPrinterLabelType)
 
         /**
          * API cím beállítása

@@ -1,19 +1,25 @@
 package com.weborient.inventory.ui.settings
 
+import android.R
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
+import com.brother.sdk.lmprinter.setting.QLPrintSettings
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivitySettingsBinding
 import com.weborient.inventory.handlers.dialog.DialogHandler
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
+import com.weborient.inventory.models.QLPrinterLabelType
+import com.weborient.inventory.models.api.newproduct.ArrayElement
 
 class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
     private val presenter = SettingsPresenter(this)
@@ -33,10 +39,14 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
     private lateinit var printerStatusView: TextView
     private lateinit var appVersionView: TextView
 
+    private lateinit var spinnerLabelSizes: MaterialAutoCompleteTextView
+
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var switchIsAutoCut: Switch
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var switchIsCutAndEnd: Switch
+
+    private var selectedLabelSize: QLPrinterLabelType? = null
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +59,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
         layoutApiAddress = binding.tilSettingsApi
         layoutPrinterIPAddress = binding.tilSettingsApi
-        //layoutPrinterMacAddress = binding.tilSettingsMac
+        spinnerLabelSizes = binding.autoSettingsLabelType
 
         apiAddressView = binding.etApiAddress
         printerIPAddressView = binding.etSettingsPrinterIpAddress
@@ -69,8 +79,12 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         }
 
         binding.btSettingsPrinterSettingsSave.setOnClickListener {
-            presenter.onClickedPrinterSettingsSaveButton(printerIPAddressView.text.toString(), binding.swSettingsAutoCut.isChecked, binding.swSettingsCutAtEnd.isChecked)
+            presenter.onClickedPrinterSettingsSaveButton(printerIPAddressView.text.toString(), binding.swSettingsAutoCut.isChecked, binding.swSettingsCutAtEnd.isChecked, selectedLabelSize)
 
+        }
+
+        spinnerLabelSizes.setOnItemClickListener { adapterView, view, i, l ->
+            selectedLabelSize = adapterView.getItemAtPosition(i) as QLPrinterLabelType
         }
 
         /*binding.btSettingsPrinterRefresh.setOnClickListener {
@@ -86,6 +100,16 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         //presenter.getMacAddress()
         presenter.getAppVersion()
         //presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        presenter.getSavedLabelSize()
+    }
+
+    override fun setLabelSizes(labelSizes: ArrayList<String>) {
+        spinnerLabelSizes.setAdapter(ArrayAdapter(this, R.layout.simple_list_item_1, labelSizes))
     }
 
     override fun showApiAddress(apiAddress: String) {
@@ -137,6 +161,10 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS, apiAddress)
     }
 
+    override fun savePrinterLabel(labelID: Int) {
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_LABEL_ID, labelID)
+    }
+
     @SuppressLint("MissingPermission")
     override fun saveMacAddress(macAddress: String) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress)
@@ -154,5 +182,22 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
     override fun closeActivity() {
         finish()
+    }
+
+    override fun selectLabelSize(savedLabelType: QLPrintSettings.LabelSize?, labelTypes: ArrayList<QLPrinterLabelType>) {
+        labelTypes.let{ labelTypeArray ->
+            spinnerLabelSizes.setAdapter(ArrayAdapter(this, R.layout.simple_list_item_1, labelTypeArray))
+
+            val tempLabelSize = labelTypes.firstOrNull { labelType -> labelType.id == savedLabelType }
+
+            if (tempLabelSize != null){
+                spinnerLabelSizes.setText(tempLabelSize.name, false)
+                selectedLabelSize = tempLabelSize
+            }
+            else{
+                spinnerLabelSizes.setText(labelTypes[0].name, false)
+                selectedLabelSize = labelTypes[0]
+            }
+        }
     }
 }

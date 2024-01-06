@@ -143,6 +143,30 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
                 presenter.getItemByID(itemID)
             }
         }
+
+        spinnerCategory.setOnItemClickListener { adapterView, view, i, l ->
+            selectedCategory = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
+        spinnerPresentation.setOnItemClickListener { adapterView, view, i, l ->
+            selectedPresentation = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
+        spinnerUnit.setOnItemClickListener { adapterView, view, i, l ->
+            selectedUnit = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
+        spinnerStatus.setOnItemClickListener { adapterView, view, i, l ->
+            selectedStatus = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
+        spinnerTemplate.setOnItemClickListener { adapterView, view, i, l ->
+            selectedTemplate = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
+        spinnerTax.setOnItemClickListener { adapterView, view, i, l ->
+            selectedTax = adapterView.getItemAtPosition(i) as ArrayElement
+        }
     }
 
     override fun onResume() {
