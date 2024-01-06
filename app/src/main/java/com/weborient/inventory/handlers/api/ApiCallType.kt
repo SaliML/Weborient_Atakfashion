@@ -9,7 +9,8 @@ enum class ApiCallType(val value: Int) {
     NewProductSendData(5),
     AllProducts(6),
     GetOneProduct(7),
-    AddQuantityToProduct(8),
-    SubtractionQuantityFromProduct(9),
-    UploadPhoto(10)
+    GetOneProductDetails(8),
+    AddQuantityToProduct(9),
+    SubtractionQuantityFromProduct(10),
+    UploadPhoto(11)
 }

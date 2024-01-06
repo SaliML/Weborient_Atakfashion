@@ -15,6 +15,7 @@
     <!--Főoldal-->
     <string name="main_button_in">Bevét</string>
     <string name="main_button_out">Kiadás</string>
+    <string name="main_button_edit">Termék szerkesztése</string>
     <string name="main_button_photos">Fényképek</string>
     <string name="main_button_manual_print">Manuális nyomtatás</string>
     <string name="main_button_settings">Beállítások</string>
@@ -23,18 +24,22 @@
     <!--Beállítások-->
     <string name="settings_title">Beállítások</string>
     <string name="settings_title_version">Alkalmazás verzió</string>
-    <string name="settings_title_printer">Nyomtató adatai</string>
+    <string name="settings_title_printer">Nyomtató beállításai</string>
+    <string name="settings_title_is_auto_cut">Vágás darabonként</string>
+    <string name="settings_title_is_cut_at_end">Vágás nyomtatás végén</string>
     <string name="settings_title_printer_name">Név</string>
     <string name="settings_title_printer_status">Állapot</string>
     <string name="settings_button_save">Mentés</string>
     <string name="settings_button_refresh">Frissítés</string>
     <string name="settings_api_hint">API elérhetősége</string>
     <string name="settings_printer_mac_address_hint">Nyomtató MAC címe</string>
+    <string name="settings_printer_ip_address_hint">Nyomtató IP címe</string>
 
     <!--Konfig párbeszédablak-->
     <string name="dialog_config_title">Beállítások</string>
     <string name="dialog_config_api_hint">API címe</string>
     <string name="dialog_config_printer_mac_address_hint">Nyomtató MAC címe</string>
+    <string name="dialog_config_printer_ip_address_hint">Nyomtató IP címe</string>
     <string name="dialog_config_button_save">Mentés</string>
 
     <!--Anyagelvonás-->
@@ -47,6 +52,25 @@
     <string name="out_item_description">Leírás</string>
     <string name="out_item_scan_id">Termékazonosító: %1$s</string>
 
+    <!--Termék szerkesztése-->
+    <string name="edit_title">Termék szerkesztése</string>
+    <string name="edit_item_title">Új termék</string>
+    <string name="edit_item_title_id">Azonosító</string>
+    <string name="edit_item_title_default_id">-</string>
+    <string name="edit_item_title_category">Kategória</string>
+    <string name="edit_item_title_quantity">Mennyiség</string>
+    <string name="edit_item_title_presentation">Kiszerelés</string>
+    <string name="edit_item_title_tax">Adónem (%)</string>
+    <string name="edit_item_title_net_price">Nettó ár</string>
+    <string name="edit_item_title_margin">Árrés (%)</string>
+    <string name="edit_item_title_gross_price">Bruttó ár</string>
+    <string name="edit_item_title_unit">Egység</string>
+    <string name="edit_item_title_status">Státusz</string>
+    <string name="edit_item_title_name">Megnevezés</string>
+    <string name="edit_item_title_description">Leírás</string>
+    <string name="edit_item_title_template">Sablon</string>
+    <string name="edit_item_title_print_group">Csoportos nyomtatás</string>
+
     <!--Manuális nyomtatás-->
     <string name="manual_printing_title">Manuális nyomtatás</string>
     <string name="manual_printing_raw_text">Generálandó azonosító</string>
@@ -56,9 +80,13 @@
     <string name="manual_printing_qrcode_empty">Kérem generáljon QR kódot!</string>
     <string name="manual_reprinting_qrcode_empty">Kérem olvassa be a QR kódot!</string>
     <string name="manual_reprinting_qrcode_scan">QR kód beolvasása</string>
+    <string name="manual_options_reprint">QR kód újranyomtatása</string>
+    <string name="manual_options_print_custom_text">Tetszőleges QR kód</string>
+    <string name="manual_options_print_product">QR kód nyomtatása termék alapján</string>
 
     <!--PhoneServices-->
     <string name="dialog_settings_bluetooth_state">Kérem kapcsolja be a Bluetooth-t és próbálja újra!</string>
+    <string name="dialog_settings_wifi_state">Kérem kapcsolja be a WIFI-t és próbálja újra!</string>
     <string name="dialog_settings_network_state">Kérem csatlakozzon az internethez és próbálja újra!</string>
 
     <!--Terméklista elem-->

@@ -18,6 +18,11 @@ interface IMainContract {
         fun navigateToOutActivity()
 
         /**
+         * Navigálás a termék szerkesztése oldalra
+         */
+        fun navigateToEditActivity()
+
+        /**
          * Navigálás a beállítások oldalra
          */
         fun navigateToSettingsActivity()
@@ -51,6 +56,11 @@ interface IMainContract {
          * Kiadás gomb eseménye
          */
         fun onClickedOutButton()
+
+        /**
+         * Szerkesztés gomb eseménye
+         */
+        fun onClickedEditButton()
 
         /**
          * Manuális nyomtatás gomb eseménye

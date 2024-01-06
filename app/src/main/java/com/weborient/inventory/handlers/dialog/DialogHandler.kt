@@ -87,6 +87,10 @@ object DialogHandler {
                 binding.ivDialog.setImageResource(R.drawable.icon_warning)
                 binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_turnon)
             }
+            DialogTypeEnums.SettingsWifi->{
+                binding.ivDialog.setImageResource(R.drawable.icon_warning)
+                binding.btDialogOk.text = activity.resources.getString(R.string.dialog_button_turnon)
+            }
         }
 
         val createdDialog = dialog.create()
@@ -107,6 +111,9 @@ object DialogHandler {
                 }
                 DialogTypeEnums.SettingsBluetooth->{
                     resultHandler.onDialogResult(DialogResultEnums.SettingsBluetooth)
+                }
+                DialogTypeEnums.SettingsWifi->{
+                    resultHandler.onDialogResult(DialogResultEnums.SettingsWifi)
                 }
                 else->{
                     resultHandler.onDialogResult(DialogResultEnums.OK)
@@ -201,20 +208,20 @@ object DialogHandler {
         dialog.setView(binding.root)
 
         binding.etConfigApiAddress.setText(apiAddress, TextView.BufferType.EDITABLE)
-        binding.etConfigPrinterMacAddress.setText(macAddress, TextView.BufferType.EDITABLE)
+        binding.etConfigPrinterIpAddress.setText(macAddress, TextView.BufferType.EDITABLE)
 
         val createdDialog = dialog.create()
         createdDialog.show()
 
         binding.btConfigSave.setOnClickListener {
             binding.tilApiAddress.error = null
-            binding.tilMacAddress.error = null
+            binding.tilIpAddress.error = null
 
             val tempApiAddress = binding.etConfigApiAddress.text.toString()
-            val tempMacAddress = binding.etConfigPrinterMacAddress.text.toString()
+            val tempIPAddress = binding.etConfigPrinterIpAddress.text.toString()
 
-            if(tempApiAddress.isNotEmpty() && tempMacAddress.isNotEmpty()){
-                dialogHandler.setConfigDatas(tempApiAddress, tempMacAddress)
+            if(tempApiAddress.isNotEmpty() && tempIPAddress.isNotEmpty()){
+                dialogHandler.setConfigDatas(tempApiAddress, tempIPAddress)
                 createdDialog.dismiss()
             }
             else{
@@ -222,8 +229,8 @@ object DialogHandler {
                     binding.tilApiAddress.error = "Hiányzó API cím"
                 }
 
-                if(tempMacAddress.isEmpty()){
-                    binding.tilMacAddress.error = "Hiányzó MAC cím"
+                if(tempIPAddress.isEmpty()){
+                    binding.tilIpAddress.error = "Hiányzó MAC cím"
                 }
             }
         }

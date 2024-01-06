@@ -1,13 +1,12 @@
 package com.weborient.inventory.ui.manualprinting
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.graphics.Bitmap
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
+import com.weborient.inventory.models.api.getdata.ProductData
 
 class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualPrintingView): IManualPrintingContract.IManualPrintingPresenter {
     private val interactor = ManualPrintingInteractor(this)
@@ -16,9 +15,9 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
         view.closeActivity()
     }
 
-    override fun onClickedGenerateButton(text: String?) {
+    override fun generateQRCode(text: String?) {
         if(text.isNullOrEmpty()){
-            view.showTextError("Kérem töltse ki a mezőt!")
+            view.showTextError("Kérem adja meg a generálni kívánt szöveget vagy olvasson be QR kódot!")
         }
         else{
             view.showTextError(null)
@@ -26,8 +25,12 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
         }
     }
 
+    override fun getProducts() {
+        interactor.getProducts()
+    }
+
     @SuppressLint("MissingPermission")
-    override fun onClickedPrintButton(qrCode: Bitmap?, quantity: Int?, bluetoothAdapter: BluetoothAdapter?) {
+    /*override fun onClickedPrintButton(qrCode: Bitmap?, quantity: Int?, bluetoothAdapter: BluetoothAdapter?) {
         if(interactor.isPrinterPaired(bluetoothAdapter?.bondedDevices)){
             if(qrCode != null){
                 if(quantity == null){
@@ -39,7 +42,7 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
 
                     //view.showProgress("Címke nyomtatása")
 
-                    interactor.print(qrCode, quantity, bluetoothAdapter, AppConfig.macAddress)
+                    interactor.printBluetooth(qrCode, quantity, bluetoothAdapter, AppConfig.macAddress)
                 }
             }
             else{
@@ -49,16 +52,42 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
         else{
             view.showInformationDialog("Kérem párosítsa a nyomtatót, ellenőrizze a beállításoknál a címet és próbálja újra!", DialogTypeEnums.Warning)
         }
+    }*/
+
+    override fun onClickedPrintButton(qrCode: Bitmap?, quantity: Int?) {
+        if(qrCode != null){
+            if(quantity == null){
+                view.showQuantityError("Kérem adja meg a mennyiséget!")
+            }
+            else{
+                //Mehet a nyomtatás
+                view.showQuantityError(null)
+
+                //view.showProgress("Címke nyomtatása")
+
+                interactor.printWifi(qrCode, quantity, AppConfig.ipAddress)
+            }
+        }
+        else{
+            view.showInformationDialog("Kérem generáljon vagy olvassa be a QR kódot!", DialogTypeEnums.Warning)
+        }
+    }
+
+    override fun onClickedScanButton() {
+        view.navigateToScannerActivity()
     }
 
     override fun onGeneratedQRCode(bitmap: Bitmap) {
-        view.showQRCode(bitmap)
+        view.setQRCode(bitmap)
     }
 
     override fun onDialogResult(result: DialogResultEnums) {
         when(result){
             DialogResultEnums.SettingsBluetooth->{
                 view.showBluetoothDialog()
+            }
+            DialogResultEnums.SettingsWifi->{
+                view.showWifiDialog()
             }
             else->{}
         }
@@ -94,5 +123,26 @@ class ManualPrintingPresenter(private val view: IManualPrintingContract.IManualP
         view.clearQRCode()
         view.clearText()
         view.clearAmount()
+    }
+
+    override fun onSuccessful(information: String) {
+        view.showInformationDialog(information, DialogTypeEnums.Successful)
+    }
+
+    override fun onFailure(information: String) {
+        view.showInformationDialog(information, DialogTypeEnums.Error)
+    }
+
+    override fun onClickedProduct(product: ProductData?) {
+        if(product != null){
+            interactor.generateQRCodeFromText(product.id)
+        }
+        else{
+            view.showInformationDialog("Nincs kijelölve termék!", DialogTypeEnums.Warning)
+        }
+    }
+
+    override fun onRetrievedProducts(productList: ArrayList<ProductData>) {
+        view.showItems(productList)
     }
 }

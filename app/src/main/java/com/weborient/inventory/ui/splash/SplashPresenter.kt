@@ -19,15 +19,18 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
      * MAC és API címek ellenőrzése
      * @param macAddress MAC cím
      * @param apiAddress API cím
+     * @param isAutoCut Vágás minden darabnál
+     * @param isCutAtEnd Vágás a nyomtatás végén
      */
-    override fun onFetchedConfigAddresses(macAddress: String?, apiAddress: String?) {
-        if(macAddress != null && apiAddress != null){
-            interactor.setMacAddress(macAddress)
+    override fun onFetchedSettings(ipAddress: String?, apiAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean) {
+        if(ipAddress != null && apiAddress != null){
+            interactor.setIPAddress(ipAddress)
             interactor.setApiAddress(apiAddress)
+            interactor.setCutSettings(isAutoCut, isCutAtEnd)
             interactor.startTimer(AppConfig.SPLASH_TIMER_DURATION_HOURS, AppConfig.SPLASH_TIMER_DURATION_MINUTES, AppConfig.SPLASH_TIMER_DURATION_SECONDS, AppConfig.SPLASH_TIMER_DOWN_INTERVAL)
         }
         else{
-            view.showConfigDialog(macAddress, apiAddress)
+            view.showConfigDialog(ipAddress, apiAddress)
         }
     }
 
@@ -48,7 +51,7 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
             view.showPermissionDialog(permissions, AppConfig.REQUEST_CODE_PERMISSION)
         }
         else{
-            view.getAddressConfigs()
+            view.getSettings()
         }
     }
 
@@ -67,7 +70,7 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
     override fun onGrantedPermissions(requestCode: Int, grantResults: IntArray) {
         if(requestCode == AppConfig.REQUEST_CODE_PERMISSION){
             if(PermissionHandler.isAllPermissionsGranted(grantResults)){
-                view.getAddressConfigs()
+                view.getSettings()
             }
             else{
                 view.showInformationDialog("Nem lett megadva minden szükséges engedély!\nAz alkalmazás be fog zárulni!", DialogTypeEnums.WarningClose)

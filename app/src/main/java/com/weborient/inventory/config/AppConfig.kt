@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Environment
 import com.brother.sdk.lmprinter.PrinterModel
 import com.brother.sdk.lmprinter.setting.PTPrintSettings
+import com.brother.sdk.lmprinter.setting.QLPrintSettings
 import com.weborient.inventory.handlers.api.IApiRequests
 import java.io.File
 
@@ -29,14 +30,18 @@ object AppConfig {
 
     //Nyomtató beállításai
     var macAddress: String? = null
+    var ipAddress: String? = null
     val bitmapCompressFormat = Bitmap.CompressFormat.PNG
     val bitmapCompressQuality = 100
 
     val imageFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "tempCode.png")
     val printerWorkPath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())
-    val printerModel = PrinterModel.PT_P300BT
-    val printerLabelSize = PTPrintSettings.LabelSize.Width12mm
-    val printerChainPrint = false
+    val printerModel = PrinterModel.QL_820NWB
+    val printerLabelSize = QLPrintSettings.LabelSize.RollW62RB
+    //val printerLabelSize = QLPrintSettings.LabelSize.DieCutW29H90
+    var isAutoCut = true
+    var isCutAtEnd = true
+
 
     //Jogosultságkérés kódja
     const val REQUEST_CODE_PERMISSION = 1
@@ -58,6 +63,9 @@ object AppConfig {
     //SharedPrefences azonosítók
     const val SHAREDPREF_ID = "inventory_app"
     const val SHAREDPREF_KEY_PRINTER_MAC_ADDRESS = "printer_mac_address"
+    const val SHAREDPREF_KEY_PRINTER_IP_ADDRESS = "printer_ip_address"
+    const val SHAREDPREF_KEY_PRINTER_AUTO_CUT = "printer_auto_cut"
+    const val SHAREDPREF_KEY_PRINTER_CUT_AT_END = "printer_cut_at_end"
     const val SHAREDPREF_KEY_API_ADDRESS = "api_address"
 
     //Formátumok

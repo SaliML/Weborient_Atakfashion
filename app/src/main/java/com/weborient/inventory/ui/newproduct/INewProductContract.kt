@@ -5,7 +5,7 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
 import com.weborient.inventory.models.api.newproduct.ArrayElement
-import com.weborient.inventory.models.api.sendproduct.NewProductSendData
+import com.weborient.inventory.models.api.sendproduct.ProductSendData
 import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 /**
@@ -59,7 +59,7 @@ interface INewProductContract {
     }
 
     interface INewProductInteractor{
-        fun uploadProduct(newProduct: NewProductSendData)
+        fun uploadProduct(newProduct: ProductSendData)
         fun getDatas()
         fun print(id: String, quantity: Int, bluetoothAdapter: BluetoothAdapter?, deviceAddress: String?)
     }

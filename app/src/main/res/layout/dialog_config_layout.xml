@@ -62,7 +62,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_mac_address"
+                android:id="@+id/til_ip_address"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,10 +83,10 @@
                 app:errorTextColor="@color/dark_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_config_printer_mac_address"
+                    android:id="@+id/et_config_printer_ip_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/dialog_config_printer_mac_address_hint"
+                    android:hint="@string/dialog_config_printer_ip_address_hint"
                     android:inputType="text"
                     android:padding="10dp"
                     android:textSize="16sp" />

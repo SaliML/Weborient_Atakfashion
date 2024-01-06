@@ -45,9 +45,24 @@ class SplashInteractor(private val presenter: ISplashContract.ISplashPresenter):
     }
 
     /**
+     * Nyomtató IP címének beállítása
+     */
+    override fun setIPAddress(ipAddress: String) {
+        AppConfig.ipAddress = ipAddress
+    }
+
+    /**
      * API cím beállítása
      */
     override fun setApiAddress(apiAddress: String) {
         AppConfig.apiAddress = apiAddress
+    }
+
+    /**
+     * Vágási beállítások rögzítése
+     */
+    override fun setCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean) {
+        AppConfig.isAutoCut = isAutoCut
+        AppConfig.isCutAtEnd = isCutAtEnd
     }
 }

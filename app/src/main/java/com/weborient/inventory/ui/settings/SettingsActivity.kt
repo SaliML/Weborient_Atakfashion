@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputLayout
 import com.weborient.inventory.config.AppConfig
@@ -22,13 +23,20 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
     private lateinit var layoutApiAddress: TextInputLayout
     private lateinit var layoutPrinterMacAddress: TextInputLayout
+    private lateinit var layoutPrinterIPAddress: TextInputLayout
 
     private lateinit var apiAddressView: EditText
     private lateinit var printerMacAddressView: EditText
+    private lateinit var printerIPAddressView: EditText
 
     private lateinit var printerNameView: TextView
     private lateinit var printerStatusView: TextView
     private lateinit var appVersionView: TextView
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private lateinit var switchIsAutoCut: Switch
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private lateinit var switchIsCutAndEnd: Switch
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +44,19 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         val binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        switchIsAutoCut = binding.swSettingsAutoCut
+        switchIsCutAndEnd = binding.swSettingsCutAtEnd
+
         layoutApiAddress = binding.tilSettingsApi
-        layoutPrinterMacAddress = binding.tilSettingsMac
+        layoutPrinterIPAddress = binding.tilSettingsApi
+        //layoutPrinterMacAddress = binding.tilSettingsMac
 
         apiAddressView = binding.etApiAddress
-        printerMacAddressView = binding.etSettingsPrinterMacAddress
+        printerIPAddressView = binding.etSettingsPrinterIpAddress
+        //printerMacAddressView = binding.etSettingsPrinterMacAddress
 
-        printerNameView = binding.tvSettingsPrinterName
-        printerStatusView = binding.tvSettingsPrinterStatus
+        /*printerNameView = binding.tvSettingsPrinterName
+        printerStatusView = binding.tvSettingsPrinterStatus*/
 
         appVersionView = binding.tvSettingsVersion
 
@@ -55,21 +68,24 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
             presenter.onClickedApiSaveButton(apiAddressView.text.toString())
         }
 
-        binding.btSettingsPrinterMacAddressSave.setOnClickListener {
-            presenter.onClickedPrinterMacAddressSaveButton(printerMacAddressView.text.toString())
+        binding.btSettingsPrinterSettingsSave.setOnClickListener {
+            presenter.onClickedPrinterSettingsSaveButton(printerIPAddressView.text.toString(), binding.swSettingsAutoCut.isChecked, binding.swSettingsCutAtEnd.isChecked)
+
         }
 
-        binding.btSettingsPrinterRefresh.setOnClickListener {
+        /*binding.btSettingsPrinterRefresh.setOnClickListener {
             presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
-        }
+        }*/
 
-        bluetoothManager = getSystemService(BluetoothManager::class.java)
-        bluetoothAdapter = bluetoothManager?.adapter
+        /*bluetoothManager = getSystemService(BluetoothManager::class.java)
+        bluetoothAdapter = bluetoothManager?.adapter*/
 
         presenter.getApiAddress()
-        presenter.getMacAddress()
+        presenter.getIPAddress()
+        presenter.getCutSettings()
+        //presenter.getMacAddress()
         presenter.getAppVersion()
-        presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
+        //presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
     }
 
     override fun showApiAddress(apiAddress: String) {
@@ -78,6 +94,10 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
     override fun showPrinterMacAddress(printerMacAddress: String?) {
         printerMacAddressView.setText(printerMacAddress, TextView.BufferType.EDITABLE)
+    }
+
+    override fun showPrinterIPAddress(printerIPAddress: String?) {
+        printerIPAddressView.setText(printerIPAddress, TextView.BufferType.EDITABLE)
     }
 
     override fun showPrinterName(printerName: String) {
@@ -100,8 +120,17 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         layoutPrinterMacAddress.error = error
     }
 
+    override fun showIPAddressError(error: String?) {
+        layoutPrinterIPAddress.error = error
+    }
+
     override fun showInformationDialog(information: String, type: DialogTypeEnums) {
         DialogHandler.showTimedDialog(this, information, type)
+    }
+
+    override fun showCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean) {
+        switchIsAutoCut.isChecked = isAutoCut
+        switchIsCutAndEnd.isChecked = isCutAtEnd
     }
 
     override fun saveApiAddress(apiAddress: String) {
@@ -112,6 +141,15 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
     override fun saveMacAddress(macAddress: String) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress)
         presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
+    }
+
+    override fun saveIPAddress(ipAddress: String) {
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_IP_ADDRESS, ipAddress)
+    }
+
+    override fun saveCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean) {
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_CUT_AT_END, isCutAtEnd)
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_AUTO_CUT, isAutoCut)
     }
 
     override fun closeActivity() {

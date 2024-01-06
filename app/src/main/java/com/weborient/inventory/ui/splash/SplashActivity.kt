@@ -8,7 +8,6 @@ import com.weborient.inventory.R
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.databinding.ActivitySplashBinding
 import com.weborient.inventory.handlers.dialog.*
-import com.weborient.inventory.handlers.file.FileHandler
 import com.weborient.inventory.handlers.permission.PermissionHandler
 import com.weborient.inventory.handlers.preferences.SharedPreferencesHandler
 import com.weborient.inventory.ui.main.MainActivity
@@ -35,9 +34,12 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
         presenter.onCheckedPermissions(PermissionHandler.getNotGrantedPermissions(this, permissions))
     }
 
-    override fun getAddressConfigs() {
-        presenter.onFetchedConfigAddresses(SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS),
-        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS))
+    override fun getSettings() {
+        presenter.onFetchedSettings(/*SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS)*/
+        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_IP_ADDRESS),
+        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS),
+        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_AUTO_CUT) ?: false,
+        SharedPreferencesHandler.getValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_CUT_AT_END) ?: false)
     }
 
     /**
@@ -97,10 +99,10 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
         presenter.onDialogResult(result)
     }
 
-    override fun setConfigDatas(apiAddress: String, macAddress: String) {
+    override fun setConfigDatas(apiAddress: String, ipAddress: String) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_API_ADDRESS, apiAddress)
-        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress.uppercase(Locale.getDefault()))
-
-        presenter.onFetchedConfigAddresses(macAddress, apiAddress)
+        //SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress.uppercase(Locale.getDefault()))
+        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_IP_ADDRESS, ipAddress)
+        presenter.onFetchedSettings(ipAddress, apiAddress, false, false,)
     }
 }

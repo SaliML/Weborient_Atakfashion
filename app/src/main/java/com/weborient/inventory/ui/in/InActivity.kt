@@ -39,7 +39,7 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothManager: BluetoothManager? = null
 
-    private var itemAdapter: ItemListAdapter? = null
+    private var itemAdapter: ProductListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,7 +153,7 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
     }
 
     override fun showItems(productList: ArrayList<ProductData>) {
-        itemAdapter = ItemListAdapter(this, this, productList)
+        itemAdapter = ProductListAdapter(this, this, productList)
         recyclerItemList.adapter = itemAdapter
     }
 

@@ -2,7 +2,7 @@ package com.weborient.inventory.models.api.sendproduct
 
 import com.google.gson.annotations.SerializedName
 
-data class NewProductSendData(
+data class ProductSendData(
     @SerializedName("name")
     val name: String,
 

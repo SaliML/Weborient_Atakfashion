@@ -1,26 +1,30 @@
-package com.weborient.inventory.ui.newproduct
+package com.weborient.inventory.ui.edit
 
-import android.bluetooth.BluetoothAdapter
-import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
-import com.weborient.inventory.handlers.printer.PrintResult
+import com.weborient.inventory.models.api.getdata.GetDataByIDBase
 import com.weborient.inventory.models.api.newproduct.ArrayElement
 import com.weborient.inventory.models.api.sendproduct.ProductSendData
-import kotlinx.coroutines.*
 
-class NewProductPresenter(private val view: INewProductContract.INewProductView): INewProductContract.INewProductPresenter, CoroutineScope by MainScope() {
-    private val interactor = NewProductInteractor(this)
+class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IEditPresenter {
+    private val interactor = EditInteractor(this)
 
-    override fun getDatas() {
-        interactor.getDatas()
+    /**
+     * Vissza gomb eseménye
+     */
+    override fun onClickedBackButton() {
+        view.closeActivity()
     }
 
-    override fun onClickedBackButton() {
-        view.closeFragment()
+    /**
+     * Szkennelés gomb eseménye
+     */
+    override fun onClickedScanButton() {
+        view.navigateToScannerActivity()
     }
 
     override fun onClickedUploadButton(
+        id: String?,
         name: String?,
         description: String?,
         quantity: String?,
@@ -41,6 +45,9 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
         view.showStatusError(null)
         view.showTemplateError(null)
 
+        if(id.isNullOrEmpty()){
+            view.showIDError("Kötelező kitölteni!")
+        }
         if(name.isNullOrEmpty()){
             view.showNameError("Kötelező kitölteni!")
         }
@@ -119,70 +126,48 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
         }
     }
 
-    override fun onClickedPrintButton(
-        id: String,
-        quantity: String?,
-        bluetoothAdapter: BluetoothAdapter?
-    ) {
-        if(quantity.isNullOrEmpty()){
-            view.showQuantityError("Kötelező kitölteni!")
+    override fun getItemByID(itemID: String?) {
+        itemID?.let{
+            interactor.getItemByID(it)
         }
-        else{
-            val tempQuantity = quantity.toIntOrNull()
+    }
 
-            if(tempQuantity == null){
-                view.showQuantityError("Kérem számot adjon meg!")
+    /**
+     * Termék adatainak visszaadása
+     */
+    override fun onFetchedProduct(product: GetDataByIDBase?, categories: ArrayList<ArrayElement>?, templates: ArrayList<ArrayElement>?,
+    units: ArrayList<ArrayElement>?, packageTypes: ArrayList<ArrayElement>?,
+    productstatuses: ArrayList<ArrayElement>?,
+    taxes: ArrayList<ArrayElement>?) {
+        if (product != null){
+            if (product.text.isNullOrEmpty()){
+                //Van ilyen termék
+                view.hideScanButton()
+                view.hideEmptyContainer()
+                view.showProductDetailsContainer()
+
+                if(product.datas.isNotEmpty()){
+                    view.showProductDatas(product.datas.first(), categories, templates, units, packageTypes, productstatuses, taxes)
+                }
             }
             else{
-                view.showProgress("Címke nyomtatása")
-
-                interactor.print(id, tempQuantity, bluetoothAdapter, AppConfig.macAddress)
+                //Nincs ilyen termék
+                view.hideProductDetailsContainer()
+                view.showScanButton()
+                view.showEmptyContainer()
+                view.showInformationDialog(product.text ?: "Nem található ilyen termék!", DialogTypeEnums.Error)
             }
         }
-    }
-
-    override fun onUploadedResult(isSuccessful: Boolean, id: String?) {
-        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
-        view.setItemID(id)
-        view.showProgress("Termék feltöltése")
-        view.showPrintButton()
-    }
-
-    override fun onRetrievedCategories(categories: ArrayList<ArrayElement>?) {
-        view.setCategories(categories)
-    }
-
-    override fun onRetrievedPackageTypes(packageTypes: ArrayList<ArrayElement>?) {
-        view.setPackageTypes(packageTypes)
-    }
-
-    override fun onRetrievedUnits(units: ArrayList<ArrayElement>?) {
-        view.setUnits(units)
-    }
-
-    override fun onRetrievedStatuses(statuses: ArrayList<ArrayElement>?) {
-        view.setStatuses(statuses)
-    }
-
-    override fun onRetrievedTemplates(templates: ArrayList<ArrayElement>?) {
-        view.setTemplates(templates)
-    }
-
-    override fun onRetrievedTaxes(taxes: ArrayList<ArrayElement>?) {
-        view.setTaxes(taxes)
-    }
-
-    override fun onReceivedNewProductID(id: String) {
-        view.setItemID(id)
-        view.showInformationDialog("Sikeres feltöltés!", DialogTypeEnums.Successful)
-        view.showPrintButton()
+        else{
+            view.hideProductDetailsContainer()
+            view.showScanButton()
+            view.showEmptyContainer()
+            view.showInformationDialog("Nem található ilyen termék!", DialogTypeEnums.Error)
+        }
     }
 
     override fun onDialogResult(result: DialogResultEnums) {
         when(result){
-            DialogResultEnums.SettingsBluetooth->{
-                view.showBluetoothDialog()
-            }
             DialogResultEnums.SettingsNetwork->{
                 view.showNetworkDialog()
             }
@@ -190,33 +175,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
         }
     }
 
-    override fun onPrintResult(result: PrintResult) {
-        view.hideProgress()
-
-        when(result){
-            PrintResult.Successful->{
-                view.showInformationDialog("Sikeres nyomtatás!", DialogTypeEnums.Successful)
-            }
-            PrintResult.MacAddressIsNull->{
-                view.showInformationDialog("Hiányzó fizikai cím, kérem a \"Beállítások\" felületen töltse ki a \"MAC\" címet!", DialogTypeEnums.Error)
-            }
-            PrintResult.OpenStreamFailure->{
-                view.showInformationDialog("Nem sikerült csatlakozni a nyomtatóhoz, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
-            }
-            PrintResult.Timeout->{
-                view.showInformationDialog("Időtúllépés, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
-            }
-            else->{
-                view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
-            }
-        }
-    }
-
-    override fun onSuccessful(information: String) {
-        view.showTimedInformationDialog(information, DialogTypeEnums.Successful)
-    }
-
-    override fun onFailure(information: String) {
-        view.showInformationDialog(information, DialogTypeEnums.Error)
+    override fun getDatas() {
+        interactor.getDatas()
     }
 }

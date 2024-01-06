@@ -9,12 +9,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.weborient.inventory.R
 import com.weborient.inventory.models.api.getdata.ProductData
 
-class ItemListAdapter(private val context: Context, private val handler: IProductClickHandler, private val productList: ArrayList<ProductData>): RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
+class ProductListAdapter(private val context: Context, private val handler: IProductClickHandler, private val productList: ArrayList<ProductData>): RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_element_item, parent, false)
@@ -50,6 +49,7 @@ class ItemListAdapter(private val context: Context, private val handler: IProduc
             layoutItemCard = itemView.findViewById(R.id.cv_list_item)
 
             layoutItemCard?.setOnClickListener {
+
                 handler.onClickedProduct(product)
             }
 

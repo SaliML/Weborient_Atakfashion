@@ -21,7 +21,7 @@ interface ISplashContract {
         /**
          * Nyomtató MAC címének kinyerése
          */
-        fun getAddressConfigs()
+        fun getSettings()
 
         /**
          * Navigálás a főképernyőre
@@ -64,10 +64,12 @@ interface ISplashContract {
 
         /**
          * MAC és API címek ellenőrzése
-         * @param macAddress MAC cím
+         * @param ipAddress IP cím
          * @param apiAddress API cím
+         * @param isAutoCut Automatikus vágás minden darabnál
+         * @param isCutAtEnd Vágás nyomtatás végén
          */
-        fun onFetchedConfigAddresses(macAddress: String?, apiAddress: String?)
+        fun onFetchedSettings(ipAddress: String?, apiAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean)
 
         /**
          * Jogosultságok visszaadása
@@ -118,14 +120,24 @@ interface ISplashContract {
         fun startTimer(intervalHours: Long, intervalMinutes: Long, intervalSeconds: Long, countDownIntervalInMillis: Long)
 
         /**
-         * Nyomtató beállítása
+         * Nyomtató MAC címének beállítása
          */
         fun setMacAddress(macAddress: String)
+
+        /**
+         * Nyomtató IP címének beállítása
+         */
+        fun setIPAddress(ipAddress: String)
 
         /**
          * API cím beállítása
          */
         fun setApiAddress(apiAddress: String)
+
+        /**
+         * Vágási beállítások rögzítése
+         */
+        fun setCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
     }
 
 }

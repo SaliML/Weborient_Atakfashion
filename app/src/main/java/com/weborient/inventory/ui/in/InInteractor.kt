@@ -71,7 +71,7 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
         deviceAddress: String?
     ) = GlobalScope.async {
 
-        val printResult = PrinterHandler.printImage(QRCodeHandler.generateQRCode(id), quantity, deviceAddress, bluetoothAdapter)
+        val printResult = PrinterHandler.printImageBluetooth(QRCodeHandler.generateQRCode(id), quantity, deviceAddress, bluetoothAdapter)
 
         withContext(Dispatchers.Main){
             presenter.onPrintResult(printResult)

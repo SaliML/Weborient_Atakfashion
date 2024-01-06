@@ -7,7 +7,7 @@ import com.weborient.inventory.handlers.api.ServiceBuilder
 import com.weborient.inventory.handlers.printer.PrinterHandler
 import com.weborient.inventory.handlers.qrcode.QRCodeHandler
 import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
-import com.weborient.inventory.models.api.sendproduct.NewProductSendData
+import com.weborient.inventory.models.api.sendproduct.ProductSendData
 import com.weborient.inventory.models.api.sendproduct.NewProductSendDataResponse
 import com.weborient.inventory.repositories.item.ItemRepository
 import com.weborient.womo.handlers.api.ApiCallType
@@ -15,7 +15,7 @@ import com.weborient.womo.handlers.api.IApiResponseHandler
 import kotlinx.coroutines.*
 
 class NewProductInteractor(private val presenter: INewProductContract.INewProductPresenter): INewProductContract.INewProductInteractor, IApiResponseHandler {
-    override fun uploadProduct(newProduct: NewProductSendData) {
+    override fun uploadProduct(newProduct: ProductSendData) {
         ServiceBuilder.createServiceWithoutBearer()
 
         AppConfig.apiServiceWithoutBearer?.let{ service ->
@@ -50,7 +50,7 @@ class NewProductInteractor(private val presenter: INewProductContract.INewProduc
         deviceAddress: String?
     ) = GlobalScope.async {
 
-        val printResult = PrinterHandler.printImage(QRCodeHandler.generateQRCode(id), quantity, deviceAddress, bluetoothAdapter)
+        val printResult = PrinterHandler.printImageBluetooth(QRCodeHandler.generateQRCode(id), quantity, deviceAddress, bluetoothAdapter)
 
         withContext(Dispatchers.Main){
             presenter.onPrintResult(printResult)

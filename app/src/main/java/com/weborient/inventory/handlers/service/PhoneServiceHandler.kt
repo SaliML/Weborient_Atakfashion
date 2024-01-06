@@ -32,6 +32,18 @@ object PhoneServiceHandler {
         return false
     }
 
+    fun checkWifiState(context: Context): Boolean{
+        val connManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connManager.getNetworkCapabilities(connManager.activeNetwork)
+
+        capabilities?.let{
+            if(it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
+                return true
+            }
+        }
+        return false
+    }
+
     /**
      * Ellenőrzi a Bluetooth állapotát
      */

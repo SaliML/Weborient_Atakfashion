@@ -16,6 +16,14 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         interactor.getMacAddress()
     }
 
+    override fun getIPAddress() {
+        interactor.getIPAddress()
+    }
+
+    override fun getCutSettings() {
+        interactor.getCutSettings()
+    }
+
     override fun getAppVersion() {
         interactor.getAppVersion()
     }
@@ -26,6 +34,14 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
 
     override fun onFetchedMacAddress(macAddress: String?) {
         view.showPrinterMacAddress(macAddress)
+    }
+
+    override fun onFetchedIPAddress(ipAddress: String?) {
+        view.showPrinterIPAddress(ipAddress)
+    }
+
+    override fun onFetchedCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean) {
+        view.showCutSettings(isAutoCut, isCutAtEnd)
     }
 
     override fun onFetchedPrinterName(printerName: String) {
@@ -61,11 +77,13 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         }
     }
 
-    override fun onClickedPrinterMacAddressSaveButton(macAddress: String?) {
-        if(!macAddress.isNullOrEmpty()){
-            view.showMacAddressError(null)
-            view.saveMacAddress(macAddress.uppercase(Locale.getDefault()))
-            interactor.setMacAddress(macAddress)
+    override fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean) {
+        if(!ipAddress.isNullOrEmpty()){
+            view.showIPAddressError(null)
+            view.saveIPAddress(ipAddress)
+            view.saveCutSettings(isAutoCut, isCutAtEnd)
+            interactor.setIPAddress(ipAddress)
+            interactor.setCutSettings(isAutoCut, isCutAtEnd)
 
             view.showInformationDialog("Sikeres mentés", DialogTypeEnums.Successful)
         }

@@ -2,7 +2,6 @@ package com.weborient.inventory.ui.settings
 
 import android.bluetooth.BluetoothDevice
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
-import com.weborient.inventory.models.PrinterModel
 
 /**
  * MVP minta a beállítások felületre
@@ -21,6 +20,11 @@ interface ISettingsContract {
          * Nyomtató MAC címének mutatása
          */
         fun showPrinterMacAddress(printerMacAddress: String?)
+
+        /**
+         * Nyomtató IP címének mutatása
+         */
+        fun showPrinterIPAddress(printerIPAddress: String?)
 
         /**
          * Nyomtató nevének mutatása
@@ -48,9 +52,19 @@ interface ISettingsContract {
         fun showMacAddressError(error: String?)
 
         /**
+         * IP cím mező hibaüzenet
+         */
+        fun showIPAddressError(error: String?)
+
+        /**
          * Párbeszédablak megjelenítése
          */
         fun showInformationDialog(information: String, type: DialogTypeEnums)
+
+        /**
+         * Vágási beállítások megjelenítése
+         */
+        fun showCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
 
         /**
          * API elérhetőségének mentése
@@ -62,6 +76,15 @@ interface ISettingsContract {
          */
         fun saveMacAddress(macAddress: String)
 
+        /**
+         * Nyomtató IP címének mentése
+         */
+        fun saveIPAddress(ipAddress: String)
+
+        /**
+         * Vágási beállítások mentése
+         */
+        fun saveCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
         /**
          * Felület bezárása
          */
@@ -83,6 +106,16 @@ interface ISettingsContract {
         fun getMacAddress()
 
         /**
+         * Nyomtató IP címének lekérdezése
+         */
+        fun getIPAddress()
+
+        /**
+         * Vágási beállítások lekérdezése
+         */
+        fun getCutSettings()
+
+        /**
          * Alkalmazás verziószámának lekérdezése
          */
         fun getAppVersion()
@@ -96,6 +129,16 @@ interface ISettingsContract {
          * Nyomtató MAC címének visszaadása
          */
         fun onFetchedMacAddress(macAddress: String?)
+
+        /**
+         * Nyomtató IP címének visszaadása
+         */
+        fun onFetchedIPAddress(ipAddress: String?)
+
+        /**
+         * Vágási beállítások visszaadása
+         */
+        fun onFetchedCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
 
         /**
          * Nyomtató nevének visszaadása
@@ -125,7 +168,7 @@ interface ISettingsContract {
         /**
          * MAC cím mentés gomb eseménye
          */
-        fun onClickedPrinterMacAddressSaveButton(macAddress: String?)
+        fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean)
 
         /**
          * Nyomtató adatainak frissítése
@@ -148,6 +191,16 @@ interface ISettingsContract {
         fun getMacAddress()
 
         /**
+         * Nyomtató IP címének lekérdezése
+         */
+        fun getIPAddress()
+
+        /**
+         * Vágási beállítások lekérdezése
+         */
+        fun getCutSettings()
+
+        /**
          * Alkalmazás verziószámának lekérdezése
          */
         fun getAppVersion()
@@ -161,6 +214,16 @@ interface ISettingsContract {
          * Nyomtató MAC címének beállítása
          */
         fun setMacAddress(macAddress: String)
+
+        /**
+         * Nyomtató IP címének beállítása
+         */
+        fun setIPAddress(ipAddress: String)
+
+        /**
+         * Vágási beállítások rögzítése
+         */
+        fun setCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
 
         /**
          * Nyomtató keresése

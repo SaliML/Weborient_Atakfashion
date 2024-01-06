@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.weborient.inventory.databinding.ActivityMainBinding
+import com.weborient.inventory.ui.edit.EditActivity
 import com.weborient.inventory.ui.`in`.InActivity
 import com.weborient.inventory.ui.manualprinting.ManualPrintingActivity
 import com.weborient.inventory.ui.out.OutActivity
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity(), IMainContract.IMainView {
 
         binding.cvMainOut.setOnClickListener {
             presenter.onClickedOutButton()
+        }
+
+        binding.cvMainEdit.setOnClickListener{
+            presenter.onClickedEditButton()
         }
 
         binding.cvMainManualPrint.setOnClickListener {
@@ -56,6 +61,10 @@ class MainActivity : AppCompatActivity(), IMainContract.IMainView {
      */
     override fun navigateToOutActivity() {
         startActivity(Intent(this, OutActivity::class.java))
+    }
+
+    override fun navigateToEditActivity() {
+        startActivity(Intent(this, EditActivity::class.java))
     }
 
     /**
