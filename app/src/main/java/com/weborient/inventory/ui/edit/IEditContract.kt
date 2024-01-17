@@ -4,8 +4,10 @@ import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.api.getdata.GetDataByIDBase
 import com.weborient.inventory.models.api.getdata.ProductDetails
+import com.weborient.inventory.models.api.modifydata.ModifyDataByIDBody
 import com.weborient.inventory.models.api.newproduct.ArrayElement
 import com.weborient.inventory.models.api.sendproduct.ProductSendData
+import com.weborient.inventory.models.interfaces.IResponseDialogHandler
 
 interface IEditContract {
     interface IEditView{
@@ -27,6 +29,7 @@ interface IEditContract {
         fun showProductDetailsContainer()
         fun showProductDatas(product: ProductDetails, categories: ArrayList<ArrayElement>?, templates: ArrayList<ArrayElement>?, units: ArrayList<ArrayElement>?, packageTypes: ArrayList<ArrayElement>?, productstatuses: ArrayList<ArrayElement>?, taxes: ArrayList<ArrayElement>?)
         fun showInformationDialog(information: String, type: DialogTypeEnums)
+        fun showTimedInformationDialog(information: String, type: DialogTypeEnums)
         fun showIDError(error: String?)
         fun showNameError(error: String?)
         fun showDescriptionError(error: String?)
@@ -41,7 +44,7 @@ interface IEditContract {
         fun showNetworkDialog()
     }
 
-    interface IEditPresenter{
+    interface IEditPresenter: IResponseDialogHandler {
         /**
          * Vissza gomb eseménye
          */
@@ -74,6 +77,6 @@ interface IEditContract {
     interface IEditInteractor{
         fun getItemByID(id: String)
         fun getDatas()
-        fun uploadProduct(newProduct: ProductSendData)
+        fun uploadProduct(product: ModifyDataByIDBody)
     }
 }

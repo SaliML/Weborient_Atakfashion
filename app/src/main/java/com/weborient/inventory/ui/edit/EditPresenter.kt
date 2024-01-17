@@ -3,6 +3,7 @@ package com.weborient.inventory.ui.edit
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.models.api.getdata.GetDataByIDBase
+import com.weborient.inventory.models.api.modifydata.ModifyDataByIDBody
 import com.weborient.inventory.models.api.newproduct.ArrayElement
 import com.weborient.inventory.models.api.sendproduct.ProductSendData
 
@@ -36,6 +37,7 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
         tax: ArrayElement?,
         grossPrice: String?,
     ) {
+        view.showIDError(null)
         view.showNameError(null)
         view.showDescriptionError(null)
         view.showQuantityError(null)
@@ -101,6 +103,7 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
                                                     }
                                                     else{
                                                         //Mehet a feltöltés
+                                                        view.showIDError(null)
                                                         view.showNameError(null)
                                                         view.showDescriptionError(null)
                                                         view.showQuantityError(null)
@@ -111,7 +114,7 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
                                                         view.showTemplateError(null)
                                                         view.showGrossPriceError(null)
 
-                                                        interactor.uploadProduct(ProductSendData(name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, tempQuantity, tempGrossPrice))
+                                                        interactor.uploadProduct(ModifyDataByIDBody(id, name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, tempQuantity, tempGrossPrice))
                                                     }
                                                 }
                                             }
@@ -177,5 +180,13 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
 
     override fun getDatas() {
         interactor.getDatas()
+    }
+
+    override fun onSuccessful(information: String) {
+        view.showTimedInformationDialog(information, DialogTypeEnums.Successful)
+    }
+
+    override fun onFailure(information: String) {
+        view.showInformationDialog(information, DialogTypeEnums.Error)
     }
 }
