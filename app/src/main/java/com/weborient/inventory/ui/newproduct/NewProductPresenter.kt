@@ -121,8 +121,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
 
     override fun onClickedPrintButton(
         id: String,
-        quantity: String?,
-        bluetoothAdapter: BluetoothAdapter?
+        quantity: String?
     ) {
         if(quantity.isNullOrEmpty()){
             view.showQuantityError("Kötelező kitölteni!")
@@ -136,7 +135,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
             else{
                 view.showProgress("Címke nyomtatása")
 
-                interactor.print(id, tempQuantity, bluetoothAdapter, AppConfig.macAddress)
+                interactor.printWifi(id, tempQuantity, AppConfig.ipAddress)
             }
         }
     }

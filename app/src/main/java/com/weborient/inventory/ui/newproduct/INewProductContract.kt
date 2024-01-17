@@ -45,7 +45,7 @@ interface INewProductContract {
         fun getDatas()
         fun onClickedBackButton()
         fun onClickedUploadButton(name: String?, description: String?, quantity: String?, category: ArrayElement?, packageType: ArrayElement?, unit: ArrayElement?, status: ArrayElement?, template: ArrayElement?, tax: ArrayElement?, grossPrice: String?)
-        fun onClickedPrintButton(id: String, quantity: String?, bluetoothAdapter: BluetoothAdapter?)
+        fun onClickedPrintButton(id: String, quantity: String?)
         fun onUploadedResult(isSuccessful: Boolean, id: String?)
         fun onRetrievedCategories(categories: ArrayList<ArrayElement>?)
         fun onRetrievedPackageTypes(packageTypes: ArrayList<ArrayElement>?)
@@ -61,6 +61,6 @@ interface INewProductContract {
     interface INewProductInteractor{
         fun uploadProduct(newProduct: ProductSendData)
         fun getDatas()
-        fun print(id: String, quantity: Int, bluetoothAdapter: BluetoothAdapter?, deviceAddress: String?)
+        fun printWifi(id: String, quantity: Int, ipAddress: String?)
     }
 }

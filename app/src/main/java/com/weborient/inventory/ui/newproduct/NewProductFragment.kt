@@ -133,14 +133,14 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
         }
 
         binding.ivNewItemPrint.setOnClickListener {
-            if(PhoneServiceHandler.checkBluetoothState(requireContext())){
+            if(PhoneServiceHandler.checkWifiState(requireContext())){
                 if(checkBoxPrintGroup.isChecked){
                     //Csoportos nyomtatás esetén csak 1 db QR kódra van szükség
-                    presenter.onClickedPrintButton(inputID.text.toString(), "1", bluetoothAdapter)
+                    presenter.onClickedPrintButton(inputID.text.toString(), "1")
                 }
                 else{
                     //Nem csoportos nyomtatás esetén a felvett mennyiséget kell kinyomtatni
-                    presenter.onClickedPrintButton(inputID.text.toString(), inputQuantity.text.toString(), bluetoothAdapter)
+                    presenter.onClickedPrintButton(inputID.text.toString(), inputQuantity.text.toString())
                 }
             }
             else{

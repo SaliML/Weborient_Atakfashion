@@ -36,7 +36,7 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
         }
     }
 
-    override fun onClickedPrintButton(quantity: String?, bluetoothAdapter: BluetoothAdapter?) {
+    override fun onClickedPrintButton(quantity: String?) {
         view.showProgress("Címke nyomtatása")
 
         if(quantity.isNullOrEmpty()){
@@ -50,7 +50,7 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
             }
             else{
                 view.showQuantityError(null)
-                interactor.print(tempQuantity, bluetoothAdapter, AppConfig.macAddress)
+                interactor.printWifi(tempQuantity, AppConfig.ipAddress)
             }
         }
     }

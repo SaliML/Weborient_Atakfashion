@@ -305,6 +305,10 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
         DialogHandler.showInformationDialog(this, information, type)
     }
 
+    override fun showTimedInformationDialog(information: String, type: DialogTypeEnums) {
+        DialogHandler.showTimedDialog(this, information, type)
+    }
+
     override fun showIDError(error: String?) {
         layoutID.error = error
     }

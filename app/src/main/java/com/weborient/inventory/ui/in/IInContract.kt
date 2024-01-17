@@ -1,6 +1,7 @@
 package com.weborient.inventory.ui.`in`
 
 import android.bluetooth.BluetoothAdapter
+import android.graphics.Bitmap
 import com.weborient.inventory.handlers.dialog.DialogResultEnums
 import com.weborient.inventory.handlers.dialog.DialogTypeEnums
 import com.weborient.inventory.handlers.printer.PrintResult
@@ -32,7 +33,7 @@ interface IInContract {
         fun getItems()
 
         fun onClickedUploadButton(quantity: String?)
-        fun onClickedPrintButton(quantity: String?, bluetoothAdapter: BluetoothAdapter?)
+        fun onClickedPrintButton(quantity: String?)
         fun onClickedBackButton()
         fun onClickedAddButton()
         fun onRetrievedItems(productList: ArrayList<ProductData>)
@@ -47,6 +48,6 @@ interface IInContract {
         fun getItems()
         fun setSelectedProduct(product: ProductData?)
         fun uploadSelectedProduct(quantity: Int)
-        fun print(quantity: Int, bluetoothAdapter: BluetoothAdapter?, deviceAddress: String?)
+        fun printWifi(quantity: Int, ipAddress: String?)
     }
 }

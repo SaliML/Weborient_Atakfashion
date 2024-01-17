@@ -9,6 +9,8 @@ import android.provider.Settings
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -35,9 +37,6 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
     private lateinit var buttonPrint: ImageView
 
     private lateinit var checkboxPringGroup: CheckBox
-
-    private var bluetoothAdapter: BluetoothAdapter? = null
-    private var bluetoothManager: BluetoothManager? = null
 
     private var itemAdapter: ProductListAdapter? = null
 
@@ -80,25 +79,20 @@ class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandle
         }
 
         binding.ivInPrint.setOnClickListener {
-            if(PhoneServiceHandler.checkBluetoothState(this)){
+            if(PhoneServiceHandler.checkWifiState(this)){
                 if(checkboxPringGroup.isChecked){
                     //Csoportos nyomtatás esetén csak 1 db QR kódra van szükség
-                    presenter.onClickedPrintButton("1", bluetoothAdapter)
+                    presenter.onClickedPrintButton("1")
                 }
                 else{
                     //Nem csoportos nyomtatás esetén tetszőleges mennyiségű QR kódra van szükség
-                    presenter.onClickedPrintButton(inputQuantity.text.toString(), bluetoothAdapter)
+                    presenter.onClickedPrintButton(inputQuantity.text.toString())
                 }
-
             }
             else{
-                DialogHandler.showDialogWithResult(this, this, getString(R.string.dialog_settings_bluetooth_state), DialogTypeEnums.SettingsBluetooth)
+                DialogHandler.showDialogWithResult(this, this, getString(R.string.dialog_settings_wifi_state), DialogTypeEnums.SettingsWifi)
             }
-
         }
-
-        bluetoothManager = getSystemService(BluetoothManager::class.java)
-        bluetoothAdapter = bluetoothManager?.adapter
 
         presenter.getItems()
     }

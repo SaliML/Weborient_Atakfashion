@@ -7,6 +7,8 @@ import com.weborient.inventory.models.api.getdata.GetDataByIDBase
 import com.weborient.inventory.models.api.getdata.GetDataByIDBody
 import com.weborient.inventory.models.api.getdata.OneProductDataBase
 import com.weborient.inventory.models.api.getdata.OneProductDataBody
+import com.weborient.inventory.models.api.modifydata.ModifyDataByIDBody
+import com.weborient.inventory.models.api.modifydata.ModifyDataByIDResponse
 import com.weborient.inventory.models.api.newproduct.NewProductGetDataResponse
 import com.weborient.inventory.models.api.quantitychange.ProductQuantityChangeResponse
 import com.weborient.inventory.models.api.sendproduct.ProductSendData
@@ -35,8 +37,12 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
         }
     }
 
-    override fun uploadProduct(newProduct: ProductSendData) {
-        TODO("Not yet implemented")
+    override fun uploadProduct(product: ModifyDataByIDBody) {
+        ServiceBuilder.createServiceWithoutBearer()
+
+        AppConfig.apiServiceWithoutBearer?.let{ service ->
+            ApiServiceHandler.apiService(service.callModifyDataByID(product), ApiCallType.EditProduct, this)
+        }
     }
 
     override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
@@ -63,6 +69,17 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
                 presenter.onRetrievedStatuses(ItemRepository.productstatuses)
                 presenter.onRetrievedTaxes(ItemRepository.taxes)*/
             }
+            ApiCallType.EditProduct ->{
+                val response = result as ModifyDataByIDResponse
+
+                if (!response.text.isNullOrEmpty()){
+                    //Sikeres módosítás
+                    presenter.onSuccessful("Sikeres módosítás!")
+                }
+                else{
+                    presenter.onFailure("Sikertelen módosítás!")
+                }
+            }
             else->{}
         }
     }
@@ -73,5 +90,28 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
         throwable: Throwable?,
         param: String?
     ) {
+        when(responseType){
+            ApiCallType.GetOneProductDetails->{
+                presenter.onFailure("Hiba történt az adatok lekérdezése során!")
+            }
+            ApiCallType.NewProductGetData->{
+                presenter.onFailure("Hiba történt az adatok lekérdezése során")
+            }
+            ApiCallType.EditProduct->{
+                presenter.onFailure("Hiba történt a termék módosítása során")
+            }
+            ApiCallType.Connection->{
+                presenter.onFailure("Hiba történt a kapcsolódás során!")
+            }
+            ApiCallType.Timeout->{
+                presenter.onFailure("Időtúllépés hiba!")
+            }
+            ApiCallType.Unknown->{
+                presenter.onFailure("Ismeretlen hiba történt!")
+            }
+            else->{
+
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.weborient.inventory.ui.`in`
 
 import android.bluetooth.BluetoothAdapter
+import android.graphics.Bitmap
 import com.weborient.inventory.config.AppConfig
 import com.weborient.inventory.handlers.api.ApiServiceHandler
 import com.weborient.inventory.handlers.api.ServiceBuilder
@@ -51,27 +52,24 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
         }
     }
 
-    override fun print(
+    override fun printWifi(
         quantity: Int,
-        bluetoothAdapter: BluetoothAdapter?,
-        deviceAddress: String?
-    ){
+        ipAddress: String?
+    ) {
         if(ItemRepository.selectedProduct != null){
-            printAsync(ItemRepository.selectedProduct!!.id, quantity, bluetoothAdapter, deviceAddress)
+            printWifiAsync(ItemRepository.selectedProduct!!.id, quantity, ipAddress)
         }
         else{
             presenter.onPrintResult(PrintResult.MissingProductID)
         }
     }
 
-    private fun printAsync(
+    private fun printWifiAsync(
         id: String,
         quantity: Int,
-        bluetoothAdapter: BluetoothAdapter?,
-        deviceAddress: String?
+        ipAddress: String?
     ) = GlobalScope.async {
-
-        val printResult = PrinterHandler.printImageBluetooth(QRCodeHandler.generateQRCode(id), quantity, deviceAddress, bluetoothAdapter)
+        val printResult = PrinterHandler.printImageWifi(QRCodeHandler.generateQRCode(id), quantity, ipAddress)
 
         withContext(Dispatchers.Main){
             presenter.onPrintResult(printResult)
