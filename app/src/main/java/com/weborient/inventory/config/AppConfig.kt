@@ -73,5 +73,5 @@ object AppConfig {
     const val DATETIME_FORMAT_yyyyMMdd_HHmmss = "yyyyMMdd_HHmmss"
 
     //Címke típusok
-    val labelSizeList = arrayListOf(QLPrinterLabelType(QLPrintSettings.LabelSize.RollW62RB, "sz: 62 mm"), QLPrinterLabelType(QLPrintSettings.LabelSize.DieCutW29H90, "sz: 29 mm x h: 90 mm"))
+    val labelSizeList = arrayListOf(QLPrinterLabelType(QLPrintSettings.LabelSize.RollW62RB, "sz: 62 mm"), QLPrinterLabelType(QLPrintSettings.LabelSize.RollW38, "sz: 38 mm"), QLPrinterLabelType(QLPrintSettings.LabelSize.DieCutW29H90, "sz: 29 mm x h: 90 mm"))
 }

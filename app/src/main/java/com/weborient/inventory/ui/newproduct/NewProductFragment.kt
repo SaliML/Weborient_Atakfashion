@@ -215,8 +215,19 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
     override fun setStatuses(statuses: ArrayList<ArrayElement>?) {
         statuses?.let{
             spinnerStatus.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
-            spinnerStatus.setText(statuses[0].name, false)
-            status = statuses[0]
+
+            var element = statuses.firstOrNull {
+                it.name.equals("raktaron", true) || it.name.equals("raktáron", true)
+            }
+
+            if(element != null){
+                spinnerStatus.setText(statuses[statuses.indexOf(element)].name, false)
+                status = statuses[statuses.indexOf(element)]
+            }
+            else{
+                spinnerStatus.setText(statuses[0].name, false)
+                status = statuses[0]
+            }
         }
     }
 

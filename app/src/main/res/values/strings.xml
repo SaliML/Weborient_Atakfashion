@@ -1,6 +1,6 @@
 <resources>
     <!--Általános-->
-    <string name="app_name">Készletkezelés</string>
+    <string name="app_name">Atakfashion</string>
 
     <!--Engedélyek párbeszédablak-->
     <string name="dialog_permissions_information">Az alkalmazás használatához engedélyek szükségesek!</string>
