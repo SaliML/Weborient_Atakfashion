@@ -10,9 +10,7 @@ object PermissionRepository {
         PermissionModel(android.Manifest.permission.BLUETOOTH_ADMIN, VERSION_CODES.BASE, null),
         PermissionModel(android.Manifest.permission.INTERNET, VERSION_CODES.BASE, null),
         PermissionModel(android.Manifest.permission.ACCESS_NETWORK_STATE, VERSION_CODES.BASE, null),
-        PermissionModel(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, VERSION_CODES.BASE, VERSION_CODES.Q),
-        PermissionModel(android.Manifest.permission.BLUETOOTH_CONNECT, VERSION_CODES.S, null),
-        PermissionModel(android.Manifest.permission.BLUETOOTH_SCAN, VERSION_CODES.S, null)
+        PermissionModel(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, VERSION_CODES.Q, VERSION_CODES.R)
     )
 
     fun getPermissions(apiVersionCode: Int): Array<String>{
