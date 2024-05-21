@@ -11,6 +11,7 @@
     <!--Egyedi színek-->
     <color name="dark_blue">#17B2ED</color>
     <color name="blue">#0093B9</color>
+    <color name="blue2">#006ADF</color>
     <color name="dark_yellow">#ECC021</color>
     <color name="dark_green">#6DDD4E</color>
     <color name="green">#35C80C</color>

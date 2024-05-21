@@ -27,6 +27,7 @@ object AppConfig {
 
     //Formátumok
     const val DATE_FORMAT = "yyyyMMdd"
+    const val DATE_FORMAT2 = "yyyy. MM. dd."
 
     //Fájlnév
     const val TEMP_PHOTO_UPLOAD_FILE = "tempphotoupload.dat"
