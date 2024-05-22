@@ -10,8 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.weborient.atakfashion.R
+import com.weborient.atakfashion.config.AppConfig
 import com.weborient.atakfashion.databinding.ActivityRemovalBinding
 import com.weborient.atakfashion.viewmodels.RemovalViewModel
+import java.text.SimpleDateFormat
 import java.util.Calendar
 
 class RemovalActivity : AppCompatActivity() {
@@ -20,7 +22,6 @@ class RemovalActivity : AppCompatActivity() {
 
     private lateinit var removaledProductAdapter: RemovalProductListAdapter
 
-    private lateinit var buttonDatePicker: Button
     private lateinit var recyclerViewRemovaledProducts: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,20 +32,26 @@ class RemovalActivity : AppCompatActivity() {
 
         removaledProductAdapter = RemovalProductListAdapter(this, arrayListOf())
 
-        buttonDatePicker = binding.btRemovalDatepicker
         recyclerViewRemovaledProducts = binding.rvRemovalProducts
         recyclerViewRemovaledProducts.adapter = removaledProductAdapter
 
-        buttonDatePicker.setOnClickListener {
+        binding.btRemovalDatepicker.setOnClickListener {
             showDatePickerDialog(Calendar.getInstance())
         }
+
+        binding.ivRemovalPdf.setOnClickListener {
+            viewModel.
+        }
+
+
 
         viewModel.removaledProductList.observe(this) {
             removaledProductAdapter.setRemovaledProductList(it)
         }
 
         viewModel.selectedDate.observe(this) {
-
+            binding.btRemovalDatepicker.text = SimpleDateFormat(AppConfig.DATE_FORMAT2).format(it)
+            viewModel.getRemovaledProducts(this)
         }
     }
 
@@ -52,7 +59,6 @@ class RemovalActivity : AppCompatActivity() {
      * Dátumválasztó ablak megnyitása
      */
     private fun showDatePickerDialog(calendar: Calendar){
-        viewModel.getRemovaledProducts(this, Calendar.getInstance().time)
         val dtDialog = android.app.AlertDialog.Builder(this, R.style.DatePicker)
         val dtLayout = LayoutInflater.from(this).inflate(R.layout.date_picker_layout, null)
 
@@ -68,7 +74,7 @@ class RemovalActivity : AppCompatActivity() {
         timePickerButton.setOnClickListener { view ->
             calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth)
 
-            viewModel.setSelectedDate(calendar.time)
+            viewModel.selectedDate.value = calendar.time
 
             currentDialog.dismiss()
         }

@@ -49,6 +49,18 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_removal_back"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_removal_pdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:src="@drawable/icon_pdf"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -81,7 +93,6 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:padding="10dp"
-                    android:text="@{viewModel.selectedDateText}"
                     android:textSize="16sp" />
             </androidx.cardview.widget.CardView>
 

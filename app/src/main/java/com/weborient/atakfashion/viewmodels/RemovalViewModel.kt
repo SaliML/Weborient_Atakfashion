@@ -17,24 +17,25 @@ class RemovalViewModel: ViewModel() {
     var selectedDate = MutableLiveData(Calendar.getInstance().time)
 
     /**
-     * Kiválasztott dátum szöveg
+     * Megjelenítendő terméklista
      */
-    var selectedDateText = MutableLiveData(SimpleDateFormat(AppConfig.DATE_FORMAT2).format(Calendar.getInstance().time))
-
     val removaledProductList = MutableLiveData<ArrayList<ProductData>>()
 
     /**
      * Kiadott termékek kinyerése
      */
-    fun getRemovaledProducts(context: Context, date: Date){
-        removaledProductList.value = RemovaledItemRepository.ReadRemovaledProducts(context, date, false)?.products
+    fun getRemovaledProducts(context: Context){
+        selectedDate.value?.let{
+            removaledProductList.value = RemovaledItemRepository.ReadRemovaledProducts(context, it, false)?.products ?: arrayListOf()
+
+            var teszt = ""
+        }
     }
 
     /**
-     * Dátumok beállítása
+     * Kiválasztott termékek exportálása PDF-be
      */
-    fun setSelectedDate(time: Date){
-        selectedDate.value = time
-        selectedDateText.value = SimpleDateFormat(AppConfig.DATE_FORMAT2).format(time)
+    fun exportRemovaledProductsToPDF(){
+
     }
 }
