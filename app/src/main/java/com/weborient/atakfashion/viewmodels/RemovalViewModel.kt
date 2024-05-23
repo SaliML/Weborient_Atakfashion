@@ -1,14 +1,13 @@
 package com.weborient.atakfashion.viewmodels
 
+import android.app.Activity
 import android.content.Context
 import android.icu.util.Calendar
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.pdf.PDFHandler
 import com.weborient.atakfashion.models.api.getdata.ProductData
 import com.weborient.atakfashion.repositories.RemovaledItemRepository
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class RemovalViewModel: ViewModel() {
     /**
@@ -27,15 +26,15 @@ class RemovalViewModel: ViewModel() {
     fun getRemovaledProducts(context: Context){
         selectedDate.value?.let{
             removaledProductList.value = RemovaledItemRepository.ReadRemovaledProducts(context, it, false)?.products ?: arrayListOf()
-
-            var teszt = ""
         }
     }
 
     /**
      * Kiválasztott termékek exportálása PDF-be
      */
-    fun exportRemovaledProductsToPDF(){
-
+    fun exportRemovaledProductsToPDF(activity: Activity){
+        if (selectedDate.value != null && removaledProductList.value != null){
+            PDFHandler.generatePDF(activity, removaledProductList.value!!, selectedDate.value!!)
+        }
     }
 }

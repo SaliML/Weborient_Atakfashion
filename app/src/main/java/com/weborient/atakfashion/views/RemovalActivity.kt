@@ -40,10 +40,8 @@ class RemovalActivity : AppCompatActivity() {
         }
 
         binding.ivRemovalPdf.setOnClickListener {
-            viewModel.
+            viewModel.exportRemovaledProductsToPDF(this)
         }
-
-
 
         viewModel.removaledProductList.observe(this) {
             removaledProductAdapter.setRemovaledProductList(it)
