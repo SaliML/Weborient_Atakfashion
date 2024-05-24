@@ -5,6 +5,7 @@ import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.models.PhotoUploadModel
 import com.weborient.atakfashion.models.UploadingPhotoModel
+import com.weborient.atakfashion.models.photo.PhotoItem
 import com.weborient.atakfashion.repositories.photo.PhotoRepository
 import com.weborient.womo.handlers.api.ApiCallType
 import com.weborient.womo.handlers.api.IApiResponseHandler
@@ -22,16 +23,16 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
     override fun setPhotoUploadModel(photoUploadModel: PhotoUploadModel?) {
         photoUploadModel?.let{
             PhotoRepository.itemID = it.itemID
-            PhotoRepository.photoPaths = it.photosPath
+            PhotoRepository.photos = it.photos
 
-            presenter.onRetrievedPhotos(PhotoRepository.photoPaths)
+            presenter.onRetrievedPhotos(PhotoRepository.photos)
         }
     }
 
-    override fun addPhoto(photoPath: String) {
-        PhotoRepository.photoPaths.add(photoPath)
-        presenter.onRetrievedPhotos(PhotoRepository.photoPaths)
-        presenter.onAddedPhoto(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photoPaths))
+    override fun addPhoto(photo: PhotoItem) {
+        PhotoRepository.photos.add(photo)
+        presenter.onRetrievedPhotos(PhotoRepository.photos)
+        presenter.onAddedPhoto(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photos))
     }
 
     /**
@@ -45,20 +46,20 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
             PhotoRepository.uploadingPhotos.clear()
 
             //Képek feltöltése egyesével
-            PhotoRepository.photoPaths.forEach { photoPath ->
-                val photo = File(photoPath)
+            PhotoRepository.photos.forEach { photo ->
+                val photo = File(photo.path)
 
                 if(photo.exists()){
                     PhotoRepository.itemID?.let{ productID ->
                         //Feltöltési állapot hozzáadása
-                        PhotoRepository.uploadingPhotos.add(UploadingPhotoModel(photoPath, null))
+                        PhotoRepository.uploadingPhotos.add(UploadingPhotoModel(photo.path, null))
 
                         //Body->form-data összeállítása
                         val idBody = RequestBody.create(MediaType.parse("text/plain"), productID)
                         val fileBody = MultipartBody.Part.createFormData("file", photo.name, RequestBody.create(MediaType.parse("image/*"), photo))
 
                         //Hívás
-                        ApiServiceHandler.apiService(service.callAddImageSendData(idBody, fileBody), ApiCallType.UploadPhoto, this, photoPath)
+                        ApiServiceHandler.apiService(service.callAddImageSendData(idBody, fileBody), ApiCallType.UploadPhoto, this, photo.path)
                     }
                 }
             }
@@ -67,13 +68,20 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
 
     override fun deletePhoto(path: String?) {
         if(path != null){
-            val photoPath = PhotoRepository.photoPaths.firstOrNull { it.equals(path, true) }
+            val photo = PhotoRepository.photos.firstOrNull { it.path.equals(path, true) }
 
-            photoPath?.let{
-                if(File(it).delete()){
-                    PhotoRepository.photoPaths.remove(it)
-                    presenter.onRetrievedPhotos(PhotoRepository.photoPaths)
-                    presenter.onDeletedPhoto(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photoPaths))
+            photo?.let{ photoItem ->
+                if(photoItem.canDelete){
+                    if(File(photoItem.path).delete()){
+                        PhotoRepository.photos.remove(photoItem)
+                        presenter.onRetrievedPhotos(PhotoRepository.photos)
+                        presenter.onDeletedPhoto(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photos))
+                    }
+                }
+                else{
+                    PhotoRepository.photos.remove(photoItem)
+                    presenter.onRetrievedPhotos(PhotoRepository.photos)
+                    presenter.onDeletedPhoto(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photos))
                 }
             }
         }
@@ -87,7 +95,7 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
         PhotoRepository.itemID = null
 
         //Fájlútvonalak törlése
-        PhotoRepository.photoPaths.clear()
+        PhotoRepository.photos.clear()
     }
 
     /**
@@ -136,10 +144,10 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
                 delete()
 
                 //Állapot mentése
-                presenter.onUploadedPhotos(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photoPaths), true)
+                presenter.onUploadedPhotos(PhotoUploadModel(PhotoRepository.itemID, PhotoRepository.photos), true)
 
                 //Képek visszaadása
-                presenter.onRetrievedPhotos(PhotoRepository.photoPaths)
+                presenter.onRetrievedPhotos(PhotoRepository.photos)
 
                 presenter.onSuccessful("Fényképek feltöltve!")
             }

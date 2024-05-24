@@ -1,4 +1,4 @@
-package com.weborient.atakfashion.views
+package com.weborient.atakfashion.views.removal
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -37,7 +37,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".views.RemovalActivity"
+            android:name=".views.removal.RemovalActivity"
             android:exported="false" />
         <activity
             android:name=".ui.edit.EditActivity"

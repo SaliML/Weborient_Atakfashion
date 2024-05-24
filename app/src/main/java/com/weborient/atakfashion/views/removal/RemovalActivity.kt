@@ -1,4 +1,4 @@
-package com.weborient.atakfashion.views
+package com.weborient.atakfashion.views.removal
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.widget.DatePicker
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.weborient.atakfashion.R
 import com.weborient.atakfashion.config.AppConfig

@@ -10,7 +10,7 @@ import com.weborient.atakfashion.ui.manualprinting.ManualPrintingActivity
 import com.weborient.atakfashion.ui.out.OutActivity
 import com.weborient.atakfashion.ui.photos.PhotosActivity
 import com.weborient.atakfashion.ui.settings.SettingsActivity
-import com.weborient.atakfashion.views.RemovalActivity
+import com.weborient.atakfashion.views.removal.RemovalActivity
 
 class MainActivity : AppCompatActivity(), IMainContract.IMainView {
     private val presenter = MainPresenter(this)

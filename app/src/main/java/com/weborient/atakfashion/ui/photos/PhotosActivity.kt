@@ -3,6 +3,7 @@ package com.weborient.atakfashion.ui.photos
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
@@ -28,9 +29,10 @@ import com.weborient.atakfashion.handlers.service.PhoneServiceHandler
 import com.weborient.atakfashion.models.PhotoListAdapter
 import com.weborient.atakfashion.models.PhotoUploadModel
 import com.weborient.atakfashion.models.interfaces.IPhotoClickHandler
+import com.weborient.atakfashion.models.photo.PhotoItem
 import com.weborient.atakfashion.ui.scanner.ScannerActivity
 import java.io.File
-import java.util.*
+import java.util.Calendar
 
 
 class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialogResultHandler,
@@ -44,7 +46,7 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
     private lateinit var photoListView: RecyclerView
 
     private lateinit var scannerActivityLauncher: ActivityResultLauncher<Intent>
-    //private lateinit var photoActivityLauncher: ActivityResultLauncher<Intent>
+    private lateinit var photoActivityLauncher: ActivityResultLauncher<Intent>
 
     private var photoListAdapter: PhotoListAdapter? = null
 
@@ -71,6 +73,17 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
             presenter.onClickedTakePhotoButton()
         }
 
+        binding.ivPhotosAddPhoto.setOnClickListener{
+            //val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            //startActivityForResult(intent,1)
+
+            val intent = Intent()
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.setAction(Intent.ACTION_GET_CONTENT)
+            photoActivityLauncher.launch(intent)
+        }
+
         binding.ivPhotosUpload.setOnClickListener {
             if(PhoneServiceHandler.checkNetworkState(this)){
 
@@ -89,17 +102,37 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
             }
         }
 
-        /*photoActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        photoActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if(result.resultCode == RESULT_OK){
-                imageName?.let{
-                    val image = File(FileHandler.getFolder(this, AppConfig.TEMP_FOLDER), it)
+                result.data?.clipData?.let {clipData ->
+                    for(i in 0..<clipData.itemCount){
+                        val imageUri = clipData.getItemAt(i).uri
 
-                    presenter.addPhoto(image.path)
+                        imageUri?.let{
+                            val path = getRealPathFromURI(it)
+
+                            if(!path.isNullOrEmpty()){
+                                presenter.addPhoto(PhotoItem(path, false))
+                            }
+                        }
+                    }
+
                 }
             }
-        }*/
+        }
 
         presenter.setPhotoUploadModel(FileHandler.readFromStorage(this, AppConfig.TEMP_FOLDER, AppConfig.TEMP_PHOTO_UPLOAD_FILE))
+    }
+
+    private fun getRealPathFromURI(contentURI: Uri): String? {
+        val cursor = contentResolver.query(contentURI, null, null, null, null)
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            return contentURI.path
+        } else {
+            cursor.moveToFirst()
+            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            return cursor.getString(idx)
+        }
     }
 
     override fun showQRCode(bitmap: Bitmap) {
@@ -121,8 +154,8 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
         startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
     }
 
-    override fun showPhotos(photoPaths: ArrayList<String>) {
-        photoListAdapter = PhotoListAdapter(this, this, photoPaths)
+    override fun showPhotos(photos: ArrayList<PhotoItem>) {
+        photoListAdapter = PhotoListAdapter(this, this, photos)
         photoListView.adapter = photoListAdapter
     }
 
@@ -175,7 +208,7 @@ class PhotosActivity : AppCompatActivity(), IPhotosContract.IPhotosView, IDialog
             if(resultCode == Activity.RESULT_OK){
                 imageName?.let{
                     val image = File(FileHandler.getFolder(this, AppConfig.TEMP_FOLDER), it)
-                    presenter.addPhoto(image.path)
+                    presenter.addPhoto(PhotoItem(image.path, true))
                 }
             }
         }

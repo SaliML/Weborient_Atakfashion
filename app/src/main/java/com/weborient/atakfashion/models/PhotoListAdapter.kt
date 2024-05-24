@@ -10,9 +10,10 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.weborient.atakfashion.R
 import com.weborient.atakfashion.models.interfaces.IPhotoClickHandler
+import com.weborient.atakfashion.models.photo.PhotoItem
 import java.io.File
 
-class PhotoListAdapter(private val context: Context, private val handler: IPhotoClickHandler,  private val photoList: ArrayList<String>): RecyclerView.Adapter<PhotoListAdapter.ViewHolder>() {
+class PhotoListAdapter(private val context: Context, private val handler: IPhotoClickHandler,  private val photoList: ArrayList<PhotoItem>): RecyclerView.Adapter<PhotoListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.photo_card_item, parent, false)
@@ -52,17 +53,15 @@ class PhotoListAdapter(private val context: Context, private val handler: IPhoto
             }
         }
 
-        fun bind(path: String?){
-            photoPath = path
+        fun bind(photo: PhotoItem){
+            photoPath = photo.path
 
-            if(photoPath != null){
-                imagePhotoView?.let {
-                    val circularProgressDrawable = CircularProgressDrawable(context)
-                    circularProgressDrawable.strokeWidth = 5f
-                    circularProgressDrawable.centerRadius = 30f
-                    circularProgressDrawable.start()
-                    Glide.with(context).load(File(photoPath!!)).placeholder(circularProgressDrawable).into(it)
-                }
+            imagePhotoView?.let {
+                val circularProgressDrawable = CircularProgressDrawable(context)
+                circularProgressDrawable.strokeWidth = 5f
+                circularProgressDrawable.centerRadius = 30f
+                circularProgressDrawable.start()
+                Glide.with(context).load(photoPath!!).placeholder(circularProgressDrawable).into(it)
             }
         }
     }
