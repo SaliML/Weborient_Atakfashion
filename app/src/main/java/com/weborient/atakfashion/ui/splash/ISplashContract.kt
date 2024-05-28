@@ -31,7 +31,7 @@ interface ISplashContract {
         /**
          * Navigálás a főképernyőre
          */
-        fun navigateToMainActivity()
+        fun navigateToLoginActivity()
 
         /**
          * Alkalmazás bezárása
@@ -61,6 +61,11 @@ interface ISplashContract {
          * Mentett kiadott termékek kiolvasása háttértárról
          */
         fun readRemovaledProducts()
+
+        /**
+         * Felhasználók felolvasása
+         */
+        fun readUsers()
     }
 
     /**

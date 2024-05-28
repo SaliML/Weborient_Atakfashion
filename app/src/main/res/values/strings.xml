@@ -19,6 +19,7 @@
     <string name="main_button_edit">Termék szerkesztése</string>
     <string name="main_button_photos">Fényképek</string>
     <string name="main_button_manual_print">Manuális nyomtatás</string>
+    <string name="main_button_users">Felhasználók</string>
     <string name="main_button_settings">Beállítások</string>
     <string name="main_button_exit">Kilépés</string>
 
@@ -127,6 +128,11 @@
 
     <!--Kiadott termékek megjelenítése-->
     <string name="removal_title">Kiadott termékek</string>
+
+    <!--Bejelentkezés felület-->
+    <string name="login_username">Felhasználónév</string>
+    <string name="login_password">Jelszó</string>
+    <string name="login_login">Bejelentkezés</string>
 
     <!--Dátumválasztó ablak-->
     <string name="datepicker_save">Mentés</string>

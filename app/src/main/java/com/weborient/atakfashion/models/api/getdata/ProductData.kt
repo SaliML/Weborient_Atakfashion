@@ -21,6 +21,9 @@ data class ProductData(
     @SerializedName("pictureurl")
     val pictureURL: String?,
 
+    @SerializedName("grossprice")
+    val grossprice: Int,
+
     @SerializedName("isSelected")
     var isSelected: Boolean = false
 )

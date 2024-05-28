@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.weborient.atakfashion.R
 import com.weborient.atakfashion.config.AppConfig
 import com.weborient.atakfashion.databinding.ActivityRemovalBinding
-import com.weborient.atakfashion.viewmodels.RemovalViewModel
+import com.weborient.atakfashion.viewmodels.removal.RemovalViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 

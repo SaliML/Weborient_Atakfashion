@@ -1,4 +1,4 @@
-package com.weborient.atakfashion.viewmodels
+package com.weborient.atakfashion.viewmodels.removal
 
 import android.app.Activity
 import android.content.Context

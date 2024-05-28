@@ -62,7 +62,8 @@ class SplashPresenter(private val view: ISplashContract.ISplashView): ISplashCon
     override fun onFinishedTimer() {
         view.checkFolders()
         view.readRemovaledProducts()
-        view.navigateToMainActivity()
+        view.readUsers()
+        view.navigateToLoginActivity()
     }
 
     /**

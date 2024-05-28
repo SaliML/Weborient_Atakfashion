@@ -60,7 +60,7 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
             view.showItemID(product.id)
             view.showItemName(product.name)
             view.showItemDescription(product.description)
-            view.showItemPrice("-")
+            view.showItemPrice(product.grossprice.toString())
 
             //Termék konténer megjelenítése
             view.showContainerItem()

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import com.weborient.atakfashion.R
 import com.weborient.atakfashion.config.AppConfig
 import com.weborient.atakfashion.databinding.ActivitySplashBinding
@@ -12,17 +14,23 @@ import com.weborient.atakfashion.handlers.file.FileHandler
 import com.weborient.atakfashion.handlers.permission.PermissionHandler
 import com.weborient.atakfashion.handlers.preferences.SharedPreferencesHandler
 import com.weborient.atakfashion.repositories.RemovaledItemRepository
-import com.weborient.atakfashion.ui.main.MainActivity
+import com.weborient.atakfashion.viewmodels.splash.SplashViewModel
+import com.weborient.atakfashion.views.login.LoginActivity
 import java.util.*
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialogResultHandler, IConfigDialogHandler {
+    private lateinit var binding: ActivitySplashBinding
+    private val viewModel: SplashViewModel by viewModels()
+
     private val presenter = SplashPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         //Jogosultságok lekérdezése és majd ellenőrzése
         presenter.getPermissions()
@@ -46,10 +54,10 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
     }
 
     /**
-     * Navigálás a főoldalra
+     * Navigálás a bejelentkező felületre
      */
-    override fun navigateToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+    override fun navigateToLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     /**
@@ -113,6 +121,7 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
      */
     override fun checkFolders(){
         FileHandler.createFolder(this, AppConfig.ATAKFASHION_EXTERNAL_REMOVALED_ITEMS_DIRECTORY)
+        FileHandler.createFolder(this, AppConfig.ATAKFASHION_EXTERNAL_SETTINGS)
     }
 
     /**
@@ -120,5 +129,12 @@ class SplashActivity : AppCompatActivity(), ISplashContract.ISplashView, IDialog
      */
     override fun readRemovaledProducts(){
         RemovaledItemRepository.ReadRemovaledProducts(this, Calendar.getInstance().time, true)
+    }
+
+    /**
+     * Felhasználók felolvasása
+     */
+    override fun readUsers() {
+        viewModel.readUsersFromStorage(this)
     }
 }

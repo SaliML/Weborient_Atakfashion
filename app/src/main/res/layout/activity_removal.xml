@@ -6,7 +6,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="com.weborient.atakfashion.viewmodels.RemovalViewModel" />
+            type="com.weborient.atakfashion.viewmodels.removal.RemovalViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
