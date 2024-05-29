@@ -126,6 +126,22 @@
     <string name="photos_scan_id">Termékazonosító: %1$s</string>
     <string name="photos_photo_ready">Fénykép elkészült!</string>
 
+    <!--Felhasználók kezelése felület-->
+    <string name="users_title">Felhasználók</string>
+    <string name="users_select_user_title">Felhasználó kiválasztása</string>
+    <string name="users_username">Felhasználónév</string>
+    <string name="users_password">Jelszó</string>
+    <string name="users_password_confirm">Jelszó megerősítése</string>
+    <string name="users_permissions_title">Jogosultságok</string>
+    <string name="users_permission_in">Bevét</string>
+    <string name="users_permission_out">Kiadás</string>
+    <string name="users_permission_removal">Kiadott termékek</string>
+    <string name="users_permission_edit">Termék szerkesztése</string>
+    <string name="users_permission_manual_printing">Manuális nyomtatás</string>
+    <string name="users_permission_photos">Fényképek</string>
+    <string name="users_permission_users">Felhasználók</string>
+    <string name="users_permission_settings">Beállítások</string>
+
     <!--Kiadott termékek megjelenítése-->
     <string name="removal_title">Kiadott termékek</string>
 

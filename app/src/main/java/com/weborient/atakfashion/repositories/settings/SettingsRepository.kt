@@ -23,7 +23,7 @@ object SettingsRepository {
     /**
      * Felhasználók mentése
      */
-    private fun saveUsers(context: Context){
+    fun saveUsers(context: Context){
         FileHandler.saveInStorage(context, AppConfig.ATAKFASHION_EXTERNAL_SETTINGS, "users.json", Gson().toJson(userList))
     }
 
