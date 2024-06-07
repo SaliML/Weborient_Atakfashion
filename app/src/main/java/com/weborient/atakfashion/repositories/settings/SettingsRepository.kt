@@ -2,6 +2,7 @@ package com.weborient.atakfashion.repositories.settings
 
 import android.content.Context
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.toxicbakery.bcrypt.Bcrypt
 import com.weborient.atakfashion.config.AppConfig
 import com.weborient.atakfashion.handlers.file.FileHandler
@@ -35,7 +36,7 @@ object SettingsRepository {
         val json: String? = FileHandler.readFromStorage<String>(context, AppConfig.ATAKFASHION_EXTERNAL_SETTINGS, "users.json")
 
         json?.let{
-            userList = Gson().fromJson<ArrayList<User>>(it, ArrayList::class.java)
+            userList =  Gson().fromJson(it, object : TypeToken<ArrayList<User>>() {}.type)
         }?:run{
             userList = arrayListOf(User("admin", encryptPassword("Admin@01"),
                 arrayListOf(
@@ -48,6 +49,8 @@ object SettingsRepository {
                     UserPermission.Users,
                     UserPermission.Settings,
                     )))
+
+            FileHandler.saveInStorage(context, AppConfig.ATAKFASHION_EXTERNAL_SETTINGS, "users.json", Gson().toJson(userList))
         }
     }
 

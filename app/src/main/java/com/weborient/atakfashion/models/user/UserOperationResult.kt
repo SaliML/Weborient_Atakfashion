@@ -7,5 +7,6 @@ enum class UserOperationResult(val value: Int) {
     PasswordConfirmEmpty(3),
     PasswordNotEquals(4),
     UserExists(5),
-    UserNotSelected(6)
+    UserNotSelected(6),
+    UnknownError(7)
 }

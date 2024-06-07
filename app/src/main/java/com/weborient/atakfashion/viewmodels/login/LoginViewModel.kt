@@ -22,7 +22,7 @@ class LoginViewModel: ViewModel() {
     fun verifyUser(): LoginResult {
         if (!userName.value.isNullOrEmpty()){
             if(!password.value.isNullOrEmpty()){
-                val selectedUser = SettingsRepository.userList.firstOrNull { it.userName.equals(userName.value) }
+                val selectedUser = SettingsRepository.userList.firstOrNull { it.userName.equals(userName.value, true) }
 
                 if (selectedUser != null){
                     if(SettingsRepository.verifyPassword(password.value!!, selectedUser.password)){

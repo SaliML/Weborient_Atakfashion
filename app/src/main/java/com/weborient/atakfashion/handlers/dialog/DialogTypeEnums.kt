@@ -8,8 +8,10 @@ enum class DialogTypeEnums(val value: Int) {
     Error(5),
     ErrorClose(6),
     Question(7),
-    SettingsLocationProvider(8),
-    SettingsNetwork(9),
-    SettingsBluetooth(10),
-    SettingsWifi(11)
+    QuestionDeleteUser(8),
+    QuestionModifyUser(9),
+    SettingsLocationProvider(10),
+    SettingsNetwork(11),
+    SettingsBluetooth(12),
+    SettingsWifi(13)
 }

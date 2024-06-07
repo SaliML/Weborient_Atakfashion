@@ -2,6 +2,7 @@ package com.weborient.atakfashion.viewmodels.users
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.view.inputmethod.RemoveSpaceGesture
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.weborient.atakfashion.models.user.User
@@ -18,7 +19,7 @@ class UsersViewModel: ViewModel() {
     /**
      * Kijelölt felhasználó
      */
-    var selectedUser = MutableLiveData<User>()
+    var selectedUser = MutableLiveData<User?>()
 
     /**
      * Felhasználónév
@@ -36,9 +37,44 @@ class UsersViewModel: ViewModel() {
     var passwordConfirm = MutableLiveData<String>()
 
     /**
-     * Felhasználó jogosultságok
+     * Bevét jogosultság
      */
-    var userPermissions = MutableLiveData<ArrayList<UserPermission>>()
+    var permissionIn = MutableLiveData<Boolean>()
+
+    /**
+     * Kiadás jogosultság
+     */
+    var permissionOut = MutableLiveData<Boolean>()
+
+    /**
+     * Kiadott termékek jogosultság
+     */
+    var permissionRemoval = MutableLiveData<Boolean>()
+
+    /**
+     * Termék szerkesztése jogosultság
+     */
+    var permissionEdit = MutableLiveData<Boolean>()
+
+    /**
+     * Manuális nyomtatás jogosultság
+     */
+    var permissionManualPrinting = MutableLiveData<Boolean>()
+
+    /**
+     * Fényképek jogosultság
+     */
+    var permissionPhotos = MutableLiveData<Boolean>()
+
+    /**
+     * Felhasználók jogosultság
+     */
+    var permissionUsers = MutableLiveData<Boolean>()
+
+    /**
+     * Beállítások jogosultság
+     */
+    var permissionSettings = MutableLiveData<Boolean>()
 
     /**
      * Kiválasztott felhasználó módosítása
@@ -75,11 +111,10 @@ class UsersViewModel: ViewModel() {
                 selectedUser.value?.password = SettingsRepository.encryptPassword(password.value!!)
             }
 
-            selectedUser.value!!.permissions = userPermissions.value!!
+            selectedUser.value!!.permissions = getPermissions()
             SettingsRepository.saveUsers(context)
 
             return UserOperationResult.Successful
-
         }
         else{
             return UserOperationResult.UserNotSelected
@@ -109,7 +144,7 @@ class UsersViewModel: ViewModel() {
         val selectedUser = users.value?.firstOrNull { it.userName.equals(userName.value, true) }
 
         if (selectedUser == null){
-            SettingsRepository.userList.add(User(userName.value.toString(), SettingsRepository.encryptPassword(password.value!!), userPermissions.value ?: arrayListOf()))
+            SettingsRepository.userList.add(User(userName.value.toString(), SettingsRepository.encryptPassword(password.value!!), getPermissions()))
             SettingsRepository.saveUsers(context)
 
             return UserOperationResult.Successful
@@ -117,5 +152,129 @@ class UsersViewModel: ViewModel() {
         else{
             return UserOperationResult.UserExists
         }
+    }
+
+    /**
+     * Felhasználó törlése
+     */
+    fun deleteUser(context: Context): UserOperationResult{
+        if (selectedUser.value != null){
+            if (users.value?.remove(selectedUser.value) == true){
+                SettingsRepository.saveUsers(context)
+                return UserOperationResult.Successful
+            }
+            else{
+                return UserOperationResult.UnknownError
+            }
+        }
+        else{
+            return UserOperationResult.UserNotSelected
+        }
+    }
+
+    /**
+     * Felhasználó kiválasztása
+     */
+    fun setSelectedUser(user: User?){
+        selectedUser.value = user
+
+        userName.value = user?.userName
+
+        if (user?.permissions?.contains(UserPermission.In) == true){
+            permissionIn.value = true
+        }
+        else{
+            permissionIn.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.Out) == true){
+            permissionOut.value = true
+        }
+        else{
+            permissionOut.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.Removal) == true){
+            permissionRemoval.value = true
+        }
+        else{
+            permissionRemoval.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.Edit) == true){
+            permissionEdit.value = true
+        }
+        else{
+            permissionEdit.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.ManualPrinting) == true){
+            permissionManualPrinting.value = true
+        }
+        else{
+            permissionManualPrinting.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.Photos) == true){
+            permissionPhotos.value = true
+        }
+        else{
+            permissionPhotos.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.Users) == true){
+            permissionUsers.value = true
+        }
+        else{
+            permissionUsers.value = false
+        }
+
+        if (user?.permissions?.contains(UserPermission.Settings) == true){
+            permissionSettings.value = true
+        }
+        else{
+            permissionSettings.value = false
+        }
+    }
+
+    /**
+     * Jogosultságok beállítása
+     */
+    private fun getPermissions(): ArrayList<UserPermission>{
+        val permissions = arrayListOf<UserPermission>()
+
+        if (permissionIn.value == true){
+            permissions.add(UserPermission.In)
+        }
+
+        if (permissionOut.value == true){
+            permissions.add(UserPermission.Out)
+        }
+
+        if (permissionRemoval.value == true){
+            permissions.add(UserPermission.Removal)
+        }
+
+        if (permissionEdit.value == true){
+            permissions.add(UserPermission.Edit)
+        }
+
+        if (permissionManualPrinting.value == true){
+            permissions.add(UserPermission.ManualPrinting)
+        }
+
+        if (permissionPhotos.value == true){
+            permissions.add(UserPermission.Photos)
+        }
+
+        if (permissionUsers.value == true){
+            permissions.add(UserPermission.Users)
+        }
+
+        if (permissionSettings.value == true){
+            permissions.add(UserPermission.Settings)
+        }
+
+        return permissions
     }
 }

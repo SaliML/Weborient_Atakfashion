@@ -248,6 +248,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionIn}"
                             android:text="@string/users_permission_in" />
 
                         <Switch
@@ -255,6 +256,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionOut}"
                             android:text="@string/users_permission_out" />
 
                         <Switch
@@ -262,6 +264,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionRemoval}"
                             android:text="@string/users_permission_removal" />
 
                         <Switch
@@ -269,6 +272,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionEdit}"
                             android:text="@string/users_permission_edit" />
 
                         <Switch
@@ -276,6 +280,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionManualPrinting}"
                             android:text="@string/users_permission_manual_printing" />
 
                         <Switch
@@ -283,6 +288,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionPhotos}"
                             android:text="@string/users_permission_photos" />
 
                         <Switch
@@ -290,6 +296,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionUsers}"
                             android:text="@string/users_permission_users" />
 
                         <Switch
@@ -297,6 +304,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:checked="@={viewModel.permissionSettings}"
                             android:text="@string/users_permission_settings" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

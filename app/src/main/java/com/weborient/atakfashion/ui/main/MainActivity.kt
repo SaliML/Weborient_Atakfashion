@@ -15,6 +15,7 @@ import com.weborient.atakfashion.ui.out.OutActivity
 import com.weborient.atakfashion.ui.photos.PhotosActivity
 import com.weborient.atakfashion.ui.settings.SettingsActivity
 import com.weborient.atakfashion.views.removal.RemovalActivity
+import com.weborient.atakfashion.views.users.UsersActivity
 
 class MainActivity : AppCompatActivity(), IMainContract.IMainView {
     private val presenter = MainPresenter(this)
@@ -57,35 +58,48 @@ class MainActivity : AppCompatActivity(), IMainContract.IMainView {
         }
 
         binding.cvMainIn.setOnClickListener {
-            presenter.onClickedInButton()
+            //presenter.onClickedInButton()
+            startActivity(Intent(this, InActivity::class.java))
         }
 
         binding.cvMainOut.setOnClickListener {
-            presenter.onClickedOutButton()
+            //presenter.onClickedOutButton()
+            startActivity(Intent(this, OutActivity::class.java))
         }
 
         binding.cvMainRemoval.setOnClickListener {
-            presenter.onClickedRemovalButton()
+            //presenter.onClickedRemovalButton()
+            startActivity(Intent(this, RemovalActivity::class.java))
         }
 
         binding.cvMainEdit.setOnClickListener{
-            presenter.onClickedEditButton()
+            //presenter.onClickedEditButton()
+            startActivity(Intent(this, EditActivity::class.java))
         }
 
         binding.cvMainManualPrint.setOnClickListener {
-            presenter.onClickedManualPrintingButton()
+            //presenter.onClickedManualPrintingButton()
+            startActivity(Intent(this, ManualPrintingActivity::class.java))
         }
 
         binding.cvMainPhotos.setOnClickListener {
-            presenter.onClickedPhotosButton()
+            //presenter.onClickedPhotosButton()
+            startActivity(Intent(this, PhotosActivity::class.java))
+        }
+
+        binding.cvMainUsers.setOnClickListener {
+            startActivity(Intent(this, UsersActivity::class.java))
         }
 
         binding.cvMainSettings.setOnClickListener {
-            presenter.onClickedSettingsButton()
+            //presenter.onClickedSettingsButton()
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         binding.cvMainExit.setOnClickListener {
-            presenter.onClickedExitButton()
+            //presenter.onClickedExitButton()
+            finishAffinity()
+            System.exit(0)
         }
     }
 
