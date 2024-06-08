@@ -42,6 +42,10 @@ class RemovalActivity : AppCompatActivity() {
             viewModel.exportRemovaledProductsToPDF(this)
         }
 
+        binding.ivRemovalBack.setOnClickListener {
+            finish()
+        }
+
         viewModel.removaledProductList.observe(this) {
             removaledProductAdapter.setRemovaledProductList(it)
         }

@@ -91,6 +91,10 @@ class OutPresenter(private val view: IOutContract.IOutView): IOutContract.IOutPr
         view.hideContainerAmount()
         view.hideButtonDone()
 
+        //view.AddRemovableProductAndSave()
+    }
+
+    override fun addRemovableProduct() {
         view.AddRemovableProductAndSave()
     }
 

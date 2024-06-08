@@ -60,6 +60,8 @@ class UsersActivity : AppCompatActivity(), IDialogResultHandler {
                     viewModel.userName.value = ""
                     viewModel.password.value = ""
                     viewModel.passwordConfirm.value = ""
+
+                    getUsers()
                 }
                 UserOperationResult.UsernameEmpty -> {
                     binding.tilUsersUsername.error = "Kötelező kitölteni!"
@@ -91,10 +93,11 @@ class UsersActivity : AppCompatActivity(), IDialogResultHandler {
      */
     private fun getUsers(){
         viewModel.users.value?.let{
-            binding.autoUsersUser.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, it.filter { user -> !user.userName.equals("admin") }))
-
             viewModel.setSelectedUser(null)
             binding.autoUsersUser.text.clear()
+
+            binding.autoUsersUser.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, it.filter { user -> !user.userName.equals("admin") }))
+
             //binding.autoUsersUser.setText(binding.autoUsersUser.adapter.getItem(0).toString(), false)
 
         }

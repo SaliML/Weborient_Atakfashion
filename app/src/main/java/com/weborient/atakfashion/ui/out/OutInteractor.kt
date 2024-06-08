@@ -48,6 +48,10 @@ class OutInteractor(private val presenter: IOutContract.IOutPresenter): IOutCont
             ApiCallType.SubtractionQuantityFromProduct->{
                 val response = result as ProductQuantityChangeResponse
 
+                if (response.text?.contains("hiba", true) == false){
+                    presenter.addRemovableProduct()
+                }
+
                 presenter.onResultDecreaseAmount()
                 presenter.onSuccessful(response.text?: "Sikeres anyagelvonás!")
             }

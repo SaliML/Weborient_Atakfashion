@@ -49,6 +49,7 @@ interface IOutContract {
         fun onResultDecreaseAmount()
         fun onDialogResult(result: DialogResultEnums)
         fun getItemByID(itemID: String?)
+        fun addRemovableProduct()
     }
 
     /**
