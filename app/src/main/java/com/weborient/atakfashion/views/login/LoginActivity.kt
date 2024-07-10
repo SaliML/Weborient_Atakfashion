@@ -10,8 +10,7 @@ import com.weborient.atakfashion.databinding.ActivityLoginBinding
 import com.weborient.atakfashion.handlers.dialog.DialogHandler
 import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.models.login.LoginResult
-import com.weborient.atakfashion.repositories.settings.SettingsRepository
-import com.weborient.atakfashion.ui.main.MainActivity
+import com.weborient.atakfashion.views.main.MainActivity
 import com.weborient.atakfashion.viewmodels.login.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {

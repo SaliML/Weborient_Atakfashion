@@ -1,8 +1,6 @@
 package com.weborient.atakfashion.views.users
 
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +11,8 @@ import com.weborient.atakfashion.handlers.dialog.DialogHandler
 import com.weborient.atakfashion.handlers.dialog.DialogResultEnums
 import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.handlers.dialog.IDialogResultHandler
-import com.weborient.atakfashion.models.QLPrinterLabelType
 import com.weborient.atakfashion.models.user.User
 import com.weborient.atakfashion.models.user.UserOperationResult
-import com.weborient.atakfashion.models.user.UserPermission
-import com.weborient.atakfashion.viewmodels.login.LoginViewModel
 import com.weborient.atakfashion.viewmodels.users.UsersViewModel
 
 class UsersActivity : AppCompatActivity(), IDialogResultHandler {

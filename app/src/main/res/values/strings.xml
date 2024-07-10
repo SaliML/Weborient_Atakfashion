@@ -26,6 +26,9 @@
     <!--Beállítások-->
     <string name="settings_title">Beállítások</string>
     <string name="settings_title_version">Alkalmazás verzió</string>
+    <string name="settings_title_stored_data">Tárolt adatok kezelése</string>
+    <string name="settings_button_export">Export</string>
+    <string name="settings_button_import">Import</string>
     <string name="settings_title_printer">Nyomtató beállításai</string>
     <string name="settings_title_is_auto_cut">Vágás darabonként</string>
     <string name="settings_title_is_cut_at_end">Vágás nyomtatás végén</string>

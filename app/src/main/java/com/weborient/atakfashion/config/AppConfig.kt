@@ -33,6 +33,7 @@ object AppConfig {
     const val TEMP_PHOTO_UPLOAD_FILE = "tempphotoupload.dat"
     const val ATAKFASHION_EXTERNAL_REMOVALED_ITEMS_DIRECTORY = "Atakfashion/Removaled"
     const val ATAKFASHION_EXTERNAL_SETTINGS = "Atakfashion/Settings"
+    const val ATAKFASHION_ROOT_FOLDER = "Atakfashion"
 
     //Nyomtató beállításai
     var macAddress: String? = null

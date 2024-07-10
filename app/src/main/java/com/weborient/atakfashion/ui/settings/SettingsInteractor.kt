@@ -19,10 +19,6 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
         }
     }
 
-    override fun getMacAddress() {
-        presenter.onFetchedMacAddress(AppConfig.macAddress)
-    }
-
     override fun getIPAddress() {
         presenter.onFetchedIPAddress(AppConfig.ipAddress)
     }
@@ -40,11 +36,6 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
         AppConfig.apiServiceWithoutBearer = null
     }
 
-    override fun setMacAddress(macAddress: String) {
-        AppConfig.macAddress = macAddress.uppercase(Locale.getDefault())
-        presenter.onFetchedMacAddress(AppConfig.macAddress)
-    }
-
     override fun setLabelSize(printerLabelType: QLPrinterLabelType){
         AppConfig.printerLabelSize = printerLabelType.id
     }
@@ -57,22 +48,5 @@ class SettingsInteractor(private val presenter: ISettingsContract.ISettingsPrese
     override fun setCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean) {
         AppConfig.isAutoCut = isAutoCut
         AppConfig.isCutAtEnd = isCutAtEnd
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun searchPrinter(pairedDevices: Set<BluetoothDevice>?) {
-       val printer = PrinterHandler.searchPrinter(pairedDevices, AppConfig.macAddress)
-
-        if(printer != null){
-            presenter.onFetchedPrinterName(printer.name)
-            presenter.onFetchedMacAddress(AppConfig.macAddress)
-            presenter.onFetchedPrinterPairStatus("Párosítva")
-        }
-        else{
-            presenter.onFetchedPrinterName("-")
-            presenter.onFetchedMacAddress(AppConfig.macAddress)
-            presenter.onFetchedPrinterPairStatus("-")
-
-        }
     }
 }

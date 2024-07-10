@@ -24,11 +24,6 @@ interface ISettingsContract {
         fun showApiAddress(apiAddress: String)
 
         /**
-         * Nyomtató MAC címének mutatása
-         */
-        fun showPrinterMacAddress(printerMacAddress: String?)
-
-        /**
          * Nyomtató IP címének mutatása
          */
         fun showPrinterIPAddress(printerIPAddress: String?)
@@ -54,11 +49,6 @@ interface ISettingsContract {
         fun showApiError(error: String?)
 
         /**
-         * MAC cím mező hibaüzenet
-         */
-        fun showMacAddressError(error: String?)
-
-        /**
          * IP cím mező hibaüzenet
          */
         fun showIPAddressError(error: String?)
@@ -82,11 +72,6 @@ interface ISettingsContract {
          * Nyomtató szalagtípus azonosítójának mentése
          */
         fun savePrinterLabel(labelID: Int)
-
-        /**
-         * Nyomtató MAC címének mentése
-         */
-        fun saveMacAddress(macAddress: String)
 
         /**
          * Nyomtató IP címének mentése
@@ -120,11 +105,6 @@ interface ISettingsContract {
         fun getApiAddress()
 
         /**
-         * Nyomtató MAC címének lekérdezése
-         */
-        fun getMacAddress()
-
-        /**
          * Nyomtató IP címének lekérdezése
          */
         fun getIPAddress()
@@ -148,11 +128,6 @@ interface ISettingsContract {
          * API cím visszaadása
          */
         fun onFetchedApiAddress(apiAddress: String)
-
-        /**
-         * Nyomtató MAC címének visszaadása
-         */
-        fun onFetchedMacAddress(macAddress: String?)
 
         /**
          * Nyomtató IP címének visszaadása
@@ -195,14 +170,10 @@ interface ISettingsContract {
         fun onClickedApiSaveButton(apiAddress: String?)
 
         /**
-         * MAC cím mentés gomb eseménye
+         * Nyomtató beállításai mentése gomb eseménye
          */
         fun onClickedPrinterSettingsSaveButton(ipAddress: String?, isAutoCut: Boolean, isCutAtEnd: Boolean, printerLabelType: QLPrinterLabelType?)
 
-        /**
-         * Nyomtató adatainak frissítése
-         */
-        fun refreshPrinter(pairedDevices: Set<BluetoothDevice>?)
     }
 
     /**
@@ -218,11 +189,6 @@ interface ISettingsContract {
          * API cím lekérdezése
          */
         fun getApiAddress()
-
-        /**
-         * Nyomtató MAC címének lekérdezése
-         */
-        fun getMacAddress()
 
         /**
          * Nyomtató IP címének lekérdezése
@@ -250,11 +216,6 @@ interface ISettingsContract {
         fun setApiAddress(apiAddress: String)
 
         /**
-         * Nyomtató MAC címének beállítása
-         */
-        fun setMacAddress(macAddress: String)
-
-        /**
          * Nyomtató IP címének beállítása
          */
         fun setIPAddress(ipAddress: String)
@@ -263,10 +224,5 @@ interface ISettingsContract {
          * Vágási beállítások rögzítése
          */
         fun setCutSettings(isAutoCut: Boolean, isCutAtEnd: Boolean)
-
-        /**
-         * Nyomtató keresése
-         */
-        fun searchPrinter(pairedDevices: Set<BluetoothDevice>?)
     }
 }

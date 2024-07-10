@@ -13,10 +13,6 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
         interactor.getApiAddress()
     }
 
-    override fun getMacAddress() {
-        interactor.getMacAddress()
-    }
-
     override fun getIPAddress() {
         interactor.getIPAddress()
     }
@@ -35,10 +31,6 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
 
     override fun onFetchedApiAddress(apiAddress: String) {
         view.showApiAddress(apiAddress)
-    }
-
-    override fun onFetchedMacAddress(macAddress: String?) {
-        view.showPrinterMacAddress(macAddress)
     }
 
     override fun onFetchedIPAddress(ipAddress: String?) {
@@ -63,10 +55,6 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
 
     override fun onFetchedSavedLabelSize(savedLabelType: QLPrintSettings.LabelSize?, labelTypes: ArrayList<QLPrinterLabelType>) {
         view.selectLabelSize(savedLabelType, labelTypes)
-    }
-
-    override fun refreshPrinter(pairedDevices: Set<BluetoothDevice>?) {
-        interactor.searchPrinter(pairedDevices)
     }
 
     override fun onClickedBackButton() {
@@ -103,7 +91,7 @@ class SettingsPresenter(private val view: ISettingsContract.ISettingsView): ISet
             view.showInformationDialog("Sikeres mentés", DialogTypeEnums.Successful)
         }
         else{
-            view.showMacAddressError("Kérem töltse ki a mezőt!")
+            view.showIPAddressError("Kérem töltse ki a mezőt!")
         }
     }
 }

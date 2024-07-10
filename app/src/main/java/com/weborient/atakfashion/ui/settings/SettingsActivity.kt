@@ -10,28 +10,31 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import com.brother.sdk.lmprinter.setting.QLPrintSettings
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import com.weborient.atakfashion.config.AppConfig
 import com.weborient.atakfashion.databinding.ActivitySettingsBinding
+import com.weborient.atakfashion.databinding.ActivityUsersBinding
 import com.weborient.atakfashion.handlers.dialog.DialogHandler
 import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.handlers.preferences.SharedPreferencesHandler
 import com.weborient.atakfashion.models.QLPrinterLabelType
+import com.weborient.atakfashion.viewmodels.settings.SettingsViewModel
+import com.weborient.atakfashion.viewmodels.users.UsersViewModel
 
 class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
+    private lateinit var binding: ActivitySettingsBinding
+    private val viewModel: SettingsViewModel by viewModels()
+
     private val presenter = SettingsPresenter(this)
 
-    private var bluetoothAdapter: BluetoothAdapter? = null
-    private var bluetoothManager: BluetoothManager? = null
-
     private lateinit var layoutApiAddress: TextInputLayout
-    private lateinit var layoutPrinterMacAddress: TextInputLayout
     private lateinit var layoutPrinterIPAddress: TextInputLayout
 
     private lateinit var apiAddressView: EditText
-    private lateinit var printerMacAddressView: EditText
     private lateinit var printerIPAddressView: EditText
 
     private lateinit var printerNameView: TextView
@@ -50,8 +53,9 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, com.weborient.atakfashion.R.layout.activity_settings)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         switchIsAutoCut = binding.swSettingsAutoCut
         switchIsCutAndEnd = binding.swSettingsCutAtEnd
@@ -62,10 +66,6 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
         apiAddressView = binding.etApiAddress
         printerIPAddressView = binding.etSettingsPrinterIpAddress
-        //printerMacAddressView = binding.etSettingsPrinterMacAddress
-
-        /*printerNameView = binding.tvSettingsPrinterName
-        printerStatusView = binding.tvSettingsPrinterStatus*/
 
         appVersionView = binding.tvSettingsVersion
 
@@ -82,23 +82,22 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
         }
 
+        binding.btSettingsStoredDataExport.setOnClickListener {
+            viewModel.exportStoredData(this)
+        }
+
+        binding.btSettingsStoredDataImport.setOnClickListener {
+            viewModel.importStoredData(this)
+        }
+
         spinnerLabelSizes.setOnItemClickListener { adapterView, view, i, l ->
             selectedLabelSize = adapterView.getItemAtPosition(i) as QLPrinterLabelType
         }
 
-        /*binding.btSettingsPrinterRefresh.setOnClickListener {
-            presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
-        }*/
-
-        /*bluetoothManager = getSystemService(BluetoothManager::class.java)
-        bluetoothAdapter = bluetoothManager?.adapter*/
-
         presenter.getApiAddress()
         presenter.getIPAddress()
         presenter.getCutSettings()
-        //presenter.getMacAddress()
         presenter.getAppVersion()
-        //presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
     }
 
     override fun onResume() {
@@ -113,10 +112,6 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
     override fun showApiAddress(apiAddress: String) {
         apiAddressView.setText(apiAddress, TextView.BufferType.EDITABLE)
-    }
-
-    override fun showPrinterMacAddress(printerMacAddress: String?) {
-        printerMacAddressView.setText(printerMacAddress, TextView.BufferType.EDITABLE)
     }
 
     override fun showPrinterIPAddress(printerIPAddress: String?) {
@@ -139,10 +134,6 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
         layoutApiAddress.error = error
     }
 
-    override fun showMacAddressError(error: String?) {
-        layoutPrinterMacAddress.error = error
-    }
-
     override fun showIPAddressError(error: String?) {
         layoutPrinterIPAddress.error = error
     }
@@ -162,12 +153,6 @@ class SettingsActivity : AppCompatActivity(), ISettingsContract.ISettingsView {
 
     override fun savePrinterLabel(labelID: Int) {
         SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_LABEL_ID, labelID)
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun saveMacAddress(macAddress: String) {
-        SharedPreferencesHandler.saveValue(this, AppConfig.SHAREDPREF_ID, AppConfig.SHAREDPREF_KEY_PRINTER_MAC_ADDRESS, macAddress)
-        presenter.refreshPrinter(bluetoothAdapter?.bondedDevices)
     }
 
     override fun saveIPAddress(ipAddress: String) {
