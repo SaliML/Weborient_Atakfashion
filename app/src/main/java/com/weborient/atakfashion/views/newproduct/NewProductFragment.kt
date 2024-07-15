@@ -47,48 +47,9 @@ import com.weborient.womo.handlers.api.ApiCallType
 
 
 class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDialogResultHandler {
-    private lateinit var binding: FragmentNewItemBinding
     private val viewModel: NewProductViewModel by viewModels()
-
+    private lateinit var binding: FragmentNewItemBinding
     private val presenter = NewProductPresenter(this)
-
-    private lateinit var layoutProgress: ConstraintLayout
-    private lateinit var layoutDatas: CardView
-    private lateinit var layoutButtons: LinearLayout
-
-    private lateinit var textProgressInformation: TextView
-
-    private lateinit var layoutID: TextInputLayout
-    private lateinit var layoutName: TextInputLayout
-    private lateinit var layoutDescription: TextInputLayout
-    private lateinit var layoutQuantity: TextInputLayout
-    private lateinit var layoutCategory: TextInputLayout
-    private lateinit var layoutPresentation: TextInputLayout
-    private lateinit var layoutUnit: TextInputLayout
-    private lateinit var layoutStatus: TextInputLayout
-    private lateinit var layoutTemplate: TextInputLayout
-    private lateinit var layoutTaxes: TextInputLayout
-    private lateinit var layoutGrossPrice: TextInputLayout
-
-    private lateinit var inputID: TextInputEditText
-    private lateinit var inputName: TextInputEditText
-    private lateinit var inputDescription: TextInputEditText
-    private lateinit var inputQuantity: TextInputEditText
-    private lateinit var inputGrossPrice: TextInputEditText
-
-    private lateinit var spinnerCategory: MaterialAutoCompleteTextView
-    private lateinit var spinnerPresentation: MaterialAutoCompleteTextView
-    private lateinit var spinnerUnit: MaterialAutoCompleteTextView
-    private lateinit var spinnerStatus: MaterialAutoCompleteTextView
-    private lateinit var spinnerTemplate: MaterialAutoCompleteTextView
-    private lateinit var spinnerTax: MaterialAutoCompleteTextView
-
-    private lateinit var buttonPrint: ImageView
-
-    private lateinit var checkBoxPrintGroup: CheckBox
-
-    private var bluetoothAdapter: BluetoothAdapter? = null
-    private var bluetoothManager: BluetoothManager? = null
 
     private var category: ArrayElement? = null
     private var presentation: ArrayElement? = null
@@ -100,45 +61,10 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val binding = FragmentNewItemBinding.inflate(layoutInflater)
+    ): View {
+        binding = FragmentNewItemBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
-        layoutProgress = binding.clNewItemProgress
-        layoutDatas = binding.cvNewItemData
-        layoutButtons = binding.llNewItemButtons
-
-        textProgressInformation = binding.tvNewItemProgressInformation
-
-        layoutID = binding.tilNewItemId
-        layoutName = binding.tilNewItemName
-        layoutDescription = binding.tilNewItemDescription
-        layoutQuantity = binding.tilNewItemQuantity
-        layoutCategory = binding.tilNewItemCategory
-        layoutPresentation = binding.tilNewItemPresentation
-        layoutUnit = binding.tilNewItemUnit
-        layoutStatus = binding.tilNewItemStatus
-        layoutTemplate = binding.tilNewItemTemplate
-        layoutTaxes = binding.tilNewItemTaxes
-        layoutGrossPrice = binding.tilNewItemGrossPrice
-
-        inputID = binding.etNewItemId
-        inputName = binding.etNewItemName
-        inputDescription = binding.etNewItemDescription
-        inputQuantity = binding.etNewItemQuantity
-        inputGrossPrice = binding.etNewItemGrossPrice
-
-        spinnerCategory = binding.autoNewItemCategory
-        spinnerPresentation = binding.autoNewItemPresentation
-        spinnerUnit = binding.autoNewItemUnit
-        spinnerStatus = binding.autoNewItemStatus
-        spinnerTemplate = binding.autoNewItemTemplate
-        spinnerTax = binding.autoNewItemTaxes
-
-        buttonPrint = binding.ivNewItemPrint
-
-        checkBoxPrintGroup = binding.cbNewItemPrintGroup
 
         binding.ivNewItemBack.setOnClickListener {
             presenter.onClickedBackButton()
@@ -146,22 +72,19 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
         binding.ivNewItemUpload.setOnClickListener {
             if(PhoneServiceHandler.checkNetworkState(requireContext())){
-                /*presenter.onClickedUploadButton(inputName.text.toString(), inputDescription.text.toString(), inputQuantity.text.toString(),
-                    category, presentation, unit, status, template, tax, inputGrossPrice.text.toString())*/
-
-                if(inputName.text.toString().isEmpty()){
+                if(binding.etNewItemName.text.toString().isEmpty()){
                     showNameError("Kötelező kitölteni!")
                 }
                 else{
-                    if(inputDescription.text.toString().isEmpty()){
+                    if(binding.etNewItemDescription.text.toString().isEmpty()){
                         showDescriptionError("Kötelező kitölteni!")
                     }
                     else{
-                        if(inputQuantity.text.toString().isEmpty()){
+                        if(binding.etNewItemQuantity.text.toString().isEmpty()){
                             showQuantityError("Kötelező kitölteni!")
                         }
                         else{
-                            val tempQuantity = inputQuantity.text.toString().toIntOrNull()
+                            val tempQuantity = binding.etNewItemQuantity.text.toString().toIntOrNull()
 
                             if(tempQuantity == null){
                                 showQuantityError("Kérem számot adjon meg!")
@@ -191,17 +114,17 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
                                                         showTaxError("Kötelező kitölteni!")
                                                     }
                                                     else{
-                                                        if(inputGrossPrice.text.toString().isEmpty()){
+                                                        if(binding.etNewItemGrossPrice.text.toString().isEmpty()){
                                                             showGrossPriceError("Kötelező kitölteni!")
                                                         }
                                                         else{
-                                                            val tempGrossPrice = inputGrossPrice.text.toString().toIntOrNull()
+                                                            val tempGrossPrice = binding.etNewItemGrossPrice.text.toString().toIntOrNull()
 
                                                             if(tempGrossPrice == null){
                                                                 showGrossPriceError("Kérem számot adjon meg!")
                                                             }
                                                             else{
-                                                                //Mehet a feltöltés
+
                                                                 showNameError(null)
                                                                 showDescriptionError(null)
                                                                 showQuantityError(null)
@@ -213,7 +136,7 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
                                                                 showGrossPriceError(null)
 
                                                                 viewModel.uploadProduct(
-                                                                    ProductSendData(inputName.text.toString(), inputDescription.text.toString(), category!!.id, presentation!!.id, tax!!.id, unit!!.id, status!!.id, template!!.id, arrayListOf(), tempQuantity, tempGrossPrice)
+                                                                    ProductSendData(binding.etNewItemName.text.toString(), binding.etNewItemDescription.text.toString(), category!!.id, presentation!!.id, tax!!.id, unit!!.id, status!!.id, template!!.id, arrayListOf(), tempQuantity, tempGrossPrice)
                                                                 )
                                                             }
                                                         }
@@ -235,13 +158,13 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
         binding.ivNewItemPrint.setOnClickListener {
             if(PhoneServiceHandler.checkWifiState(requireContext())){
-                if(checkBoxPrintGroup.isChecked){
+                if(binding.cbNewItemPrintGroup.isChecked){
                     //Csoportos nyomtatás esetén csak 1 db QR kódra van szükség
-                    presenter.onClickedPrintButton(inputID.text.toString(), "1")
+                    presenter.onClickedPrintButton(binding.etNewItemId.text.toString(), "1")
                 }
                 else{
                     //Nem csoportos nyomtatás esetén a felvett mennyiséget kell kinyomtatni
-                    presenter.onClickedPrintButton(inputID.text.toString(), inputQuantity.text.toString())
+                    presenter.onClickedPrintButton(binding.etNewItemId.text.toString(), binding.etNewItemQuantity.text.toString())
                 }
             }
             else{
@@ -249,23 +172,23 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
             }
         }
 
-        spinnerCategory.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoNewItemCategory.setOnItemClickListener { adapterView, view, i, l ->
             category = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
-        spinnerPresentation.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoNewItemPresentation.setOnItemClickListener { adapterView, view, i, l ->
             presentation = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
-        spinnerUnit.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoNewItemUnit.setOnItemClickListener { adapterView, view, i, l ->
             unit = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
-        spinnerStatus.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoNewItemStatus.setOnItemClickListener { adapterView, view, i, l ->
             status = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
-        spinnerTemplate.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoNewItemTemplate.setOnItemClickListener { adapterView, view, i, l ->
             template = adapterView.getItemAtPosition(i) as ArrayElement
 
             template?.let {
@@ -273,7 +196,7 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
             }
         }
 
-        spinnerTax.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoNewItemTaxes.setOnItemClickListener { adapterView, view, i, l ->
             tax = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
@@ -361,47 +284,47 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
     }
 
     override fun setItemID(id: String?) {
-        inputID.setText(id, TextView.BufferType.EDITABLE)
+        binding.etNewItemId.setText(id, TextView.BufferType.EDITABLE)
     }
 
     override fun setCategories(categories: ArrayList<ArrayElement>?) {
         categories?.let{
-            spinnerCategory.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
-            spinnerCategory.setText(categories[0].name, false)
+            binding.autoNewItemCategory.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            binding.autoNewItemCategory.setText(categories[0].name, false)
             category = categories[0]
         }
     }
 
     override fun setPackageTypes(packageTypes: ArrayList<ArrayElement>?) {
         packageTypes?.let{
-            spinnerPresentation.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
-            spinnerPresentation.setText(packageTypes[0].name, false)
+            binding.autoNewItemPresentation.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            binding.autoNewItemPresentation.setText(packageTypes[0].name, false)
             presentation = packageTypes[0]
         }
     }
 
     override fun setUnits(units: ArrayList<ArrayElement>?) {
         units?.let{
-            spinnerUnit.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
-            spinnerUnit.setText(units[0].name, false)
+            binding.autoNewItemUnit.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            binding.autoNewItemUnit.setText(units[0].name, false)
             unit = units[0]
         }
     }
 
     override fun setStatuses(statuses: ArrayList<ArrayElement>?) {
         statuses?.let{
-            spinnerStatus.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            binding.autoNewItemStatus.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
 
             var element = statuses.firstOrNull {
                 it.name.equals("raktaron", true) || it.name.equals("raktáron", true)
             }
 
             if(element != null){
-                spinnerStatus.setText(statuses[statuses.indexOf(element)].name, false)
+                binding.autoNewItemStatus.setText(statuses[statuses.indexOf(element)].name, false)
                 status = statuses[statuses.indexOf(element)]
             }
             else{
-                spinnerStatus.setText(statuses[0].name, false)
+                binding.autoNewItemStatus.setText(statuses[0].name, false)
                 status = statuses[0]
             }
         }
@@ -409,8 +332,8 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
     override fun setTemplates(templates: ArrayList<ArrayElement>?) {
         templates?.let{
-            spinnerTemplate.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
-            spinnerTemplate.setText(templates[0].name, false)
+            binding.autoNewItemTemplate.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it))
+            binding.autoNewItemTemplate.setText(templates[0].name, false)
             template = templates[0]
 
             viewModel.getTemplateDatas(templates[0].id)
@@ -419,14 +342,14 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
 
     override fun setTaxes(taxes: ArrayList<ArrayElement>?) {
         taxes?.let{
-            spinnerTax.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, taxes))
-            spinnerTax.setText(taxes[0].name, false)
+            binding.autoNewItemTaxes.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, taxes))
+            binding.autoNewItemTaxes.setText(taxes[0].name, false)
             tax = taxes[0]
         }
     }
 
     override fun setGrossPrice(price: String) {
-        inputGrossPrice.setText(price, TextView.BufferType.EDITABLE)
+        binding.etNewItemGrossPrice.setText(price, TextView.BufferType.EDITABLE)
     }
 
     override fun showInformationDialog(information: String, type: DialogTypeEnums) {
@@ -438,47 +361,47 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
     }
 
     override fun showNameError(error: String?) {
-        layoutName.error = error
+        binding.tilNewItemName.error = error
     }
 
     override fun showDescriptionError(error: String?) {
-        layoutDescription.error = error
+        binding.tilNewItemDescription.error = error
     }
 
     override fun showQuantityError(error: String?) {
-        layoutQuantity.error = error
+        binding.tilNewItemQuantity.error = error
     }
 
     override fun showCategoryError(error: String?) {
-        layoutCategory.error = error
+        binding.tilNewItemCategory.error = error
     }
 
     override fun showPresentationError(error: String?) {
-        layoutPresentation.error = error
+        binding.tilNewItemPresentation.error = error
     }
 
     override fun showUnitError(error: String?) {
-        layoutUnit.error = error
+        binding.tilNewItemUnit.error = error
     }
 
     override fun showStatusError(error: String?) {
-        layoutStatus.error = error
+        binding.tilNewItemStatus.error = error
     }
 
     override fun showTaxError(error: String?) {
-        layoutTaxes.error = error
+        binding.tilNewItemTaxes.error = error
     }
 
     override fun showTemplateError(error: String?) {
-        layoutTemplate.error = error
+        binding.tilNewItemTemplate.error = error
     }
 
     override fun showGrossPriceError(error: String?) {
-        layoutGrossPrice.error = error
+        binding.tilNewItemGrossPrice.error = error
     }
 
     override fun showPrintButton() {
-        buttonPrint.visibility = View.VISIBLE
+        binding.ivNewItemPrint.visibility = View.VISIBLE
     }
 
     override fun showProgress(information: String) {
@@ -497,9 +420,6 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
         presenter.onDialogResult(result)
     }
 
-    override fun showBluetoothDialog() {
-        startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
-    }
     override fun showNetworkDialog() {
         startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
     }

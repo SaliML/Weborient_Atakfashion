@@ -33,7 +33,6 @@ interface INewProductContract {
         fun showTaxError(error: String?)
         fun showGrossPriceError(error: String?)
         fun showPrintButton()
-        fun showBluetoothDialog()
         fun showNetworkDialog()
         fun showProgress(information: String)
         fun hideProgress()
