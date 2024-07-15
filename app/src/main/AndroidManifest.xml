@@ -65,7 +65,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.in.InActivity"
+            android:name=".views.in.InActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

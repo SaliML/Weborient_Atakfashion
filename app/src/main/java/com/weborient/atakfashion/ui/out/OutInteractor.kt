@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.ui.out
 
 import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.models.api.getdata.OneProductDataBase
@@ -38,45 +39,49 @@ class OutInteractor(private val presenter: IOutContract.IOutPresenter): IOutCont
         RemovaledItemRepository.productToRemoval = product
     }
 
-    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
-        when(responseType){
+    override fun onResult(callResponse: ApiCallResponse) {
+        when(callResponse.responseType){
             ApiCallType.GetOneProduct->{
-                val response = result as OneProductDataBase
+                if(callResponse.isSuccessful){
+                    val response = callResponse.result as OneProductDataBase
 
-                presenter.onFetchedItem(response.datas)
-            }
-            ApiCallType.SubtractionQuantityFromProduct->{
-                val response = result as ProductQuantityChangeResponse
-
-                if (response.text?.contains("hiba", true) == false){
-                    presenter.addRemovableProduct()
+                    presenter.onFetchedItem(response.datas)
                 }
-
-                presenter.onResultDecreaseAmount()
-                presenter.onSuccessful(response.text?: "Sikeres anyagelvonás!")
-            }
-            else->{}
-        }
-    }
-
-    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?, param: String?) {
-        when(responseType){
-            ApiCallType.GetOneProduct->{
-                presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                else{
+                    presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                }
             }
             ApiCallType.SubtractionQuantityFromProduct->{
-                val response = result as ProductQuantityChangeResponse
+                if(callResponse.isSuccessful){
+                    val response = callResponse.result as ProductQuantityChangeResponse
 
-                presenter.onFailure(response.text?: "Hiba történt a mennyiség csökkentése során!")
+                    if (response.text?.contains("hiba", true) == false){
+                        presenter.addRemovableProduct()
+                    }
+
+                    presenter.onResultDecreaseAmount()
+                    presenter.onSuccessful(response.text?: "Sikeres anyagelvonás!")
+                }
+                else{
+                    val response = callResponse.result as ProductQuantityChangeResponse
+
+                    presenter.onFailure(response.text?: "Hiba történt a mennyiség csökkentése során!")
+                }
             }
             ApiCallType.Connection->{
-                presenter.onFailure("Hiba történt a kapcsolódás során!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Hiba történt a kapcsolódás során!")
+                }
             }
             ApiCallType.Timeout->{
-                presenter.onFailure("Időtúllépés hiba!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Időtúllépés hiba!")
+                }
             }
             ApiCallType.Unknown->{
-                presenter.onFailure("Ismeretlen hiba történt!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Ismeretlen hiba történt!")
+                }
             }
             else->{
 

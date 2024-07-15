@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.ui.`in`
 
 import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.handlers.printer.PrintResult
@@ -73,42 +74,45 @@ class InInteractor(private val presenter: IInContract.IInPresenter): IInContract
             presenter.onPrintResult(printResult)
         }
     }
-
-    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
-        when(responseType){
+    override fun onResult(callResponse: ApiCallResponse) {
+        when(callResponse.responseType){
             ApiCallType.AllProducts->{
-                val response = result as ProductDataBase
+                if(callResponse.isSuccessful){
+                    val response = callResponse.result as ProductDataBase
 
-                ItemRepository.products = response.datas
-                presenter.onRetrievedItems(response.datas)
-            }
-            ApiCallType.AddQuantityToProduct ->{
-                val response = result as ProductQuantityChangeResponse
-
-                //setSelectedProduct(null)
-                presenter.onUploadedResult(true)
-                presenter.onSuccessful(response.text?: "Mennyiség hozzáadva a készlethez!")
-            }
-            else->{}
-        }
-    }
-
-    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?, param: String?) {
-        when(responseType){
-            ApiCallType.AllProducts->{
-                presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                    ItemRepository.products = response.datas
+                    presenter.onRetrievedItems(response.datas)
+                }
+                else{
+                    presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                }
             }
             ApiCallType.AddQuantityToProduct->{
-                presenter.onFailure("Hiba történt a mennyiség hozzáadása során!")
+                if(callResponse.isSuccessful){
+                    val response = callResponse.result as ProductQuantityChangeResponse
+
+                    //setSelectedProduct(null)
+                    presenter.onUploadedResult(true)
+                    presenter.onSuccessful(response.text?: "Mennyiség hozzáadva a készlethez!")
+                }
+                else{
+                    presenter.onFailure("Hiba történt a mennyiség hozzáadása során!")
+                }
             }
             ApiCallType.Connection->{
-                presenter.onFailure("Hiba történt a kapcsolódás során!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Hiba történt a kapcsolódás során!")
+                }
             }
             ApiCallType.Timeout->{
-                presenter.onFailure("Időtúllépés hiba!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Időtúllépés hiba!")
+                }
             }
             ApiCallType.Unknown->{
-                presenter.onFailure("Ismeretlen hiba történt!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Ismeretlen hiba történt!")
+                }
             }
             else->{
 

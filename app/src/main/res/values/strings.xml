@@ -103,6 +103,7 @@
     <string name="in_title">Felvétel</string>
     <string name="in_title_quantity">Felvenni kívánt mennyiség</string>
     <string name="in_title_print_group">Csoportos nyomtatás</string>
+    <string name="in_title_template">Sablon értékkészletei</string>
 
     <!--Új termék hozzáadása-->
     <string name="new_item_title">Új termék</string>

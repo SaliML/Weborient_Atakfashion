@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.ui.edit
 
 import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.models.api.getdata.GetDataByIDBase
@@ -41,73 +42,67 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
         }
     }
 
-    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
-        when(responseType){
+    override fun onResult(callResponse: ApiCallResponse) {
+        when(callResponse.responseType){
             ApiCallType.GetOneProductDetails->{
-                val response = result as GetDataByIDBase
+                if (callResponse.isSuccessful){
+                    val response = callResponse.result as GetDataByIDBase
 
-                presenter.onFetchedProduct(response, ItemRepository.categories, ItemRepository.templates, ItemRepository.units, ItemRepository.packagetypes, ItemRepository.productstatuses, ItemRepository.taxes)
-            }
-            ApiCallType.NewProductGetData->{
-                val response = result as NewProductGetDataResponse
-
-                ItemRepository.categories = response.datas?.categories
-                ItemRepository.templates = response.datas?.templates
-                ItemRepository.units = response.datas?.units
-                ItemRepository.packagetypes = response.datas?.packagetypes
-                ItemRepository.productstatuses = response.datas?.productstatuses
-                ItemRepository.taxes = response.datas?.taxes
-
-                /*presenter.onRetrievedCategories(ItemRepository.categories)
-                presenter.onRetrievedTemplates(ItemRepository.templates)
-                presenter.onRetrievedUnits(ItemRepository.units)
-                presenter.onRetrievedPackageTypes(ItemRepository.packagetypes)
-                presenter.onRetrievedStatuses(ItemRepository.productstatuses)
-                presenter.onRetrievedTaxes(ItemRepository.taxes)*/
-            }
-            ApiCallType.EditProduct ->{
-                val response = result as ModifyDataByIDResponse
-
-                if (!response.text.isNullOrEmpty()){
-                    //Sikeres módosítás
-                    presenter.onSuccessful("Sikeres módosítás!")
+                    presenter.onFetchedProduct(response, ItemRepository.categories, ItemRepository.templates, ItemRepository.units, ItemRepository.packagetypes, ItemRepository.productstatuses, ItemRepository.taxes)
                 }
                 else{
-                    presenter.onFailure("Sikertelen módosítás!")
+                    presenter.onFailure("Hiba történt az adatok lekérdezése során!")
+                }
+            }
+            ApiCallType.NewProductGetData->{
+                if (callResponse.isSuccessful){
+                    val response = callResponse.result as NewProductGetDataResponse
+
+                    ItemRepository.categories = response.datas?.categories
+                    ItemRepository.templates = response.datas?.templates
+                    ItemRepository.units = response.datas?.units
+                    ItemRepository.packagetypes = response.datas?.packagetypes
+                    ItemRepository.productstatuses = response.datas?.productstatuses
+                    ItemRepository.taxes = response.datas?.taxes
+                }
+                else{
+                    presenter.onFailure("Hiba történt az adatok lekérdezése során")
+                }
+
+            }
+            ApiCallType.EditProduct ->{
+                if (callResponse.isSuccessful)
+                {
+                    val response = callResponse.result as ModifyDataByIDResponse
+
+                    if (!response.text.isNullOrEmpty()){
+                        //Sikeres módosítás
+                        presenter.onSuccessful("Sikeres módosítás!")
+                    }
+                    else{
+                        presenter.onFailure("Sikertelen módosítás!")
+                    }
+                }
+                else{
+                    presenter.onFailure("Hiba történt a termék módosítása során")
+                }
+            }
+            ApiCallType.Connection->{
+                if (!callResponse.isSuccessful){
+                    presenter.onFailure("Hiba történt a kapcsolódás során!")
+                }
+            }
+            ApiCallType.Timeout->{
+                if (!callResponse.isSuccessful){
+                    presenter.onFailure("Időtúllépés hiba!")
+                }
+            }
+            ApiCallType.Unknown->{
+                if (!callResponse.isSuccessful){
+                    presenter.onFailure("Ismeretlen hiba történt!")
                 }
             }
             else->{}
-        }
-    }
-
-    override fun onFailure(
-        responseType: ApiCallType,
-        result: Any?,
-        throwable: Throwable?,
-        param: String?
-    ) {
-        when(responseType){
-            ApiCallType.GetOneProductDetails->{
-                presenter.onFailure("Hiba történt az adatok lekérdezése során!")
-            }
-            ApiCallType.NewProductGetData->{
-                presenter.onFailure("Hiba történt az adatok lekérdezése során")
-            }
-            ApiCallType.EditProduct->{
-                presenter.onFailure("Hiba történt a termék módosítása során")
-            }
-            ApiCallType.Connection->{
-                presenter.onFailure("Hiba történt a kapcsolódás során!")
-            }
-            ApiCallType.Timeout->{
-                presenter.onFailure("Időtúllépés hiba!")
-            }
-            ApiCallType.Unknown->{
-                presenter.onFailure("Ismeretlen hiba történt!")
-            }
-            else->{
-
-            }
         }
     }
 }

@@ -13,6 +13,8 @@ import com.weborient.atakfashion.models.api.quantitychange.ProductQuantityChange
 import com.weborient.atakfashion.models.api.quantitychange.ProductQuantityChangeResponse
 import com.weborient.atakfashion.models.api.sendproduct.ProductSendData
 import com.weborient.atakfashion.models.api.sendproduct.NewProductSendDataResponse
+import com.weborient.atakfashion.models.api.template.TemplateDataBase
+import com.weborient.atakfashion.models.api.template.TemplateFilter
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -36,6 +38,12 @@ interface IApiRequests {
      */
     @POST("newproductsenddata")
     fun callNewProductSendData(@Body body: ProductSendData): Call<NewProductSendDataResponse>
+
+    /**
+     * Sablon értékkészleteinek letöltése
+     */
+    @POST("newproductgettemplate")
+    fun callGetTemplateDatas(@Body body: TemplateFilter): Call<TemplateDataBase>
 
     /**
      * Adott termék adatainak lekérdezése

@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.ui.photos
 
 import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.models.PhotoUploadModel
@@ -110,25 +111,6 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
         }
     }
 
-
-    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
-        //Egyelőre felesleges ellenőrizni, mert csak fotó feltöltés megy
-        PhotoRepository.uploadingPhotos.firstOrNull { it.photoPath.equals(param, true) }?.let {
-            it.isSuccess = true
-        }
-
-        checkUploadingPhotosStatus()
-    }
-
-    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?, param: String?) {
-        //Függetlenül a hibától, sikertelenre tesszük a feltöltést
-        PhotoRepository.uploadingPhotos.firstOrNull { it.photoPath.equals(param, true) }?.let {
-            it.isSuccess = false
-        }
-
-        checkUploadingPhotosStatus()
-    }
-
     /**
      * Fényképek feltöltésének állapota
      */
@@ -151,6 +133,25 @@ class PhotoInteractor(private val presenter: IPhotosContract.IPhotosPresenter): 
 
                 presenter.onSuccessful("Fényképek feltöltve!")
             }
+        }
+    }
+
+    override fun onResult(callResponse: ApiCallResponse) {
+        if(callResponse.isSuccessful){
+            //Egyelőre felesleges ellenőrizni, mert csak fotó feltöltés megy
+            PhotoRepository.uploadingPhotos.firstOrNull { it.photoPath.equals(callResponse.param, true) }?.let {
+                it.isSuccess = true
+            }
+
+            checkUploadingPhotosStatus()
+        }
+        else{
+            //Függetlenül a hibától, sikertelenre tesszük a feltöltést
+            PhotoRepository.uploadingPhotos.firstOrNull { it.photoPath.equals(callResponse.param, true) }?.let {
+                it.isSuccess = false
+            }
+
+            checkUploadingPhotosStatus()
         }
     }
 }

@@ -6,6 +6,7 @@ import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.handlers.printer.PrintResult
 import com.weborient.atakfashion.models.api.newproduct.ArrayElement
 import com.weborient.atakfashion.models.api.sendproduct.ProductSendData
+import com.weborient.atakfashion.models.api.template.TemplateSendData
 import kotlinx.coroutines.*
 
 class NewProductPresenter(private val view: INewProductContract.INewProductView): INewProductContract.INewProductPresenter, CoroutineScope by MainScope() {
@@ -103,7 +104,7 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
                                                         view.showTemplateError(null)
                                                         view.showGrossPriceError(null)
 
-                                                        interactor.uploadProduct(ProductSendData(name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, tempQuantity, tempGrossPrice))
+                                                        interactor.uploadProduct(ProductSendData(name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, arrayListOf(TemplateSendData("RUHAK", arrayListOf("362", "363"))), tempQuantity, tempGrossPrice))
                                                     }
                                                 }
                                             }

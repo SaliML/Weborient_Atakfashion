@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.graphics.Bitmap
 import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.handlers.printer.PrinterHandler
@@ -82,31 +83,33 @@ class ManualPrintingInteractor(private val presenter: IManualPrintingContract.IM
         }
     }
 
-    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
-        when(responseType){
+    override fun onResult(callResponse: ApiCallResponse) {
+        when(callResponse.responseType){
             ApiCallType.AllProducts->{
-                val response = result as ProductDataBase
+                if(callResponse.isSuccessful){
+                    val response = callResponse.result as ProductDataBase
 
-                ItemRepository.products = response.datas
-                presenter.onRetrievedProducts(response.datas)
-            }
-            else->{}
-        }
-    }
-
-    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?, param: String?) {
-        when(responseType){
-            ApiCallType.AllProducts->{
-                presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                    ItemRepository.products = response.datas
+                    presenter.onRetrievedProducts(response.datas)
+                }
+                else{
+                    presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                }
             }
             ApiCallType.Connection->{
-                presenter.onFailure("Hiba történt a kapcsolódás során!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Hiba történt a kapcsolódás során!")
+                }
             }
             ApiCallType.Timeout->{
-                presenter.onFailure("Időtúllépés hiba!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Időtúllépés hiba!")
+                }
             }
             ApiCallType.Unknown->{
-                presenter.onFailure("Ismeretlen hiba történt!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Ismeretlen hiba történt!")
+                }
             }
             else->{
 

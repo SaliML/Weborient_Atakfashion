@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.models.api.sendproduct
 
 import com.google.gson.annotations.SerializedName
+import com.weborient.atakfashion.models.api.template.TemplateSendData
 
 data class ProductSendData(
     @SerializedName("name")
@@ -26,6 +27,9 @@ data class ProductSendData(
 
     @SerializedName("templateId")
     val templateId: String,
+
+    @SerializedName("properties")
+    var properties: ArrayList<TemplateSendData>,
 
     @SerializedName("quantity")
     val quantity: Int,

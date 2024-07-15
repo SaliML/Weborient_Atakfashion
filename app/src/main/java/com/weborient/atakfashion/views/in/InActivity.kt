@@ -1,4 +1,4 @@
-package com.weborient.atakfashion.ui.`in`
+package com.weborient.atakfashion.views.`in`
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +18,11 @@ import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.handlers.dialog.IDialogResultHandler
 import com.weborient.atakfashion.handlers.service.PhoneServiceHandler
 import com.weborient.atakfashion.models.api.getdata.ProductData
-import com.weborient.atakfashion.ui.newproduct.NewProductFragment
+import com.weborient.atakfashion.ui.`in`.IInContract
+import com.weborient.atakfashion.ui.`in`.IProductClickHandler
+import com.weborient.atakfashion.ui.`in`.InPresenter
+import com.weborient.atakfashion.ui.`in`.ProductListAdapter
+import com.weborient.atakfashion.views.newproduct.NewProductFragment
 
 class InActivity : AppCompatActivity(), IInContract.IInView, IProductClickHandler,
     IDialogResultHandler {

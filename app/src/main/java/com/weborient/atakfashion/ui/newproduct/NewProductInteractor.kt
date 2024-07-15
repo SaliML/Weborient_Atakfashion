@@ -1,6 +1,8 @@
 package com.weborient.atakfashion.ui.newproduct
 
+import com.google.gson.Gson
 import com.weborient.atakfashion.config.AppConfig
+import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
 import com.weborient.atakfashion.handlers.api.ServiceBuilder
 import com.weborient.atakfashion.handlers.printer.PrinterHandler
@@ -16,6 +18,8 @@ import kotlinx.coroutines.*
 class NewProductInteractor(private val presenter: INewProductContract.INewProductPresenter): INewProductContract.INewProductInteractor, IApiResponseHandler {
     override fun uploadProduct(newProduct: ProductSendData) {
         ServiceBuilder.createServiceWithoutBearer()
+
+        //val teszt = Gson().toJson(newProduct)
 
         AppConfig.apiServiceWithoutBearer?.let{ service ->
             ApiServiceHandler.apiService(service.callNewProductSendData(newProduct), ApiCallType.NewProductSendData, this)
@@ -54,58 +58,44 @@ class NewProductInteractor(private val presenter: INewProductContract.INewProduc
         }
     }
 
-    /**
-     * Sikeres művelet végrehajtás
-     */
-    override fun onSuccessful(responseType: ApiCallType, result: Any?, param: String?) {
-        when(responseType){
+    override fun onResult(callResponse: ApiCallResponse) {
+        when(callResponse.responseType){
             ApiCallType.NewProductGetData->{
-                val response = result as NewProductGetDataResponse
+                if(callResponse.isSuccessful){
+                    val response = callResponse.result as NewProductGetDataResponse
 
-                ItemRepository.categories = response.datas?.categories
-                ItemRepository.templates = response.datas?.templates
-                ItemRepository.units = response.datas?.units
-                ItemRepository.packagetypes = response.datas?.packagetypes
-                ItemRepository.productstatuses = response.datas?.productstatuses
-                ItemRepository.taxes = response.datas?.taxes
+                    ItemRepository.categories = response.datas?.categories
+                    ItemRepository.templates = response.datas?.templates
+                    ItemRepository.units = response.datas?.units
+                    ItemRepository.packagetypes = response.datas?.packagetypes
+                    ItemRepository.productstatuses = response.datas?.productstatuses
+                    ItemRepository.taxes = response.datas?.taxes
 
-                presenter.onRetrievedCategories(ItemRepository.categories)
-                presenter.onRetrievedTemplates(ItemRepository.templates)
-                presenter.onRetrievedUnits(ItemRepository.units)
-                presenter.onRetrievedPackageTypes(ItemRepository.packagetypes)
-                presenter.onRetrievedStatuses(ItemRepository.productstatuses)
-                presenter.onRetrievedTaxes(ItemRepository.taxes)
-            }
-            ApiCallType.NewProductSendData->{
-                val response = result as NewProductSendDataResponse
-
-                response.id?.let{
-                    presenter.onReceivedNewProductID(it)
+                    presenter.onRetrievedCategories(ItemRepository.categories)
+                    presenter.onRetrievedTemplates(ItemRepository.templates)
+                    presenter.onRetrievedUnits(ItemRepository.units)
+                    presenter.onRetrievedPackageTypes(ItemRepository.packagetypes)
+                    presenter.onRetrievedStatuses(ItemRepository.productstatuses)
+                    presenter.onRetrievedTaxes(ItemRepository.taxes)
+                }
+                else{
+                    presenter.onFailure("Hiba történt az adatok lekérdezése során!")
                 }
             }
-            else->{}
-        }
-    }
-
-    /**
-     * Hiba történt a kérés végrehajtása során
-     */
-    override fun onFailure(responseType: ApiCallType, result: Any?, throwable: Throwable?, param: String?) {
-        when(responseType){
-            ApiCallType.NewProductGetData->{
-                presenter.onFailure("Hiba történt az adatok lekérdezése során!")
-            }
-            ApiCallType.NewProductSendData->{
-                presenter.onFailure("Hiba történt a termék felvétele során!")
-            }
             ApiCallType.Connection->{
-                presenter.onFailure("Hiba történt a kapcsolódás során!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Hiba történt a kapcsolódás során!")
+                }
             }
             ApiCallType.Timeout->{
-                presenter.onFailure("Időtúllépés hiba!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Időtúllépés hiba!")
+                }
             }
             ApiCallType.Unknown->{
-                presenter.onFailure("Ismeretlen hiba történt!")
+                if(!callResponse.isSuccessful){
+                    presenter.onFailure("Ismeretlen hiba történt!")
+                }
             }
             else->{
 

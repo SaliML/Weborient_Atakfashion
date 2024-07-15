@@ -11,7 +11,7 @@ import com.weborient.atakfashion.databinding.ActivityMainBinding
 import com.weborient.atakfashion.models.user.UserPermission
 import com.weborient.atakfashion.repositories.settings.SettingsRepository
 import com.weborient.atakfashion.ui.edit.EditActivity
-import com.weborient.atakfashion.ui.`in`.InActivity
+import com.weborient.atakfashion.views.`in`.InActivity
 import com.weborient.atakfashion.ui.manualprinting.ManualPrintingActivity
 import com.weborient.atakfashion.ui.out.OutActivity
 import com.weborient.atakfashion.ui.photos.PhotosActivity
