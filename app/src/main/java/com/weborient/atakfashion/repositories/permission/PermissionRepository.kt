@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.repositories.permission
 
 import android.os.Build.VERSION_CODES
+import androidx.annotation.RequiresApi
 import com.weborient.atakfashion.models.PermissionModel
 
 object PermissionRepository {
@@ -10,7 +11,8 @@ object PermissionRepository {
         PermissionModel(android.Manifest.permission.BLUETOOTH_ADMIN, VERSION_CODES.BASE, null),
         PermissionModel(android.Manifest.permission.INTERNET, VERSION_CODES.BASE, null),
         PermissionModel(android.Manifest.permission.ACCESS_NETWORK_STATE, VERSION_CODES.BASE, null),
-        PermissionModel(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, VERSION_CODES.Q, VERSION_CODES.R)
+        PermissionModel(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, VERSION_CODES.Q, VERSION_CODES.R),
+        PermissionModel(android.Manifest.permission.READ_EXTERNAL_STORAGE, VERSION_CODES.Q, VERSION_CODES.R)
     )
 
     fun getPermissions(apiVersionCode: Int): Array<String>{

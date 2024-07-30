@@ -36,8 +36,6 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
     }
 
     override fun onClickedPrintButton(quantity: String?) {
-        view.showProgress("Címke nyomtatása")
-
         if(quantity.isNullOrEmpty()){
             view.showQuantityError("Kötelező kitölteni!")
         }
@@ -49,6 +47,7 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
             }
             else{
                 view.showQuantityError(null)
+                view.showProgress("Címke nyomtatása")
                 interactor.printWifi(tempQuantity, AppConfig.ipAddress)
             }
         }

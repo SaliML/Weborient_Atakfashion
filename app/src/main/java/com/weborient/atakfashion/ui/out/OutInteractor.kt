@@ -40,52 +40,58 @@ class OutInteractor(private val presenter: IOutContract.IOutPresenter): IOutCont
     }
 
     override fun onResult(callResponse: ApiCallResponse) {
-        when(callResponse.responseType){
-            ApiCallType.GetOneProduct->{
-                if(callResponse.isSuccessful){
-                    val response = callResponse.result as OneProductDataBase
+        try{
+            when(callResponse.responseType){
+                ApiCallType.GetOneProduct->{
+                    if(callResponse.isSuccessful){
+                        val response = callResponse.result as OneProductDataBase
 
-                    presenter.onFetchedItem(response.datas)
-                }
-                else{
-                    presenter.onFailure("Hiba történt a termékek lekérdezése során!")
-                }
-            }
-            ApiCallType.SubtractionQuantityFromProduct->{
-                if(callResponse.isSuccessful){
-                    val response = callResponse.result as ProductQuantityChangeResponse
-
-                    if (response.text?.contains("hiba", true) == false){
-                        presenter.addRemovableProduct()
+                        presenter.onFetchedItem(response.datas)
                     }
+                    else{
+                        presenter.onFailure("Hiba történt a termékek lekérdezése során!")
+                    }
+                }
+                ApiCallType.SubtractionQuantityFromProduct->{
+                    if(callResponse.isSuccessful){
+                        val response = callResponse.result as ProductQuantityChangeResponse
 
-                    presenter.onResultDecreaseAmount()
-                    presenter.onSuccessful(response.text?: "Sikeres anyagelvonás!")
-                }
-                else{
-                    val response = callResponse.result as ProductQuantityChangeResponse
+                        if (response.text?.contains("hiba", true) == false){
+                            presenter.addRemovableProduct()
+                        }
 
-                    presenter.onFailure(response.text?: "Hiba történt a mennyiség csökkentése során!")
-                }
-            }
-            ApiCallType.Connection->{
-                if(!callResponse.isSuccessful){
-                    presenter.onFailure("Hiba történt a kapcsolódás során!")
-                }
-            }
-            ApiCallType.Timeout->{
-                if(!callResponse.isSuccessful){
-                    presenter.onFailure("Időtúllépés hiba!")
-                }
-            }
-            ApiCallType.Unknown->{
-                if(!callResponse.isSuccessful){
-                    presenter.onFailure("Ismeretlen hiba történt!")
-                }
-            }
-            else->{
+                        presenter.onResultDecreaseAmount()
+                        presenter.onSuccessful(response.text?: "Sikeres anyagelvonás!")
+                    }
+                    else{
+                        val response = callResponse.result as ProductQuantityChangeResponse
 
+                        presenter.onFailure(response.text?: "Hiba történt a mennyiség csökkentése során!")
+                    }
+                }
+                ApiCallType.Connection->{
+                    if(!callResponse.isSuccessful){
+                        presenter.onFailure("Hiba történt a kapcsolódás során!")
+                    }
+                }
+                ApiCallType.Timeout->{
+                    if(!callResponse.isSuccessful){
+                        presenter.onFailure("Időtúllépés hiba!")
+                    }
+                }
+                ApiCallType.Unknown->{
+                    if(!callResponse.isSuccessful){
+                        presenter.onFailure("Ismeretlen hiba történt!")
+                    }
+                }
+                else->{
+
+                }
             }
         }
+        catch (e: Exception){
+            presenter.onFailure("Hiba történt a mennyiség elvonása során!\n ${e.message}")
+        }
+
     }
 }

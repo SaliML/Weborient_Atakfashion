@@ -12,6 +12,7 @@ import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.repositories.RemovaledItemRepository
 import com.weborient.atakfashion.repositories.settings.SettingsRepository
 import java.io.File
+import java.nio.file.Path
 import java.util.Calendar
 
 class SettingsViewModel: ViewModel() {
@@ -25,10 +26,10 @@ class SettingsViewModel: ViewModel() {
 
             if(source.exists()){
                 val destination = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "Atakfashion")
-
                 if(!destination.exists()){
+
                     if(destination.mkdirs()){
-                        if(source.copyRecursively(destination, false)){
+                        if(source.copyRecursively(destination, true)){
                             DialogHandler.showInformationDialog(activity, "Sikeres exportálás", DialogTypeEnums.Successful)
                         }
                         else{
@@ -37,12 +38,14 @@ class SettingsViewModel: ViewModel() {
                     }
                 }
                 else{
-                    if(destination.deleteRecursively() && destination.mkdirs()){
-                        if(source.copyRecursively(destination, false)){
-                            DialogHandler.showInformationDialog(activity, "Sikeres exportálás", DialogTypeEnums.Successful)
-                        }
-                        else{
-                            DialogHandler.showInformationDialog(activity, "Sikertelen exportálás", DialogTypeEnums.Error)
+                    if(destination.deleteRecursively()){
+                        if(destination.mkdirs()){
+                            if(source.copyRecursively(destination, true)){
+                                DialogHandler.showInformationDialog(activity, "Sikeres exportálás", DialogTypeEnums.Successful)
+                            }
+                            else{
+                                DialogHandler.showInformationDialog(activity, "Sikertelen exportálás", DialogTypeEnums.Error)
+                            }
                         }
                     }
                 }
@@ -58,18 +61,18 @@ class SettingsViewModel: ViewModel() {
     fun importStoredData(activity: Activity){
 
         try {
-            val source = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "Atakfashion")
 
+            val source = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "Atakfashion")
             if(source.exists()){
                 val destination = File(activity.applicationContext.getExternalFilesDir(null), AppConfig.ATAKFASHION_ROOT_FOLDER)
 
                 if(!destination.exists()){
                     if(destination.mkdirs()){
-                        if(source.copyRecursively(destination, false)){
+                        if(source.copyRecursively(destination, true)){
                             //Sikeres importálást követően a termékeket és a felhasználói beállításokat is
                             RemovaledItemRepository.ReadRemovaledProducts(activity.applicationContext, Calendar.getInstance().time, true)
 
-                            SettingsRepository.readUsers(activity.applicationContext)
+                            //SettingsRepository.readUsers(activity.applicationContext)
 
                             DialogHandler.showInformationDialog(activity, "Sikeres importálás", DialogTypeEnums.Successful)
                         }
@@ -79,12 +82,12 @@ class SettingsViewModel: ViewModel() {
                     }
                 }
                 else{
-                    if(destination.deleteRecursively() && destination.mkdirs()){
-                        if(source.copyRecursively(destination, false)){
+                    if(destination.deleteRecursively()){
+                        if(source.copyRecursively(destination, true)){
                             //Sikeres importálást követően a termékeket és a felhasználói beállításokat is
                             RemovaledItemRepository.ReadRemovaledProducts(activity.applicationContext, Calendar.getInstance().time, true)
 
-                            SettingsRepository.readUsers(activity.applicationContext)
+                            //SettingsRepository.readUsers(activity.applicationContext)
 
                             DialogHandler.showInformationDialog(activity, "Sikeres importálás", DialogTypeEnums.Successful)
                         }

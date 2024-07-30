@@ -339,6 +339,7 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
                 ApiCallType.NewProductSendData->{
                     if(it.isSuccessful){
                         showInformationDialog("Sikeres felvitel", DialogTypeEnums.Successful)
+                        binding.ivNewItemPrint.visibility = View.VISIBLE
                     }
                     else{
                         showInformationDialog("Hiba történt a termék felvétele során", DialogTypeEnums.Error)
