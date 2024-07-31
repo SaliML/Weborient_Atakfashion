@@ -6,6 +6,8 @@ import com.weborient.atakfashion.models.api.getdata.GetDataByIDBase
 import com.weborient.atakfashion.models.api.getdata.ProductDetails
 import com.weborient.atakfashion.models.api.modifydata.ModifyDataByIDBody
 import com.weborient.atakfashion.models.api.newproduct.ArrayElement
+import com.weborient.atakfashion.models.api.template.TemplateData
+import com.weborient.atakfashion.models.api.template.TemplateDataArrayElement
 import com.weborient.atakfashion.models.interfaces.IResponseDialogHandler
 
 interface IEditContract {
@@ -41,6 +43,8 @@ interface IEditContract {
         fun showTaxError(error: String?)
         fun showGrossPriceError(error: String?)
         fun showNetworkDialog()
+
+        fun showTemplateDatas(templateDatas: ArrayList<TemplateData>)
     }
 
     interface IEditPresenter: IResponseDialogHandler {
@@ -65,9 +69,34 @@ interface IEditContract {
         fun getItemByID(id: String?)
 
         /**
+         * Sablon adatainak lekérdezése
+         */
+        fun getTemplateDatas(templateID: String)
+
+        /**
          * Termék adatainak visszaadása
          */
         fun onFetchedProduct(product: GetDataByIDBase?, categories: ArrayList<ArrayElement>?, templates: ArrayList<ArrayElement>?, units: ArrayList<ArrayElement>?, packageTypes: ArrayList<ArrayElement>?, productstatuses: ArrayList<ArrayElement>?, taxes: ArrayList<ArrayElement>?)
+
+        /**
+         * Sablon adatainak visszaadása
+         */
+        fun onFetchedTemplateDatas(templateDatas: ArrayList<TemplateData>?)
+
+        /**
+         * Sablon érték hozzáadása a kiválasztott értékekhez
+         */
+        fun addTemplateData(templateDataID: String, element: TemplateDataArrayElement)
+
+        /**
+         * Sablon érték eltávolítása a kiválasztott értékek közül
+         */
+        fun removeTemplateData(templateDataID: String, element: TemplateDataArrayElement)
+
+        /**
+         * Sablon érték ellenőrzése a lekérdezett termék sablon értékei között
+         */
+        fun checkTemplateData(templateDataID: String, element: TemplateDataArrayElement): Boolean
 
         fun onDialogResult(result: DialogResultEnums)
         fun getDatas()
@@ -76,6 +105,26 @@ interface IEditContract {
     interface IEditInteractor{
         fun getItemByID(id: String)
         fun getDatas()
+
+        /**
+         * Sablon érték hozzáadása a kiválasztott értékekhez
+         */
+        fun addTemplateData(templateDataID: String, element: TemplateDataArrayElement)
+
+        /**
+         * Sablon érték eltávolítása a kiválasztott értékek közül
+         */
+        fun removeTemplateData(templateDataID: String, element: TemplateDataArrayElement)
+
+        /**
+         * Sablon érték ellenőrzése a lekérdezett termék sablon értékei között
+         */
+        fun checkTemplateData(templateDataID: String, element: TemplateDataArrayElement): Boolean
+
+        /**
+         * Sablon adatainak lekérdezése
+         */
+        fun getTemplateDatas(templateID: String)
         fun uploadProduct(product: ModifyDataByIDBody)
     }
 }

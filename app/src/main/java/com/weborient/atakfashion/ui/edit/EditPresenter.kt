@@ -5,6 +5,8 @@ import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
 import com.weborient.atakfashion.models.api.getdata.GetDataByIDBase
 import com.weborient.atakfashion.models.api.modifydata.ModifyDataByIDBody
 import com.weborient.atakfashion.models.api.newproduct.ArrayElement
+import com.weborient.atakfashion.models.api.template.TemplateData
+import com.weborient.atakfashion.models.api.template.TemplateDataArrayElement
 
 class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IEditPresenter {
     private val interactor = EditInteractor(this)
@@ -134,6 +136,10 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
         }
     }
 
+    override fun getTemplateDatas(templateID: String) {
+        interactor.getTemplateDatas(templateID)
+    }
+
     /**
      * Termék adatainak visszaadása
      */
@@ -168,6 +174,15 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
         }
     }
 
+    /**
+     * Sablon adatok átadása a felületnek
+     */
+    override fun onFetchedTemplateDatas(templateDatas: ArrayList<TemplateData>?) {
+        templateDatas?.let {
+            view.showTemplateDatas(it)
+        }
+    }
+
     override fun onDialogResult(result: DialogResultEnums) {
         when(result){
             DialogResultEnums.SettingsNetwork->{
@@ -179,6 +194,27 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
 
     override fun getDatas() {
         interactor.getDatas()
+    }
+
+    /**
+     * Értékkészlet adat hozzáadás
+     */
+    override fun addTemplateData(templateDataID: String, element: TemplateDataArrayElement){
+        interactor.addTemplateData(templateDataID, element)
+    }
+
+    /**
+     * Értékkészlet adat eltávolítása
+     */
+    override fun removeTemplateData(templateDataID: String, element: TemplateDataArrayElement){
+        interactor.removeTemplateData(templateDataID, element)
+    }
+
+    override fun checkTemplateData(
+        templateDataID: String,
+        element: TemplateDataArrayElement
+    ): Boolean {
+        TODO("Not yet implemented")
     }
 
     override fun onSuccessful(information: String) {

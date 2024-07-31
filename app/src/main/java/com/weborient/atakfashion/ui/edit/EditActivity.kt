@@ -1,12 +1,17 @@
 package com.weborient.atakfashion.ui.edit
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -25,6 +30,7 @@ import com.weborient.atakfashion.handlers.dialog.IDialogResultHandler
 import com.weborient.atakfashion.handlers.service.PhoneServiceHandler
 import com.weborient.atakfashion.models.api.getdata.ProductDetails
 import com.weborient.atakfashion.models.api.newproduct.ArrayElement
+import com.weborient.atakfashion.models.api.template.TemplateData
 import com.weborient.atakfashion.ui.scanner.ScannerActivity
 
 class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResultHandler {
@@ -52,6 +58,8 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
     private lateinit var layoutTemplate: TextInputLayout
     private lateinit var layoutTaxes: TextInputLayout
     private lateinit var layoutGrossPrice: TextInputLayout
+
+    private lateinit var layoutTemplateValues: LinearLayout
 
     private lateinit var inputID: TextInputEditText
     private lateinit var inputName: TextInputEditText
@@ -92,6 +100,8 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
         layoutTemplate = binding.tilEditItemTemplate
         layoutTaxes = binding.tilEditItemTaxes
         layoutGrossPrice = binding.tilEditItemGrossPrice
+
+        layoutTemplateValues = binding.llEditTemplate
 
         inputID = binding.etEditItemId
         inputName = binding.etEditItemName
@@ -160,6 +170,14 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
 
         spinnerTax.setOnItemClickListener { adapterView, view, i, l ->
             selectedTax = adapterView.getItemAtPosition(i) as ArrayElement
+        }
+
+        spinnerTemplate.setOnItemClickListener { adapterView, view, i, l ->
+            selectedTemplate = adapterView.getItemAtPosition(i) as ArrayElement
+
+            selectedTemplate?.let {
+                presenter.getTemplateDatas(it.id)
+            }
         }
     }
 
@@ -231,6 +249,10 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
             else{
                 spinnerTemplate.setText(templates[0].name, false)
                 selectedTemplate = templates[0]
+            }
+
+            selectedTemplate?.let{
+                presenter.getTemplateDatas(it.id)
             }
         }
 
@@ -348,6 +370,65 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
 
     override fun showNetworkDialog() {
         startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+    }
+
+    /**
+     * Sablon adatok megjelenítése
+     */
+    override fun showTemplateDatas(templateDatas: ArrayList<TemplateData>) {
+        layoutTemplateValues.removeAllViews()
+
+        if(!templateDatas.isNotEmpty()){
+            val titleTextView = TextView(this)
+            titleTextView.setGravity(Gravity.CENTER)
+            titleTextView.setPadding(0,5,0,5)
+            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            titleTextView.text = getString(R.string.in_title_template)
+            layoutTemplateValues.addView(titleTextView)
+
+            templateDatas.forEach { data ->
+                val tempTextView = TextView(this)
+                tempTextView.setGravity(Gravity.CENTER)
+                tempTextView.setPadding(0,5,0,5)
+                tempTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                tempTextView.text = data.name
+                layoutTemplateValues.addView(tempTextView)
+
+                data.data?.forEach { dataValue ->
+                    val checkbox = CheckBox(this)
+                    checkbox.setGravity(Gravity.CENTER)
+                    checkbox.setPadding(0,5,0,5)
+                    checkbox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+
+                    if(dataValue.value.contains("#")){
+                        checkbox.setBackgroundColor(Color.parseColor(dataValue.value))
+                    }
+                    else{
+                        checkbox.text = "${dataValue.value}"
+                    }
+
+                    if(presenter.checkTemplateData(data.id, dataValue)){
+                        checkbox.isChecked = true
+                    }
+
+                    checkbox.setOnCheckedChangeListener { _, isChecked ->
+                        if(isChecked){
+                            presenter.addTemplateData(data.id, dataValue)
+                        }
+                        else{
+                            presenter.removeTemplateData(data.id, dataValue)
+                        }
+                    }
+
+                    layoutTemplateValues.addView(checkbox)
+                }
+            }
+
+            layoutTemplateValues.visibility = View.VISIBLE
+        }
+        else{
+            layoutTemplateValues.visibility = View.GONE
+        }
     }
 
     /**

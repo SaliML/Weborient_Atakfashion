@@ -413,6 +413,12 @@
                                 tools:ignore="KeyboardInaccessibleWidget" />
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <LinearLayout
+                            android:id="@+id/ll_edit_template"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"></LinearLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_edit_item_taxes"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
