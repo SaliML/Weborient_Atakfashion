@@ -214,7 +214,7 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
         templateDataID: String,
         element: TemplateDataArrayElement
     ): Boolean {
-        TODO("Not yet implemented")
+        return interactor.checkTemplateData(templateDataID, element)
     }
 
     override fun onSuccessful(information: String) {

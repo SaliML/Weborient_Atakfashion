@@ -1,6 +1,7 @@
 package com.weborient.atakfashion.models.api.getdata
 
 import com.google.gson.annotations.SerializedName
+import com.weborient.atakfashion.models.api.template.TemplateData
 
 data class ProductData(
     @SerializedName("id")
@@ -23,6 +24,12 @@ data class ProductData(
 
     @SerializedName("grossprice")
     val grossprice: Int,
+
+    @SerializedName("template")
+    val template: String?,
+
+    @SerializedName("templatedatas")
+    val templatedatas: ArrayList<TemplateData>,
 
     @SerializedName("isSelected")
     var isSelected: Boolean = false

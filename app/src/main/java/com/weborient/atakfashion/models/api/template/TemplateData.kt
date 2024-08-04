@@ -11,5 +11,8 @@ data class TemplateData(
     val name: String,
 
     @SerializedName("data")
-    val data: ArrayList<TemplateDataArrayElement>?
+    val data: ArrayList<TemplateDataArrayElement>?,
+
+    @SerializedName("selecteddata")
+    var selecteddata: ArrayList<Int>?
 )

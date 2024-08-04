@@ -27,6 +27,10 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
      * Lekérdezett termék sablon adatai
      */
     private var fetchedProductTemplateDatas = arrayListOf<TemplateData>()
+
+    /**
+     * Kiválasztott termék adatai
+     */
     override fun getItemByID(id: String) {
         ServiceBuilder.createServiceWithoutBearer()
 
@@ -56,7 +60,7 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
             tempData.data?.add(element)
         }
         else{
-            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element)))
+            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element), arrayListOf()))
         }
     }
 
@@ -73,15 +77,25 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
      * Érték ellenőrzése a termék sablon értékei között
      */
     override fun checkTemplateData(templateDataID: String, element: TemplateDataArrayElement): Boolean{
-        val selectedTemplateData = fetchedProductTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
+        val fetchedTemplateData = fetchedProductTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
 
-        selectedTemplateData?.let { templateData ->
-            val selectedTemplateDataValue = templateData.data?.firstOrNull { value ->
+        fetchedTemplateData?.let { fetchedData ->
+            val fetchedTemplateDataValue = fetchedData.data?.firstOrNull { value ->
                 value.id == element.id
             }
 
-            if (selectedTemplateDataValue != null){
-                selectedTemplateDatas.add(templateData)
+            if (fetchedTemplateDataValue != null){
+                val selectedTemplateData = selectedTemplateDatas.firstOrNull { selectedData ->
+                    selectedData.id.equals(fetchedData.id)
+                }
+
+                if (selectedTemplateData != null){
+                    selectedTemplateData.selecteddata!!.add(fetchedTemplateDataValue.id)
+                }
+                else{
+                    selectedTemplateDatas.add(TemplateData(fetchedData.id, fetchedData.name, fetchedData.data, arrayListOf(fetchedTemplateDataValue.id)))
+                }
+
                 return true
             }
         }
@@ -114,6 +128,10 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
                 if (callResponse.isSuccessful){
                     val response = callResponse.result as GetDataByIDBase
                     //Lekérdezett termékhez tartozó sablon adatokat rögzíteni kell az onFetchedProductTemplateDatas tömbbe!
+
+                    if (response.datas.size > 0){
+                        fetchedProductTemplateDatas = response.datas[0].templatedatas
+                    }
 
                     presenter.onFetchedProduct(response, ItemRepository.categories, ItemRepository.templates, ItemRepository.units, ItemRepository.packagetypes, ItemRepository.productstatuses, ItemRepository.taxes)
                 }

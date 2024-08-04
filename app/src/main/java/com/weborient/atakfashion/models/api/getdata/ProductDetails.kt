@@ -1,8 +1,10 @@
 package com.weborient.atakfashion.models.api.getdata
 
 import com.google.gson.annotations.SerializedName
+import com.weborient.atakfashion.models.api.template.TemplateData
 
-data class ProductDetails(
+data class
+ProductDetails(
     @SerializedName("id")
     val id: String?,
 
@@ -29,6 +31,9 @@ data class ProductDetails(
 
     @SerializedName("templateId")
     val templateId: String?,
+
+    @SerializedName("templatedatas")
+    val templatedatas: ArrayList<TemplateData>,
 
     @SerializedName("quantity")
     val quantity: Int,
