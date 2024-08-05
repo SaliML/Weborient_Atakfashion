@@ -1,5 +1,6 @@
 package com.weborient.atakfashion.ui.edit
 
+import com.google.gson.Gson
 import com.weborient.atakfashion.config.AppConfig
 import com.weborient.atakfashion.handlers.api.ApiCallResponse
 import com.weborient.atakfashion.handlers.api.ApiServiceHandler
@@ -13,6 +14,7 @@ import com.weborient.atakfashion.models.api.template.TemplateData
 import com.weborient.atakfashion.models.api.template.TemplateDataArrayElement
 import com.weborient.atakfashion.models.api.template.TemplateDataBase
 import com.weborient.atakfashion.models.api.template.TemplateFilter
+import com.weborient.atakfashion.models.api.template.TemplateSendData
 import com.weborient.atakfashion.repositories.item.ItemRepository
 import com.weborient.womo.handlers.api.ApiCallType
 import com.weborient.womo.handlers.api.IApiResponseHandler
@@ -57,10 +59,10 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
         val tempData = selectedTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
 
         if(tempData != null){
-            tempData.data?.add(element)
+            tempData.selecteddata?.add(element.id)
         }
         else{
-            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element), arrayListOf()))
+            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element), arrayListOf(element.id)))
         }
     }
 
@@ -70,7 +72,11 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
     override fun removeTemplateData(templateDataID: String, element: TemplateDataArrayElement) {
         val tempData = selectedTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
 
-        tempData?.data?.remove(element)
+        tempData?.selecteddata?.remove(element.id)
+
+        if (tempData?.selecteddata?.isEmpty() == true){
+            selectedTemplateDatas.removeIf { it.id.equals(templateDataID) }
+        }
     }
 
     /**
@@ -79,25 +85,19 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
     override fun checkTemplateData(templateDataID: String, element: TemplateDataArrayElement): Boolean{
         val fetchedTemplateData = fetchedProductTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
 
-        fetchedTemplateData?.let { fetchedData ->
-            val fetchedTemplateDataValue = fetchedData.data?.firstOrNull { value ->
-                value.id == element.id
+        if (fetchedTemplateData?.selecteddata?.contains(element.id) == true){
+            val selectedTemplateData = selectedTemplateDatas.firstOrNull { selectedData ->
+                selectedData.id.equals(templateDataID)
             }
 
-            if (fetchedTemplateDataValue != null){
-                val selectedTemplateData = selectedTemplateDatas.firstOrNull { selectedData ->
-                    selectedData.id.equals(fetchedData.id)
-                }
-
-                if (selectedTemplateData != null){
-                    selectedTemplateData.selecteddata!!.add(fetchedTemplateDataValue.id)
-                }
-                else{
-                    selectedTemplateDatas.add(TemplateData(fetchedData.id, fetchedData.name, fetchedData.data, arrayListOf(fetchedTemplateDataValue.id)))
-                }
-
-                return true
+            if (selectedTemplateData != null){
+                selectedTemplateData.selecteddata!!.add(element.id)
             }
+            else{
+                selectedTemplateDatas.add(TemplateData(fetchedTemplateData.id, fetchedTemplateData.name, fetchedTemplateData.data, arrayListOf(element.id)))
+            }
+
+            return true
         }
 
         return false
@@ -106,6 +106,21 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
     override fun uploadProduct(product: ModifyDataByIDBody) {
         ServiceBuilder.createServiceWithoutBearer()
 
+        val properties = arrayListOf<TemplateSendData>()
+        selectedTemplateDatas.forEach { templateData ->
+            if (templateData.selecteddata?.isNotEmpty() == true){
+                val propertyValues = arrayListOf<String>()
+
+                templateData.selecteddata?.forEach {
+                    propertyValues.add(it.toString())
+                }
+
+                properties.add(TemplateSendData(templateData.id, propertyValues))
+            }
+        }
+
+        product.properties = properties
+        //val teszt = Gson().toJson(product)
         AppConfig.apiServiceWithoutBearer?.let{ service ->
             ApiServiceHandler.apiService(service.callModifyDataByID(product), ApiCallType.EditProduct, this)
         }
@@ -127,7 +142,7 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
             ApiCallType.GetOneProductDetails->{
                 if (callResponse.isSuccessful){
                     val response = callResponse.result as GetDataByIDBase
-                    //Lekérdezett termékhez tartozó sablon adatokat rögzíteni kell az onFetchedProductTemplateDatas tömbbe!
+                    //Lekérdezett termékhez tartozó sablon adatokat rögzíteni kell az fetchedProductTemplateDatas tömbbe!
 
                     if (response.datas.size > 0){
                         fetchedProductTemplateDatas = response.datas[0].templatedatas
@@ -174,8 +189,8 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
             }
             ApiCallType.GetTemplateData ->{
                 if(callResponse.isSuccessful){
-                    presenter.onFetchedTemplateDatas((callResponse.result as TemplateDataBase).datas.templatedatas)
                     selectedTemplateDatas.clear()
+                    presenter.onFetchedTemplateDatas((callResponse.result as TemplateDataBase).datas.templatedatas)
                 }
                 else{
                     presenter.onFailure("Hiba történt a sablon adatainak lekérdezése során")

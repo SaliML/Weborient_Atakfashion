@@ -179,9 +179,6 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
 
     override fun onDialogResult(result: DialogResultEnums) {
         when(result){
-            DialogResultEnums.SettingsBluetooth->{
-                view.showBluetoothDialog()
-            }
             DialogResultEnums.SettingsNetwork->{
                 view.showNetworkDialog()
             }

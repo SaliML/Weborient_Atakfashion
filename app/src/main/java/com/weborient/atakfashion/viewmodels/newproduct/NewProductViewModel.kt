@@ -111,7 +111,7 @@ class NewProductViewModel: ViewModel(), IApiResponseHandler {
             tempData.data?.add(element)
         }
         else{
-            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element)))
+            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element), arrayListOf()))
         }
     }
 

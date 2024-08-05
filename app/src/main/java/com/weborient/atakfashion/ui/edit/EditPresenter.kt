@@ -115,7 +115,7 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
                                                         view.showTemplateError(null)
                                                         view.showGrossPriceError(null)
 
-                                                        interactor.uploadProduct(ModifyDataByIDBody(id, name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, tempQuantity, tempGrossPrice))
+                                                        interactor.uploadProduct(ModifyDataByIDBody(id, name, description, category.id, packageType.id, tax.id, unit.id, status.id, template.id, arrayListOf(), tempQuantity, tempGrossPrice))
                                                     }
                                                 }
                                             }

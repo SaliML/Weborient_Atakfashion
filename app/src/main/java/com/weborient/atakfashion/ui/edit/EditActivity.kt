@@ -378,7 +378,7 @@ class EditActivity : AppCompatActivity(), IEditContract.IEditView, IDialogResult
     override fun showTemplateDatas(templateDatas: ArrayList<TemplateData>) {
         layoutTemplateValues.removeAllViews()
 
-        if(!templateDatas.isNotEmpty()){
+        if(templateDatas.isNotEmpty()){
             val titleTextView = TextView(this)
             titleTextView.setGravity(Gravity.CENTER)
             titleTextView.setPadding(0,5,0,5)
