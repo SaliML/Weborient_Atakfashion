@@ -39,4 +39,12 @@ data class ModifyDataByIDBody(
 
     @SerializedName("grossprice")
     val grossprice: Int,
+
+    @SerializedName("currencyId")
+    val currencyId: String = "HUF",
+
+    @SerializedName("marginPercentage")
+    val marginPercentage: Int = 1,
+
+
 )
