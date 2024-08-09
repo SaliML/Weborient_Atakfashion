@@ -64,9 +64,13 @@ class OutInteractor(private val presenter: IOutContract.IOutPresenter): IOutCont
                         presenter.onSuccessful(response.text?: "Sikeres anyagelvonás!")
                     }
                     else{
-                        val response = callResponse.result as ProductQuantityChangeResponse
+                        var response: ProductQuantityChangeResponse? = null
 
-                        presenter.onFailure(response.text?: "Hiba történt a mennyiség csökkentése során!")
+                        if (callResponse.result != null){
+                            response = callResponse.result as ProductQuantityChangeResponse
+                        }
+
+                        presenter.onFailure(response?.text?: "Hiba történt a mennyiség csökkentése során!")
                     }
                 }
                 ApiCallType.Connection->{

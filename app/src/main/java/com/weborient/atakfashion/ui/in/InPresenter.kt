@@ -101,8 +101,14 @@ class InPresenter(private val view: IInContract.IInView): IInContract.IInPresent
             PrintResult.MissingProductID->{
                 view.showInformationDialog("Nem található termék azonosító!", DialogTypeEnums.Error)
             }
-            else->{
+            PrintResult.ConnectionUnknownError->{
+                view.showInformationDialog("Ismeretlen hiba történt a csatlakozás során!", DialogTypeEnums.Error)
+            }
+            PrintResult.PrintUnknownError->{
                 view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
+            }
+            else->{
+                view.showInformationDialog("Ismeretlen hiba történt!", DialogTypeEnums.Error)
             }
         }
     }

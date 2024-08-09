@@ -63,7 +63,7 @@ object PrinterHandler {
                         }
                         else{
                             //Hiba történt a nyomtatáskor
-                            return PrintResult.UnknownError
+                            return PrintResult.PrintUnknownError
                         }
                     }
                     OpenChannelError.ErrorCode.OpenStreamFailure->{
@@ -76,7 +76,7 @@ object PrinterHandler {
                     }
                     else->{
                         //Ismeretlen hiba
-                        return PrintResult.UnknownError
+                        return PrintResult.ConnectionUnknownError
                     }
                 }
             }
@@ -90,7 +90,7 @@ object PrinterHandler {
     }
 
     fun printImageWifi(image: Bitmap, quantity: Int, deviceIPAddress: String?): PrintResult{
-
+        QRCodeHandler.compressBitmap(image, AppConfig.bitmapCompressFormat, AppConfig.bitmapCompressQuality, AppConfig.imageFile)
         if(AppConfig.ipAddress != null){
             //Csatorna megnyitása
             val channel = Channel.newWifiChannel(deviceIPAddress)
@@ -125,7 +125,7 @@ object PrinterHandler {
                     }
                     else{
                         //Hiba történt a nyomtatáskor
-                        return PrintResult.UnknownError
+                        return PrintResult.PrintUnknownError
                     }
                 }
                 OpenChannelError.ErrorCode.OpenStreamFailure->{
@@ -138,7 +138,7 @@ object PrinterHandler {
                 }
                 else->{
                     //Ismeretlen hiba
-                    return PrintResult.UnknownError
+                    return PrintResult.ConnectionUnknownError
                 }
             }
         }

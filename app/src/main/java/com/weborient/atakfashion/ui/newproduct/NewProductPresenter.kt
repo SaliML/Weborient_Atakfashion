@@ -202,8 +202,14 @@ class NewProductPresenter(private val view: INewProductContract.INewProductView)
             PrintResult.Timeout->{
                 view.showInformationDialog("Időtúllépés, kérem ellenőrizze a nyomtató állapotát!", DialogTypeEnums.Error)
             }
-            else->{
+            PrintResult.ConnectionUnknownError->{
+                view.showInformationDialog("Ismeretlen hiba történt a csatlakozás során!", DialogTypeEnums.Error)
+            }
+            PrintResult.PrintUnknownError->{
                 view.showInformationDialog("Ismeretlen hiba történt a nyomtatás során!", DialogTypeEnums.Error)
+            }
+            else->{
+                view.showInformationDialog("Ismeretlen hiba történt!", DialogTypeEnums.Error)
             }
         }
     }

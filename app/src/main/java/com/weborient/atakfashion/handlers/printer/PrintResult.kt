@@ -6,7 +6,8 @@ enum class PrintResult(val value: Int) {
     Timeout(2),
     MacAddressIsNull(3),
     BluetoothAdapterIsNull(4),
-    UnknownError(5),
-    MissingProductID(6),
-    IPAddressIsNull(7)
+    ConnectionUnknownError(5),
+    PrintUnknownError(6),
+    MissingProductID(7),
+    IPAddressIsNull(8)
 }
