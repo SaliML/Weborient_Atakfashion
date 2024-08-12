@@ -71,7 +71,7 @@ object DialogHandler {
                 binding.ivDialog.setImageResource(R.drawable.icon_error)
                 binding.btDialogCancel.visibility = View.GONE
             }
-            DialogTypeEnums.Question, DialogTypeEnums.QuestionDeleteUser, DialogTypeEnums.QuestionModifyUser->{
+            DialogTypeEnums.Question, DialogTypeEnums.QuestionDeleteUser, DialogTypeEnums.QuestionModifyUser, DialogTypeEnums.QuestionExit->{
                 binding.ivDialog.setImageResource(R.drawable.icon_question)
             }
             DialogTypeEnums.SettingsLocationProvider->{
@@ -119,6 +119,9 @@ object DialogHandler {
                 }
                 DialogTypeEnums.QuestionModifyUser -> {
                     resultHandler.onDialogResult(DialogResultEnums.ModifyUserOk)
+                }
+                DialogTypeEnums.QuestionExit->{
+                    resultHandler.onDialogResult(DialogResultEnums.ExitOk)
                 }
                 else->{
                     resultHandler.onDialogResult(DialogResultEnums.OK)

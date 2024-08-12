@@ -4,10 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.weborient.atakfashion.R
 import com.weborient.atakfashion.databinding.ActivityMainBinding
+import com.weborient.atakfashion.handlers.dialog.DialogHandler
+import com.weborient.atakfashion.handlers.dialog.DialogResultEnums
+import com.weborient.atakfashion.handlers.dialog.DialogTypeEnums
+import com.weborient.atakfashion.handlers.dialog.IDialogResultHandler
 import com.weborient.atakfashion.models.user.UserPermission
 import com.weborient.atakfashion.repositories.settings.SettingsRepository
 import com.weborient.atakfashion.ui.edit.EditActivity
@@ -20,7 +25,7 @@ import com.weborient.atakfashion.viewmodels.main.MainViewModel
 import com.weborient.atakfashion.views.removal.RemovalActivity
 import com.weborient.atakfashion.views.users.UsersActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), IDialogResultHandler {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
@@ -63,9 +68,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.cvMainExit.setOnClickListener {
-            finishAffinity()
-            System.exit(0)
+            DialogHandler.showDialogWithResult(this@MainActivity, this@MainActivity, "Biztosan szeretne kilépni?", DialogTypeEnums.QuestionExit)
         }
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                DialogHandler.showDialogWithResult(this@MainActivity, this@MainActivity, "Biztosan szeretne kilépni?", DialogTypeEnums.QuestionExit)
+            }
+        })
     }
 
     override fun onResume() {
@@ -101,6 +111,16 @@ class MainActivity : AppCompatActivity() {
 
         if (SettingsRepository.loggedUser?.permissions?.contains(UserPermission.Settings) == true){
             binding.cvMainSettings.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Párbeszéd ablak által visszaadott érték
+     */
+    override fun onDialogResult(result: DialogResultEnums) {
+        if (result == DialogResultEnums.ExitOk){
+            finishAffinity()
+            System.exit(0)
         }
     }
 }

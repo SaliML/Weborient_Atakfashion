@@ -14,5 +14,6 @@ enum class DialogResultEnums(val value: Int) {
     PaymentCard(10),
     ProceedToScanBarcode(11),
     DeleteUserOk(12),
-    ModifyUserOk(13)
+    ModifyUserOk(13),
+    ExitOk(14)
 }
