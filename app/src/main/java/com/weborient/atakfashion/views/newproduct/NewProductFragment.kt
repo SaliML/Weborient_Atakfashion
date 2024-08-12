@@ -200,7 +200,7 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
             tax = adapterView.getItemAtPosition(i) as ArrayElement
         }
 
-        viewModel.templateDatas.observe(viewLifecycleOwner) { templateDatas ->
+        /*viewModel.templateDatas.observe(viewLifecycleOwner) { templateDatas ->
 
             binding.llNewProductTemplate.removeAllViews()
 
@@ -250,7 +250,7 @@ class NewProductFragment : Fragment(), INewProductContract.INewProductView, IDia
             else{
                 binding.llNewProductTemplate.visibility = View.GONE
             }
-        }
+        }*/
 
         viewModel.response.observe(viewLifecycleOwner){
             when(it.responseType){

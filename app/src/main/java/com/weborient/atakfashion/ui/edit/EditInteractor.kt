@@ -190,7 +190,12 @@ class EditInteractor(private val presenter: IEditContract.IEditPresenter): IEdit
             ApiCallType.GetTemplateData ->{
                 if(callResponse.isSuccessful){
                     selectedTemplateDatas.clear()
-                    presenter.onFetchedTemplateDatas((callResponse.result as TemplateDataBase).datas.templatedatas)
+                    (callResponse.result as TemplateDataBase).datas.templatedatas.forEach {
+                        if (!it.data.isNullOrEmpty()){
+                            addTemplateData(it.id, it.data.first())
+                        }
+                    }
+                    //presenter.onFetchedTemplateDatas((callResponse.result as TemplateDataBase).datas.templatedatas)
                 }
                 else{
                     presenter.onFailure("Hiba történt a sablon adatainak lekérdezése során")

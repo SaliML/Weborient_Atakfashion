@@ -179,7 +179,7 @@ class EditPresenter(private val view: IEditContract.IEditView): IEditContract.IE
      */
     override fun onFetchedTemplateDatas(templateDatas: ArrayList<TemplateData>?) {
         templateDatas?.let {
-            view.showTemplateDatas(it)
+            //view.showTemplateDatas(it)
         }
     }
 

@@ -83,6 +83,12 @@ class NewProductViewModel: ViewModel(), IApiResponseHandler {
                 if (callResponse.isSuccessful){
                     templateDatas.value = (callResponse.result as TemplateDataBase).datas.templatedatas
                     selectedTemplateDatas.clear()
+
+                    (callResponse.result as TemplateDataBase).datas.templatedatas.forEach {
+                        if (!it.data.isNullOrEmpty()){
+                            addTemplateData(it.id, it.data.first())
+                        }
+                    }
                 }
                 else{
                     templateDatas.value = null
@@ -101,7 +107,7 @@ class NewProductViewModel: ViewModel(), IApiResponseHandler {
         }
     }
 
-    /**
+    /*/**
      * Értékkészlet adat hozzáadás
      */
     fun addTemplateData(templateDataID: String, element: TemplateDataArrayElement){
@@ -113,14 +119,41 @@ class NewProductViewModel: ViewModel(), IApiResponseHandler {
         else{
             selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element), arrayListOf()))
         }
+    }*/
+
+    /**
+     * Sablon érték hozzáadása a kiválasztott értékekhez
+     */
+    fun addTemplateData(templateDataID: String, element: TemplateDataArrayElement) {
+        val tempData = selectedTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
+
+        if(tempData != null){
+            tempData.selecteddata?.add(element.id)
+        }
+        else{
+            selectedTemplateDatas.add(TemplateData(templateDataID, "", arrayListOf(element), arrayListOf(element.id)))
+        }
     }
 
     /**
+     * Sablon érték törlése a kiválasztott értékek közül
+     */
+    fun removeTemplateData(templateDataID: String, element: TemplateDataArrayElement) {
+        val tempData = selectedTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
+
+        tempData?.selecteddata?.remove(element.id)
+
+        if (tempData?.selecteddata?.isEmpty() == true){
+            selectedTemplateDatas.removeIf { it.id.equals(templateDataID) }
+        }
+    }
+
+    /*/**
      * Értékkészlet adat eltávolítása
      */
     fun removeTemplateData(templateDataID: String, element: TemplateDataArrayElement){
         val tempData = selectedTemplateDatas.firstOrNull { it.id.equals(templateDataID) }
 
         tempData?.data?.remove(element)
-    }
+    }*/
 }
