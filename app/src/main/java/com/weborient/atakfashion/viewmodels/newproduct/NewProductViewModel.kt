@@ -57,15 +57,15 @@ class NewProductViewModel: ViewModel(), IApiResponseHandler {
         selectedTemplateDatas.forEach {data ->
             val ids = arrayListOf<String>()
 
-            data.data?.forEach {
-                ids.add(it.id.toString())
+            data.selecteddata?.forEach {
+                ids.add(it.toString())
             }
 
             templateSendData.add(TemplateSendData(data.id, ids))
         }
 
         newProduct.properties = templateSendData
-        //val teszt = Gson().toJson(newProduct)
+        val teszt = Gson().toJson(newProduct)
 
         AppConfig.apiServiceWithoutBearer?.let{ service ->
             ApiServiceHandler.apiService(service.callNewProductSendData(newProduct), ApiCallType.NewProductSendData, this)
@@ -84,11 +84,11 @@ class NewProductViewModel: ViewModel(), IApiResponseHandler {
                     templateDatas.value = (callResponse.result as TemplateDataBase).datas.templatedatas
                     selectedTemplateDatas.clear()
 
-                    (callResponse.result as TemplateDataBase).datas.templatedatas.forEach {
+                    /*(callResponse.result as TemplateDataBase).datas.templatedatas.forEach {
                         if (!it.data.isNullOrEmpty()){
                             addTemplateData(it.id, it.data.first())
                         }
-                    }
+                    }*/
                 }
                 else{
                     templateDatas.value = null
